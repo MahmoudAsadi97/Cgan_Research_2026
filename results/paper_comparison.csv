@@ -1,0 +1,1152 @@
+model,ckpt,seed,protocol,metric,value
+paper,,,paper,|Δ mean| load (kWh): median,0.1676543552116951
+paper,,,paper,|Δ mean| load (kWh): share < 1,0.9921875
+paper,,,paper,|Δ std| load (kWh): median,0.15175415784613416
+paper,,,paper,|Δ std| load (kWh): share < 1,0.9921875
+paper,,,paper,|Δ mean| time (h): median,0.5022643645626943
+paper,,,paper,|Δ mean| time (h): share < 1,0.796875
+paper,,,paper,|Δ std| time (h): median,0.3030847052602661
+paper,,,paper,|Δ std| time (h): share < 1,0.9895833333333334
+paper,,,paper,|Δ mean| time (h): share of labels with all three < 1,0.515625
+paper,,,paper,"|Δ mean| time (h), no technology and PV only: share < 1",0.8958333333333334
+paper,,,paper,"|Δ mean| time (h), no technology: share < 1",0.9166666666666666
+paper,,,paper,"|Δ mean| time (h), no technology: median",0.4207562781056837
+paper,,,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.984375
+paper,,,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,1.0
+paper,,,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,1.0
+paper,,,paper,|Δ std| near-base / near-peak: share < scale-matched bar,1.0
+paper,,,paper,near-peak: median of std / mean,0.45242279925072637
+paper,,,paper,"near-peak, no technology: median of std / mean",0.5728301955529417
+paper,,,paper,KLD: median,0.07134997884045709
+paper,,,paper,KLD: share ≤ 0.3,1.0
+paper,,,paper,KLD: undefined values (of 320),0.0
+paper,,,paper,KLD: failures outside the near-base of PV labels,0.0
+paper,,,paper,FID: median,0.3282103248325181
+paper,,,paper,FID: share < 5,1.0
+paper,,,paper,"FID, time rows: median",0.49372290716658274
+paper,,,paper,"FID, time rows: share < 5",1.0
+paper,,,paper,share of cells at the end of the colour scale,0.00859375
+final,best,seed0,paper,|Δ mean| load (kWh): median,0.02198832443392837
+final,best,seed0,paper,|Δ mean| load (kWh): share < 1,1.0
+final,best,seed0,paper,|Δ std| load (kWh): median,0.05863688497134789
+final,best,seed0,paper,|Δ std| load (kWh): share < 1,1.0
+final,best,seed0,paper,|Δ mean| time (h): median,0.17027998236331676
+final,best,seed0,paper,|Δ mean| time (h): share < 1,1.0
+final,best,seed0,paper,|Δ std| time (h): median,0.12029698594590021
+final,best,seed0,paper,|Δ std| time (h): share < 1,1.0
+final,best,seed0,paper,|Δ mean| time (h): share of labels with all three < 1,1.0
+final,best,seed0,paper,"|Δ mean| time (h), no technology and PV only: share < 1",1.0
+final,best,seed0,paper,"|Δ mean| time (h), no technology: share < 1",1.0
+final,best,seed0,paper,"|Δ mean| time (h), no technology: median",0.28315652557319293
+final,best,seed0,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,1.0
+final,best,seed0,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.796875
+final,best,seed0,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,1.0
+final,best,seed0,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.984375
+final,best,seed0,paper,near-peak: median of std / mean,0.9982071857772223
+final,best,seed0,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+final,best,seed0,paper,KLD: median,0.09882817766320061
+final,best,seed0,paper,KLD: share ≤ 0.3,0.990625
+final,best,seed0,paper,KLD: undefined values (of 320),0.0
+final,best,seed0,paper,KLD: failures outside the near-base of PV labels,0.0
+final,best,seed0,paper,FID: median,0.035769590647763125
+final,best,seed0,paper,FID: share < 5,1.0
+final,best,seed0,paper,"FID, time rows: median",0.07554094468211789
+final,best,seed0,paper,"FID, time rows: share < 5",1.0
+final,best,seed0,paper,share of cells at the end of the colour scale,
+final,best,seed0,self,KLD: median,0.0910268012283678
+final,best,seed0,self,KLD: share ≤ 0.3,0.9875
+final,best,seed0,test,|Δ mean| load (kWh): median,0.05124118874991718
+final,best,seed0,test,|Δ mean| load (kWh): share < 1,1.0
+final,best,seed0,test,|Δ std| load (kWh): median,0.07841787060665165
+final,best,seed0,test,|Δ std| load (kWh): share < 1,1.0
+final,best,seed0,test,|Δ mean| time (h): median,0.18224692574723456
+final,best,seed0,test,|Δ mean| time (h): share < 1,0.9947916666666666
+final,best,seed0,test,|Δ std| time (h): median,0.17878775913977552
+final,best,seed0,test,|Δ std| time (h): share < 1,1.0
+final,best,seed0,test,|Δ mean| time (h): share of labels with all three < 1,0.984375
+final,best,seed0,test,"|Δ mean| time (h), no technology and PV only: share < 1",0.9791666666666666
+final,best,seed0,test,"|Δ mean| time (h), no technology: share < 1",1.0
+final,best,seed0,test,"|Δ mean| time (h), no technology: median",0.14626690182245738
+final,best,seed0,test,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.953125
+final,best,seed0,test,|Δ std| near-peak / near-peak: share < scale-matched bar,0.765625
+final,best,seed0,test,|Δ mean| near-base / near-peak: share < scale-matched bar,0.90625
+final,best,seed0,test,|Δ std| near-base / near-peak: share < scale-matched bar,0.9375
+final,best,seed0,test,near-peak: median of std / mean,0.957198534412175
+final,best,seed0,test,"near-peak, no technology: median of std / mean",1.036591179670894
+final,best,seed0,test,KLD: median,0.11191745061072847
+final,best,seed0,test,KLD: share ≤ 0.3,0.971875
+final,best,seed0,test,KLD: undefined values (of 320),1.0
+final,best,seed0,test,KLD: failures outside the near-base of PV labels,0.0
+final,best,seed0,test,FID: median,0.05550980310370155
+final,best,seed0,test,FID: share < 5,1.0
+final,best,seed0,test,"FID, time rows: median",0.09125346545900986
+final,best,seed0,test,"FID, time rows: share < 5",1.0
+final,best,seed0,test,share of cells at the end of the colour scale,
+final,best,seed1,paper,|Δ mean| load (kWh): median,0.025130422024064347
+final,best,seed1,paper,|Δ mean| load (kWh): share < 1,1.0
+final,best,seed1,paper,|Δ std| load (kWh): median,0.05023034014716449
+final,best,seed1,paper,|Δ std| load (kWh): share < 1,1.0
+final,best,seed1,paper,|Δ mean| time (h): median,0.18584612317149052
+final,best,seed1,paper,|Δ mean| time (h): share < 1,1.0
+final,best,seed1,paper,|Δ std| time (h): median,0.11916435061718245
+final,best,seed1,paper,|Δ std| time (h): share < 1,1.0
+final,best,seed1,paper,|Δ mean| time (h): share of labels with all three < 1,1.0
+final,best,seed1,paper,"|Δ mean| time (h), no technology and PV only: share < 1",1.0
+final,best,seed1,paper,"|Δ mean| time (h), no technology: share < 1",1.0
+final,best,seed1,paper,"|Δ mean| time (h), no technology: median",0.19140942796610227
+final,best,seed1,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,1.0
+final,best,seed1,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.84375
+final,best,seed1,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,1.0
+final,best,seed1,paper,|Δ std| near-base / near-peak: share < scale-matched bar,1.0
+final,best,seed1,paper,near-peak: median of std / mean,0.9982071857772223
+final,best,seed1,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+final,best,seed1,paper,KLD: median,0.10030253926305546
+final,best,seed1,paper,KLD: share ≤ 0.3,0.9875
+final,best,seed1,paper,KLD: undefined values (of 320),1.0
+final,best,seed1,paper,KLD: failures outside the near-base of PV labels,0.0
+final,best,seed1,paper,FID: median,0.03864208639094015
+final,best,seed1,paper,FID: share < 5,1.0
+final,best,seed1,paper,"FID, time rows: median",0.07496554752490514
+final,best,seed1,paper,"FID, time rows: share < 5",1.0
+final,best,seed1,paper,share of cells at the end of the colour scale,
+final,best,seed1,self,KLD: median,0.09013420988665069
+final,best,seed1,self,KLD: share ≤ 0.3,0.990625
+final,best,seed1,test,|Δ mean| load (kWh): median,0.057165362270614105
+final,best,seed1,test,|Δ mean| load (kWh): share < 1,1.0
+final,best,seed1,test,|Δ std| load (kWh): median,0.08189376689049038
+final,best,seed1,test,|Δ std| load (kWh): share < 1,1.0
+final,best,seed1,test,|Δ mean| time (h): median,0.19432227366255095
+final,best,seed1,test,|Δ mean| time (h): share < 1,0.9895833333333334
+final,best,seed1,test,|Δ std| time (h): median,0.18221903266706763
+final,best,seed1,test,|Δ std| time (h): share < 1,1.0
+final,best,seed1,test,|Δ mean| time (h): share of labels with all three < 1,0.96875
+final,best,seed1,test,"|Δ mean| time (h), no technology and PV only: share < 1",0.9791666666666666
+final,best,seed1,test,"|Δ mean| time (h), no technology: share < 1",1.0
+final,best,seed1,test,"|Δ mean| time (h), no technology: median",0.22669018224573811
+final,best,seed1,test,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.9375
+final,best,seed1,test,|Δ std| near-peak / near-peak: share < scale-matched bar,0.703125
+final,best,seed1,test,|Δ mean| near-base / near-peak: share < scale-matched bar,0.890625
+final,best,seed1,test,|Δ std| near-base / near-peak: share < scale-matched bar,0.96875
+final,best,seed1,test,near-peak: median of std / mean,0.957198534412175
+final,best,seed1,test,"near-peak, no technology: median of std / mean",1.036591179670894
+final,best,seed1,test,KLD: median,0.11367146364574478
+final,best,seed1,test,KLD: share ≤ 0.3,0.978125
+final,best,seed1,test,KLD: undefined values (of 320),1.0
+final,best,seed1,test,KLD: failures outside the near-base of PV labels,0.0
+final,best,seed1,test,FID: median,0.05881064627790178
+final,best,seed1,test,FID: share < 5,1.0
+final,best,seed1,test,"FID, time rows: median",0.08889015158407813
+final,best,seed1,test,"FID, time rows: share < 5",1.0
+final,best,seed1,test,share of cells at the end of the colour scale,
+final,best,seed2,paper,|Δ mean| load (kWh): median,0.02641262366295999
+final,best,seed2,paper,|Δ mean| load (kWh): share < 1,1.0
+final,best,seed2,paper,|Δ std| load (kWh): median,0.054263881811444314
+final,best,seed2,paper,|Δ std| load (kWh): share < 1,1.0
+final,best,seed2,paper,|Δ mean| time (h): median,0.16589533933434497
+final,best,seed2,paper,|Δ mean| time (h): share < 1,1.0
+final,best,seed2,paper,|Δ std| time (h): median,0.12885719533840811
+final,best,seed2,paper,|Δ std| time (h): share < 1,1.0
+final,best,seed2,paper,|Δ mean| time (h): share of labels with all three < 1,1.0
+final,best,seed2,paper,"|Δ mean| time (h), no technology and PV only: share < 1",1.0
+final,best,seed2,paper,"|Δ mean| time (h), no technology: share < 1",1.0
+final,best,seed2,paper,"|Δ mean| time (h), no technology: median",0.19110555128646434
+final,best,seed2,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,1.0
+final,best,seed2,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.78125
+final,best,seed2,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,1.0
+final,best,seed2,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.984375
+final,best,seed2,paper,near-peak: median of std / mean,0.9982071857772223
+final,best,seed2,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+final,best,seed2,paper,KLD: median,0.09947457402965126
+final,best,seed2,paper,KLD: share ≤ 0.3,0.990625
+final,best,seed2,paper,KLD: undefined values (of 320),1.0
+final,best,seed2,paper,KLD: failures outside the near-base of PV labels,0.0
+final,best,seed2,paper,FID: median,0.033406675790104874
+final,best,seed2,paper,FID: share < 5,1.0
+final,best,seed2,paper,"FID, time rows: median",0.06832501502519425
+final,best,seed2,paper,"FID, time rows: share < 5",1.0
+final,best,seed2,paper,share of cells at the end of the colour scale,
+final,best,seed2,self,KLD: median,0.08979242598239794
+final,best,seed2,self,KLD: share ≤ 0.3,0.984375
+final,best,seed2,test,|Δ mean| load (kWh): median,0.06801869937965647
+final,best,seed2,test,|Δ mean| load (kWh): share < 1,1.0
+final,best,seed2,test,|Δ std| load (kWh): median,0.08275228096496057
+final,best,seed2,test,|Δ std| load (kWh): share < 1,1.0
+final,best,seed2,test,|Δ mean| time (h): median,0.21661388693408457
+final,best,seed2,test,|Δ mean| time (h): share < 1,0.984375
+final,best,seed2,test,|Δ std| time (h): median,0.18915550893921473
+final,best,seed2,test,|Δ std| time (h): share < 1,1.0
+final,best,seed2,test,|Δ mean| time (h): share of labels with all three < 1,0.953125
+final,best,seed2,test,"|Δ mean| time (h), no technology and PV only: share < 1",0.9791666666666666
+final,best,seed2,test,"|Δ mean| time (h), no technology: share < 1",1.0
+final,best,seed2,test,"|Δ mean| time (h), no technology: median",0.15479129923574408
+final,best,seed2,test,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.953125
+final,best,seed2,test,|Δ std| near-peak / near-peak: share < scale-matched bar,0.765625
+final,best,seed2,test,|Δ mean| near-base / near-peak: share < scale-matched bar,0.90625
+final,best,seed2,test,|Δ std| near-base / near-peak: share < scale-matched bar,0.90625
+final,best,seed2,test,near-peak: median of std / mean,0.957198534412175
+final,best,seed2,test,"near-peak, no technology: median of std / mean",1.036591179670894
+final,best,seed2,test,KLD: median,0.11145571219602551
+final,best,seed2,test,KLD: share ≤ 0.3,0.975
+final,best,seed2,test,KLD: undefined values (of 320),1.0
+final,best,seed2,test,KLD: failures outside the near-base of PV labels,0.0
+final,best,seed2,test,FID: median,0.072703160710854
+final,best,seed2,test,FID: share < 5,1.0
+final,best,seed2,test,"FID, time rows: median",0.11803969109806807
+final,best,seed2,test,"FID, time rows: share < 5",1.0
+final,best,seed2,test,share of cells at the end of the colour scale,
+final,best,seed3,paper,|Δ mean| load (kWh): median,0.022675666202695455
+final,best,seed3,paper,|Δ mean| load (kWh): share < 1,1.0
+final,best,seed3,paper,|Δ std| load (kWh): median,0.06112358563984366
+final,best,seed3,paper,|Δ std| load (kWh): share < 1,1.0
+final,best,seed3,paper,|Δ mean| time (h): median,0.17967464584400084
+final,best,seed3,paper,|Δ mean| time (h): share < 1,1.0
+final,best,seed3,paper,|Δ std| time (h): median,0.12060133521956606
+final,best,seed3,paper,|Δ std| time (h): share < 1,1.0
+final,best,seed3,paper,|Δ mean| time (h): share of labels with all three < 1,1.0
+final,best,seed3,paper,"|Δ mean| time (h), no technology and PV only: share < 1",1.0
+final,best,seed3,paper,"|Δ mean| time (h), no technology: share < 1",1.0
+final,best,seed3,paper,"|Δ mean| time (h), no technology: median",0.22355225988700678
+final,best,seed3,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,1.0
+final,best,seed3,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.84375
+final,best,seed3,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,1.0
+final,best,seed3,paper,|Δ std| near-base / near-peak: share < scale-matched bar,1.0
+final,best,seed3,paper,near-peak: median of std / mean,0.9982071857772223
+final,best,seed3,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+final,best,seed3,paper,KLD: median,0.09869188892764665
+final,best,seed3,paper,KLD: share ≤ 0.3,0.990625
+final,best,seed3,paper,KLD: undefined values (of 320),2.0
+final,best,seed3,paper,KLD: failures outside the near-base of PV labels,0.0
+final,best,seed3,paper,FID: median,0.033739509062739925
+final,best,seed3,paper,FID: share < 5,1.0
+final,best,seed3,paper,"FID, time rows: median",0.07105157671658974
+final,best,seed3,paper,"FID, time rows: share < 5",1.0
+final,best,seed3,paper,share of cells at the end of the colour scale,
+final,best,seed3,self,KLD: median,0.0914008882677473
+final,best,seed3,self,KLD: share ≤ 0.3,0.9875
+final,best,seed3,test,|Δ mean| load (kWh): median,0.059168095949786836
+final,best,seed3,test,|Δ mean| load (kWh): share < 1,1.0
+final,best,seed3,test,|Δ std| load (kWh): median,0.08096708792728585
+final,best,seed3,test,|Δ std| load (kWh): share < 1,1.0
+final,best,seed3,test,|Δ mean| time (h): median,0.2236919459141684
+final,best,seed3,test,|Δ mean| time (h): share < 1,0.984375
+final,best,seed3,test,|Δ std| time (h): median,0.2045860016758405
+final,best,seed3,test,|Δ std| time (h): share < 1,1.0
+final,best,seed3,test,|Δ mean| time (h): share of labels with all three < 1,0.953125
+final,best,seed3,test,"|Δ mean| time (h), no technology and PV only: share < 1",0.9583333333333334
+final,best,seed3,test,"|Δ mean| time (h), no technology: share < 1",1.0
+final,best,seed3,test,"|Δ mean| time (h), no technology: median",0.24751575824990724
+final,best,seed3,test,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.953125
+final,best,seed3,test,|Δ std| near-peak / near-peak: share < scale-matched bar,0.75
+final,best,seed3,test,|Δ mean| near-base / near-peak: share < scale-matched bar,0.90625
+final,best,seed3,test,|Δ std| near-base / near-peak: share < scale-matched bar,0.921875
+final,best,seed3,test,near-peak: median of std / mean,0.957198534412175
+final,best,seed3,test,"near-peak, no technology: median of std / mean",1.036591179670894
+final,best,seed3,test,KLD: median,0.11135539680719087
+final,best,seed3,test,KLD: share ≤ 0.3,0.98125
+final,best,seed3,test,KLD: undefined values (of 320),1.0
+final,best,seed3,test,KLD: failures outside the near-base of PV labels,0.0
+final,best,seed3,test,FID: median,0.07670499045493823
+final,best,seed3,test,FID: share < 5,1.0
+final,best,seed3,test,"FID, time rows: median",0.13174003795770883
+final,best,seed3,test,"FID, time rows: share < 5",1.0
+final,best,seed3,test,share of cells at the end of the colour scale,
+final,best,seed4,paper,|Δ mean| load (kWh): median,0.024113465625749897
+final,best,seed4,paper,|Δ mean| load (kWh): share < 1,1.0
+final,best,seed4,paper,|Δ std| load (kWh): median,0.04390208949496399
+final,best,seed4,paper,|Δ std| load (kWh): share < 1,1.0
+final,best,seed4,paper,|Δ mean| time (h): median,0.17877806122449025
+final,best,seed4,paper,|Δ mean| time (h): share < 1,1.0
+final,best,seed4,paper,|Δ std| time (h): median,0.11763770643582472
+final,best,seed4,paper,|Δ std| time (h): share < 1,1.0
+final,best,seed4,paper,|Δ mean| time (h): share of labels with all three < 1,1.0
+final,best,seed4,paper,"|Δ mean| time (h), no technology and PV only: share < 1",1.0
+final,best,seed4,paper,"|Δ mean| time (h), no technology: share < 1",1.0
+final,best,seed4,paper,"|Δ mean| time (h), no technology: median",0.2776482694105371
+final,best,seed4,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,1.0
+final,best,seed4,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.78125
+final,best,seed4,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,1.0
+final,best,seed4,paper,|Δ std| near-base / near-peak: share < scale-matched bar,1.0
+final,best,seed4,paper,near-peak: median of std / mean,0.9982071857772223
+final,best,seed4,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+final,best,seed4,paper,KLD: median,0.1010928705885655
+final,best,seed4,paper,KLD: share ≤ 0.3,0.99375
+final,best,seed4,paper,KLD: undefined values (of 320),1.0
+final,best,seed4,paper,KLD: failures outside the near-base of PV labels,0.0
+final,best,seed4,paper,FID: median,0.031150513473139442
+final,best,seed4,paper,FID: share < 5,1.0
+final,best,seed4,paper,"FID, time rows: median",0.08472732675912184
+final,best,seed4,paper,"FID, time rows: share < 5",1.0
+final,best,seed4,paper,share of cells at the end of the colour scale,
+final,best,seed4,self,KLD: median,0.09118473943367314
+final,best,seed4,self,KLD: share ≤ 0.3,0.978125
+final,best,seed4,test,|Δ mean| load (kWh): median,0.05349462138838232
+final,best,seed4,test,|Δ mean| load (kWh): share < 1,1.0
+final,best,seed4,test,|Δ std| load (kWh): median,0.07473034038178271
+final,best,seed4,test,|Δ std| load (kWh): share < 1,1.0
+final,best,seed4,test,|Δ mean| time (h): median,0.18174515492223842
+final,best,seed4,test,|Δ mean| time (h): share < 1,0.984375
+final,best,seed4,test,|Δ std| time (h): median,0.1677859056523876
+final,best,seed4,test,|Δ std| time (h): share < 1,1.0
+final,best,seed4,test,|Δ mean| time (h): share of labels with all three < 1,0.953125
+final,best,seed4,test,"|Δ mean| time (h), no technology and PV only: share < 1",0.9375
+final,best,seed4,test,"|Δ mean| time (h), no technology: share < 1",1.0
+final,best,seed4,test,"|Δ mean| time (h), no technology: median",0.15385536398467448
+final,best,seed4,test,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.890625
+final,best,seed4,test,|Δ std| near-peak / near-peak: share < scale-matched bar,0.703125
+final,best,seed4,test,|Δ mean| near-base / near-peak: share < scale-matched bar,0.890625
+final,best,seed4,test,|Δ std| near-base / near-peak: share < scale-matched bar,0.953125
+final,best,seed4,test,near-peak: median of std / mean,0.957198534412175
+final,best,seed4,test,"near-peak, no technology: median of std / mean",1.036591179670894
+final,best,seed4,test,KLD: median,0.11297175311468227
+final,best,seed4,test,KLD: share ≤ 0.3,0.978125
+final,best,seed4,test,KLD: undefined values (of 320),1.0
+final,best,seed4,test,KLD: failures outside the near-base of PV labels,0.0
+final,best,seed4,test,FID: median,0.057037773171867284
+final,best,seed4,test,FID: share < 5,1.0
+final,best,seed4,test,"FID, time rows: median",0.09763586834239127
+final,best,seed4,test,"FID, time rows: share < 5",1.0
+final,best,seed4,test,share of cells at the end of the colour scale,
+faithful,last,seed0,paper,|Δ mean| load (kWh): median,0.5209708999101232
+faithful,last,seed0,paper,|Δ mean| load (kWh): share < 1,0.9765625
+faithful,last,seed0,paper,|Δ std| load (kWh): median,0.26361354267821135
+faithful,last,seed0,paper,|Δ std| load (kWh): share < 1,0.9609375
+faithful,last,seed0,paper,|Δ mean| time (h): median,1.30685366981931
+faithful,last,seed0,paper,|Δ mean| time (h): share < 1,0.4166666666666667
+faithful,last,seed0,paper,|Δ std| time (h): median,0.6576523208880978
+faithful,last,seed0,paper,|Δ std| time (h): share < 1,0.671875
+faithful,last,seed0,paper,|Δ mean| time (h): share of labels with all three < 1,0.140625
+faithful,last,seed0,paper,"|Δ mean| time (h), no technology and PV only: share < 1",0.125
+faithful,last,seed0,paper,"|Δ mean| time (h), no technology: share < 1",0.08333333333333333
+faithful,last,seed0,paper,"|Δ mean| time (h), no technology: median",3.5452136081467533
+faithful,last,seed0,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.46875
+faithful,last,seed0,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.46875
+faithful,last,seed0,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,0.171875
+faithful,last,seed0,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.546875
+faithful,last,seed0,paper,near-peak: median of std / mean,0.9982071857772223
+faithful,last,seed0,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+faithful,last,seed0,paper,KLD: median,0.10724403241785778
+faithful,last,seed0,paper,KLD: share ≤ 0.3,0.878125
+faithful,last,seed0,paper,KLD: undefined values (of 320),24.0
+faithful,last,seed0,paper,KLD: failures outside the near-base of PV labels,19.0
+faithful,last,seed0,paper,FID: median,0.9527242186575544
+faithful,last,seed0,paper,FID: share < 5,0.73125
+faithful,last,seed0,paper,"FID, time rows: median",3.4176740324711394
+faithful,last,seed0,paper,"FID, time rows: share < 5",0.5572916666666666
+faithful,last,seed0,paper,share of cells at the end of the colour scale,
+faithful,last,seed0,self,KLD: median,0.09680157698725717
+faithful,last,seed0,self,KLD: share ≤ 0.3,0.853125
+faithful,last,seed0,test,|Δ mean| load (kWh): median,0.5257071112115601
+faithful,last,seed0,test,|Δ mean| load (kWh): share < 1,0.9765625
+faithful,last,seed0,test,|Δ std| load (kWh): median,0.24026447189704794
+faithful,last,seed0,test,|Δ std| load (kWh): share < 1,0.9765625
+faithful,last,seed0,test,|Δ mean| time (h): median,1.2688004277243121
+faithful,last,seed0,test,|Δ mean| time (h): share < 1,0.4166666666666667
+faithful,last,seed0,test,|Δ std| time (h): median,0.6698544144702996
+faithful,last,seed0,test,|Δ std| time (h): share < 1,0.6875
+faithful,last,seed0,test,|Δ mean| time (h): share of labels with all three < 1,0.109375
+faithful,last,seed0,test,"|Δ mean| time (h), no technology and PV only: share < 1",0.14583333333333334
+faithful,last,seed0,test,"|Δ mean| time (h), no technology: share < 1",0.08333333333333333
+faithful,last,seed0,test,"|Δ mean| time (h), no technology: median",3.313898845081641
+faithful,last,seed0,test,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.375
+faithful,last,seed0,test,|Δ std| near-peak / near-peak: share < scale-matched bar,0.640625
+faithful,last,seed0,test,|Δ mean| near-base / near-peak: share < scale-matched bar,0.21875
+faithful,last,seed0,test,|Δ std| near-base / near-peak: share < scale-matched bar,0.609375
+faithful,last,seed0,test,near-peak: median of std / mean,0.957198534412175
+faithful,last,seed0,test,"near-peak, no technology: median of std / mean",1.036591179670894
+faithful,last,seed0,test,KLD: median,0.1088489036175101
+faithful,last,seed0,test,KLD: share ≤ 0.3,0.884375
+faithful,last,seed0,test,KLD: undefined values (of 320),21.0
+faithful,last,seed0,test,KLD: failures outside the near-base of PV labels,15.0
+faithful,last,seed0,test,FID: median,0.9260409519124176
+faithful,last,seed0,test,FID: share < 5,0.71875
+faithful,last,seed0,test,"FID, time rows: median",4.017062545499459
+faithful,last,seed0,test,"FID, time rows: share < 5",0.5364583333333334
+faithful,last,seed0,test,share of cells at the end of the colour scale,
+faithful,last,seed1,paper,|Δ mean| load (kWh): median,0.44236191162089056
+faithful,last,seed1,paper,|Δ mean| load (kWh): share < 1,0.9375
+faithful,last,seed1,paper,|Δ std| load (kWh): median,0.32410406982702383
+faithful,last,seed1,paper,|Δ std| load (kWh): share < 1,1.0
+faithful,last,seed1,paper,|Δ mean| time (h): median,1.771648919753087
+faithful,last,seed1,paper,|Δ mean| time (h): share < 1,0.3177083333333333
+faithful,last,seed1,paper,|Δ std| time (h): median,0.7628912761216922
+faithful,last,seed1,paper,|Δ std| time (h): share < 1,0.5833333333333334
+faithful,last,seed1,paper,|Δ mean| time (h): share of labels with all three < 1,0.015625
+faithful,last,seed1,paper,"|Δ mean| time (h), no technology and PV only: share < 1",0.22916666666666666
+faithful,last,seed1,paper,"|Δ mean| time (h), no technology: share < 1",0.041666666666666664
+faithful,last,seed1,paper,"|Δ mean| time (h), no technology: median",4.1423653181951785
+faithful,last,seed1,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.484375
+faithful,last,seed1,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.5625
+faithful,last,seed1,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,0.265625
+faithful,last,seed1,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.46875
+faithful,last,seed1,paper,near-peak: median of std / mean,0.9982071857772223
+faithful,last,seed1,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+faithful,last,seed1,paper,KLD: median,0.08513010635696192
+faithful,last,seed1,paper,KLD: share ≤ 0.3,0.89375
+faithful,last,seed1,paper,KLD: undefined values (of 320),22.0
+faithful,last,seed1,paper,KLD: failures outside the near-base of PV labels,12.0
+faithful,last,seed1,paper,FID: median,1.0677766979691916
+faithful,last,seed1,paper,FID: share < 5,0.703125
+faithful,last,seed1,paper,"FID, time rows: median",4.832144777998893
+faithful,last,seed1,paper,"FID, time rows: share < 5",0.5052083333333334
+faithful,last,seed1,paper,share of cells at the end of the colour scale,
+faithful,last,seed1,self,KLD: median,0.085726409224604
+faithful,last,seed1,self,KLD: share ≤ 0.3,0.88125
+faithful,last,seed1,test,|Δ mean| load (kWh): median,0.49675116204622505
+faithful,last,seed1,test,|Δ mean| load (kWh): share < 1,0.921875
+faithful,last,seed1,test,|Δ std| load (kWh): median,0.35607231622574975
+faithful,last,seed1,test,|Δ std| load (kWh): share < 1,1.0
+faithful,last,seed1,test,|Δ mean| time (h): median,1.6429118773946363
+faithful,last,seed1,test,|Δ mean| time (h): share < 1,0.3229166666666667
+faithful,last,seed1,test,|Δ std| time (h): median,0.7941323025614857
+faithful,last,seed1,test,|Δ std| time (h): share < 1,0.5625
+faithful,last,seed1,test,|Δ mean| time (h): share of labels with all three < 1,0.0625
+faithful,last,seed1,test,"|Δ mean| time (h), no technology and PV only: share < 1",0.2708333333333333
+faithful,last,seed1,test,"|Δ mean| time (h), no technology: share < 1",0.125
+faithful,last,seed1,test,"|Δ mean| time (h), no technology: median",3.819753086419754
+faithful,last,seed1,test,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.40625
+faithful,last,seed1,test,|Δ std| near-peak / near-peak: share < scale-matched bar,0.46875
+faithful,last,seed1,test,|Δ mean| near-base / near-peak: share < scale-matched bar,0.25
+faithful,last,seed1,test,|Δ std| near-base / near-peak: share < scale-matched bar,0.515625
+faithful,last,seed1,test,near-peak: median of std / mean,0.957198534412175
+faithful,last,seed1,test,"near-peak, no technology: median of std / mean",1.036591179670894
+faithful,last,seed1,test,KLD: median,0.10294851225952337
+faithful,last,seed1,test,KLD: share ≤ 0.3,0.9
+faithful,last,seed1,test,KLD: undefined values (of 320),21.0
+faithful,last,seed1,test,KLD: failures outside the near-base of PV labels,11.0
+faithful,last,seed1,test,FID: median,1.2258774180196195
+faithful,last,seed1,test,FID: share < 5,0.68125
+faithful,last,seed1,test,"FID, time rows: median",5.647030683222779
+faithful,last,seed1,test,"FID, time rows: share < 5",0.46875
+faithful,last,seed1,test,share of cells at the end of the colour scale,
+faithful,last,seed2,paper,|Δ mean| load (kWh): median,0.4579949518319618
+faithful,last,seed2,paper,|Δ mean| load (kWh): share < 1,0.9296875
+faithful,last,seed2,paper,|Δ std| load (kWh): median,0.31128894216832015
+faithful,last,seed2,paper,|Δ std| load (kWh): share < 1,0.9921875
+faithful,last,seed2,paper,|Δ mean| time (h): median,1.2496595877343886
+faithful,last,seed2,paper,|Δ mean| time (h): share < 1,0.421875
+faithful,last,seed2,paper,|Δ std| time (h): median,0.6362921232459551
+faithful,last,seed2,paper,|Δ std| time (h): share < 1,0.7135416666666666
+faithful,last,seed2,paper,|Δ mean| time (h): share of labels with all three < 1,0.0625
+faithful,last,seed2,paper,"|Δ mean| time (h), no technology and PV only: share < 1",0.3958333333333333
+faithful,last,seed2,paper,"|Δ mean| time (h), no technology: share < 1",0.3333333333333333
+faithful,last,seed2,paper,"|Δ mean| time (h), no technology: median",2.799734457671958
+faithful,last,seed2,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.4375
+faithful,last,seed2,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.484375
+faithful,last,seed2,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,0.375
+faithful,last,seed2,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.390625
+faithful,last,seed2,paper,near-peak: median of std / mean,0.9982071857772223
+faithful,last,seed2,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+faithful,last,seed2,paper,KLD: median,0.08297740867443792
+faithful,last,seed2,paper,KLD: share ≤ 0.3,0.94375
+faithful,last,seed2,paper,KLD: undefined values (of 320),17.0
+faithful,last,seed2,paper,KLD: failures outside the near-base of PV labels,1.0
+faithful,last,seed2,paper,FID: median,0.8421949474935086
+faithful,last,seed2,paper,FID: share < 5,0.740625
+faithful,last,seed2,paper,"FID, time rows: median",3.9673848667292715
+faithful,last,seed2,paper,"FID, time rows: share < 5",0.5729166666666666
+faithful,last,seed2,paper,share of cells at the end of the colour scale,
+faithful,last,seed2,self,KLD: median,0.09716523000711831
+faithful,last,seed2,self,KLD: share ≤ 0.3,0.896875
+faithful,last,seed2,test,|Δ mean| load (kWh): median,0.44807491440381625
+faithful,last,seed2,test,|Δ mean| load (kWh): share < 1,0.921875
+faithful,last,seed2,test,|Δ std| load (kWh): median,0.29891187125225205
+faithful,last,seed2,test,|Δ std| load (kWh): share < 1,0.9921875
+faithful,last,seed2,test,|Δ mean| time (h): median,1.323160173160173
+faithful,last,seed2,test,|Δ mean| time (h): share < 1,0.4322916666666667
+faithful,last,seed2,test,|Δ std| time (h): median,0.6711245784304742
+faithful,last,seed2,test,|Δ std| time (h): share < 1,0.6666666666666666
+faithful,last,seed2,test,|Δ mean| time (h): share of labels with all three < 1,0.03125
+faithful,last,seed2,test,"|Δ mean| time (h), no technology and PV only: share < 1",0.375
+faithful,last,seed2,test,"|Δ mean| time (h), no technology: share < 1",0.3333333333333333
+faithful,last,seed2,test,"|Δ mean| time (h), no technology: median",2.619791666666667
+faithful,last,seed2,test,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.390625
+faithful,last,seed2,test,|Δ std| near-peak / near-peak: share < scale-matched bar,0.453125
+faithful,last,seed2,test,|Δ mean| near-base / near-peak: share < scale-matched bar,0.40625
+faithful,last,seed2,test,|Δ std| near-base / near-peak: share < scale-matched bar,0.4375
+faithful,last,seed2,test,near-peak: median of std / mean,0.957198534412175
+faithful,last,seed2,test,"near-peak, no technology: median of std / mean",1.036591179670894
+faithful,last,seed2,test,KLD: median,0.09561455778521995
+faithful,last,seed2,test,KLD: share ≤ 0.3,0.940625
+faithful,last,seed2,test,KLD: undefined values (of 320),17.0
+faithful,last,seed2,test,KLD: failures outside the near-base of PV labels,1.0
+faithful,last,seed2,test,FID: median,0.908558925561041
+faithful,last,seed2,test,FID: share < 5,0.734375
+faithful,last,seed2,test,"FID, time rows: median",4.147201251264744
+faithful,last,seed2,test,"FID, time rows: share < 5",0.5625
+faithful,last,seed2,test,share of cells at the end of the colour scale,
+abl_shuffle,best,seed0,paper,|Δ mean| load (kWh): median,0.3501032091628027
+abl_shuffle,best,seed0,paper,|Δ mean| load (kWh): share < 1,1.0
+abl_shuffle,best,seed0,paper,|Δ std| load (kWh): median,0.3385770346148034
+abl_shuffle,best,seed0,paper,|Δ std| load (kWh): share < 1,1.0
+abl_shuffle,best,seed0,paper,|Δ mean| time (h): median,0.9815083405238942
+abl_shuffle,best,seed0,paper,|Δ mean| time (h): share < 1,0.5104166666666666
+abl_shuffle,best,seed0,paper,|Δ std| time (h): median,0.848892460367288
+abl_shuffle,best,seed0,paper,|Δ std| time (h): share < 1,0.5677083333333334
+abl_shuffle,best,seed0,paper,|Δ mean| time (h): share of labels with all three < 1,0.046875
+abl_shuffle,best,seed0,paper,"|Δ mean| time (h), no technology and PV only: share < 1",0.3333333333333333
+abl_shuffle,best,seed0,paper,"|Δ mean| time (h), no technology: share < 1",0.375
+abl_shuffle,best,seed0,paper,"|Δ mean| time (h), no technology: median",1.3842344576719583
+abl_shuffle,best,seed0,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.4375
+abl_shuffle,best,seed0,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.453125
+abl_shuffle,best,seed0,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,0.40625
+abl_shuffle,best,seed0,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.5625
+abl_shuffle,best,seed0,paper,near-peak: median of std / mean,0.9982071857772223
+abl_shuffle,best,seed0,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+abl_shuffle,best,seed0,paper,KLD: median,0.08512727308647589
+abl_shuffle,best,seed0,paper,KLD: share ≤ 0.3,0.965625
+abl_shuffle,best,seed0,paper,KLD: undefined values (of 320),10.0
+abl_shuffle,best,seed0,paper,KLD: failures outside the near-base of PV labels,0.0
+abl_shuffle,best,seed0,paper,FID: median,1.0324825709851448
+abl_shuffle,best,seed0,paper,FID: share < 5,0.78125
+abl_shuffle,best,seed0,paper,"FID, time rows: median",3.45581142367716
+abl_shuffle,best,seed0,paper,"FID, time rows: share < 5",0.6354166666666666
+abl_shuffle,best,seed0,paper,share of cells at the end of the colour scale,
+abl_shuffle,best,seed0,self,KLD: median,0.07078477698333857
+abl_shuffle,best,seed0,self,KLD: share ≤ 0.3,0.934375
+abl_shuffle,best,seed0,test,|Δ mean| load (kWh): median,0.3462715282779081
+abl_shuffle,best,seed0,test,|Δ mean| load (kWh): share < 1,1.0
+abl_shuffle,best,seed0,test,|Δ std| load (kWh): median,0.34175105152680635
+abl_shuffle,best,seed0,test,|Δ std| load (kWh): share < 1,1.0
+abl_shuffle,best,seed0,test,|Δ mean| time (h): median,0.8858223815213062
+abl_shuffle,best,seed0,test,|Δ mean| time (h): share < 1,0.53125
+abl_shuffle,best,seed0,test,|Δ std| time (h): median,0.8559012664210992
+abl_shuffle,best,seed0,test,|Δ std| time (h): share < 1,0.5572916666666666
+abl_shuffle,best,seed0,test,|Δ mean| time (h): share of labels with all three < 1,0.046875
+abl_shuffle,best,seed0,test,"|Δ mean| time (h), no technology and PV only: share < 1",0.3958333333333333
+abl_shuffle,best,seed0,test,"|Δ mean| time (h), no technology: share < 1",0.4166666666666667
+abl_shuffle,best,seed0,test,"|Δ mean| time (h), no technology: median",1.2317377645502647
+abl_shuffle,best,seed0,test,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.703125
+abl_shuffle,best,seed0,test,|Δ std| near-peak / near-peak: share < scale-matched bar,0.484375
+abl_shuffle,best,seed0,test,|Δ mean| near-base / near-peak: share < scale-matched bar,0.328125
+abl_shuffle,best,seed0,test,|Δ std| near-base / near-peak: share < scale-matched bar,0.484375
+abl_shuffle,best,seed0,test,near-peak: median of std / mean,0.957198534412175
+abl_shuffle,best,seed0,test,"near-peak, no technology: median of std / mean",1.036591179670894
+abl_shuffle,best,seed0,test,KLD: median,0.10041990926745961
+abl_shuffle,best,seed0,test,KLD: share ≤ 0.3,0.96875
+abl_shuffle,best,seed0,test,KLD: undefined values (of 320),8.0
+abl_shuffle,best,seed0,test,KLD: failures outside the near-base of PV labels,0.0
+abl_shuffle,best,seed0,test,FID: median,0.9666764200554747
+abl_shuffle,best,seed0,test,FID: share < 5,0.790625
+abl_shuffle,best,seed0,test,"FID, time rows: median",3.3243106609829667
+abl_shuffle,best,seed0,test,"FID, time rows: share < 5",0.6510416666666666
+abl_shuffle,best,seed0,test,share of cells at the end of the colour scale,
+abl_shuffle,last,seed0,paper,|Δ mean| load (kWh): median,0.3105495707205197
+abl_shuffle,last,seed0,paper,|Δ mean| load (kWh): share < 1,0.9921875
+abl_shuffle,last,seed0,paper,|Δ std| load (kWh): median,0.24830362346102097
+abl_shuffle,last,seed0,paper,|Δ std| load (kWh): share < 1,0.9921875
+abl_shuffle,last,seed0,paper,|Δ mean| time (h): median,1.1807380322499372
+abl_shuffle,last,seed0,paper,|Δ mean| time (h): share < 1,0.453125
+abl_shuffle,last,seed0,paper,|Δ std| time (h): median,0.586807890034792
+abl_shuffle,last,seed0,paper,|Δ std| time (h): share < 1,0.7239583333333334
+abl_shuffle,last,seed0,paper,|Δ mean| time (h): share of labels with all three < 1,0.078125
+abl_shuffle,last,seed0,paper,"|Δ mean| time (h), no technology and PV only: share < 1",0.2916666666666667
+abl_shuffle,last,seed0,paper,"|Δ mean| time (h), no technology: share < 1",0.3333333333333333
+abl_shuffle,last,seed0,paper,"|Δ mean| time (h), no technology: median",2.05240587339323
+abl_shuffle,last,seed0,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.6875
+abl_shuffle,last,seed0,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.671875
+abl_shuffle,last,seed0,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,0.484375
+abl_shuffle,last,seed0,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.59375
+abl_shuffle,last,seed0,paper,near-peak: median of std / mean,0.9982071857772223
+abl_shuffle,last,seed0,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+abl_shuffle,last,seed0,paper,KLD: median,0.09578059910371758
+abl_shuffle,last,seed0,paper,KLD: share ≤ 0.3,0.934375
+abl_shuffle,last,seed0,paper,KLD: undefined values (of 320),13.0
+abl_shuffle,last,seed0,paper,KLD: failures outside the near-base of PV labels,7.0
+abl_shuffle,last,seed0,paper,FID: median,0.7416547519291764
+abl_shuffle,last,seed0,paper,FID: share < 5,0.8
+abl_shuffle,last,seed0,paper,"FID, time rows: median",2.273636379318946
+abl_shuffle,last,seed0,paper,"FID, time rows: share < 5",0.6666666666666666
+abl_shuffle,last,seed0,paper,share of cells at the end of the colour scale,
+abl_shuffle,last,seed0,self,KLD: median,0.09504858072090958
+abl_shuffle,last,seed0,self,KLD: share ≤ 0.3,0.94375
+abl_shuffle,last,seed0,test,|Δ mean| load (kWh): median,0.3227095719718558
+abl_shuffle,last,seed0,test,|Δ mean| load (kWh): share < 1,0.9921875
+abl_shuffle,last,seed0,test,|Δ std| load (kWh): median,0.24557702978532364
+abl_shuffle,last,seed0,test,|Δ std| load (kWh): share < 1,0.9921875
+abl_shuffle,last,seed0,test,|Δ mean| time (h): median,1.1898254576415495
+abl_shuffle,last,seed0,test,|Δ mean| time (h): share < 1,0.4427083333333333
+abl_shuffle,last,seed0,test,|Δ std| time (h): median,0.5890153682332189
+abl_shuffle,last,seed0,test,|Δ std| time (h): share < 1,0.7239583333333334
+abl_shuffle,last,seed0,test,|Δ mean| time (h): share of labels with all three < 1,0.046875
+abl_shuffle,last,seed0,test,"|Δ mean| time (h), no technology and PV only: share < 1",0.3333333333333333
+abl_shuffle,last,seed0,test,"|Δ mean| time (h), no technology: share < 1",0.3333333333333333
+abl_shuffle,last,seed0,test,"|Δ mean| time (h), no technology: median",1.8014596193415646
+abl_shuffle,last,seed0,test,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.609375
+abl_shuffle,last,seed0,test,|Δ std| near-peak / near-peak: share < scale-matched bar,0.5
+abl_shuffle,last,seed0,test,|Δ mean| near-base / near-peak: share < scale-matched bar,0.453125
+abl_shuffle,last,seed0,test,|Δ std| near-base / near-peak: share < scale-matched bar,0.6875
+abl_shuffle,last,seed0,test,near-peak: median of std / mean,0.957198534412175
+abl_shuffle,last,seed0,test,"near-peak, no technology: median of std / mean",1.036591179670894
+abl_shuffle,last,seed0,test,KLD: median,0.10403318596747821
+abl_shuffle,last,seed0,test,KLD: share ≤ 0.3,0.915625
+abl_shuffle,last,seed0,test,KLD: undefined values (of 320),14.0
+abl_shuffle,last,seed0,test,KLD: failures outside the near-base of PV labels,7.0
+abl_shuffle,last,seed0,test,FID: median,0.7697102869980499
+abl_shuffle,last,seed0,test,FID: share < 5,0.8375
+abl_shuffle,last,seed0,test,"FID, time rows: median",2.1878601349416984
+abl_shuffle,last,seed0,test,"FID, time rows: share < 5",0.7291666666666666
+abl_shuffle,last,seed0,test,share of cells at the end of the colour scale,
+real_val,,,paper,|Δ mean| load (kWh): median,0.054847830924952684
+real_val,,,paper,|Δ mean| load (kWh): share < 1,1.0
+real_val,,,paper,|Δ std| load (kWh): median,0.10061524043035486
+real_val,,,paper,|Δ std| load (kWh): share < 1,0.9921875
+real_val,,,paper,|Δ mean| time (h): median,0.19112019969278027
+real_val,,,paper,|Δ mean| time (h): share < 1,0.9947916666666666
+real_val,,,paper,|Δ std| time (h): median,0.11405966493988595
+real_val,,,paper,|Δ std| time (h): share < 1,1.0
+real_val,,,paper,|Δ mean| time (h): share of labels with all three < 1,0.984375
+real_val,,,paper,"|Δ mean| time (h), no technology and PV only: share < 1",1.0
+real_val,,,paper,"|Δ mean| time (h), no technology: share < 1",1.0
+real_val,,,paper,"|Δ mean| time (h), no technology: median",0.20820372732426318
+real_val,,,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.953125
+real_val,,,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.71875
+real_val,,,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,0.9375
+real_val,,,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.96875
+real_val,,,paper,near-peak: median of std / mean,0.9982071857772223
+real_val,,,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+real_val,,,paper,KLD: median,0.09870817307154392
+real_val,,,paper,KLD: share ≤ 0.3,0.99375
+real_val,,,paper,KLD: undefined values (of 320),1.0
+real_val,,,paper,KLD: failures outside the near-base of PV labels,0.0
+real_val,,,paper,FID: median,0.0483284608946436
+real_val,,,paper,FID: share < 5,1.0
+real_val,,,paper,"FID, time rows: median",0.07146346788026191
+real_val,,,paper,"FID, time rows: share < 5",1.0
+real_val,,,paper,share of cells at the end of the colour scale,
+real_val,,,test,|Δ mean| load (kWh): median,0.08299511313783271
+real_val,,,test,|Δ mean| load (kWh): share < 1,1.0
+real_val,,,test,|Δ std| load (kWh): median,0.08286776008886987
+real_val,,,test,|Δ std| load (kWh): share < 1,1.0
+real_val,,,test,|Δ mean| time (h): median,0.19794234272853917
+real_val,,,test,|Δ mean| time (h): share < 1,0.984375
+real_val,,,test,|Δ std| time (h): median,0.1686362618852839
+real_val,,,test,|Δ std| time (h): share < 1,1.0
+real_val,,,test,|Δ mean| time (h): share of labels with all three < 1,0.953125
+real_val,,,test,"|Δ mean| time (h), no technology and PV only: share < 1",0.9791666666666666
+real_val,,,test,"|Δ mean| time (h), no technology: share < 1",1.0
+real_val,,,test,"|Δ mean| time (h), no technology: median",0.2674603174603174
+real_val,,,test,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.8125
+real_val,,,test,|Δ std| near-peak / near-peak: share < scale-matched bar,0.6875
+real_val,,,test,|Δ mean| near-base / near-peak: share < scale-matched bar,0.84375
+real_val,,,test,|Δ std| near-base / near-peak: share < scale-matched bar,0.984375
+real_val,,,test,near-peak: median of std / mean,0.957198534412175
+real_val,,,test,"near-peak, no technology: median of std / mean",1.036591179670894
+real_val,,,test,KLD: median,0.09982134995799109
+real_val,,,test,KLD: share ≤ 0.3,0.978125
+real_val,,,test,KLD: undefined values (of 320),2.0
+real_val,,,test,KLD: failures outside the near-base of PV labels,0.0
+real_val,,,test,FID: median,0.07069849763835206
+real_val,,,test,FID: share < 5,1.0
+real_val,,,test,"FID, time rows: median",0.09654514677217982
+real_val,,,test,"FID, time rows: share < 5",1.0
+real_val,,,test,share of cells at the end of the colour scale,
+real_train,,,paper,|Δ mean| load (kWh): median,0.010270522370261659
+real_train,,,paper,|Δ mean| load (kWh): share < 1,1.0
+real_train,,,paper,|Δ std| load (kWh): median,0.016411230020074274
+real_train,,,paper,|Δ std| load (kWh): share < 1,1.0
+real_train,,,paper,|Δ mean| time (h): median,0.05048208774250451
+real_train,,,paper,|Δ mean| time (h): share < 1,1.0
+real_train,,,paper,|Δ std| time (h): median,0.03260891938168209
+real_train,,,paper,|Δ std| time (h): share < 1,1.0
+real_train,,,paper,|Δ mean| time (h): share of labels with all three < 1,1.0
+real_train,,,paper,"|Δ mean| time (h), no technology and PV only: share < 1",1.0
+real_train,,,paper,"|Δ mean| time (h), no technology: share < 1",1.0
+real_train,,,paper,"|Δ mean| time (h), no technology: median",0.03761201273703163
+real_train,,,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,1.0
+real_train,,,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.984375
+real_train,,,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,1.0
+real_train,,,paper,|Δ std| near-base / near-peak: share < scale-matched bar,1.0
+real_train,,,paper,near-peak: median of std / mean,0.9982071857772223
+real_train,,,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+real_train,,,paper,KLD: median,0.09967885194546203
+real_train,,,paper,KLD: share ≤ 0.3,0.990625
+real_train,,,paper,KLD: undefined values (of 320),1.0
+real_train,,,paper,KLD: failures outside the near-base of PV labels,0.0
+real_train,,,paper,FID: median,0.0029813709046648297
+real_train,,,paper,FID: share < 5,1.0
+real_train,,,paper,"FID, time rows: median",0.00553283329577485
+real_train,,,paper,"FID, time rows: share < 5",1.0
+real_train,,,paper,share of cells at the end of the colour scale,
+real_train,,,test,|Δ mean| load (kWh): median,0.05511465117343943
+real_train,,,test,|Δ mean| load (kWh): share < 1,1.0
+real_train,,,test,|Δ std| load (kWh): median,0.10525663189757084
+real_train,,,test,|Δ std| load (kWh): share < 1,1.0
+real_train,,,test,|Δ mean| time (h): median,0.20140809011776728
+real_train,,,test,|Δ mean| time (h): share < 1,0.9947916666666666
+real_train,,,test,|Δ std| time (h): median,0.12961976725087032
+real_train,,,test,|Δ std| time (h): share < 1,1.0
+real_train,,,test,|Δ mean| time (h): share of labels with all three < 1,0.984375
+real_train,,,test,"|Δ mean| time (h), no technology and PV only: share < 1",1.0
+real_train,,,test,"|Δ mean| time (h), no technology: share < 1",1.0
+real_train,,,test,"|Δ mean| time (h), no technology: median",0.2090277777777776
+real_train,,,test,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.921875
+real_train,,,test,|Δ std| near-peak / near-peak: share < scale-matched bar,0.78125
+real_train,,,test,|Δ mean| near-base / near-peak: share < scale-matched bar,0.90625
+real_train,,,test,|Δ std| near-base / near-peak: share < scale-matched bar,0.921875
+real_train,,,test,near-peak: median of std / mean,0.957198534412175
+real_train,,,test,"near-peak, no technology: median of std / mean",1.036591179670894
+real_train,,,test,KLD: median,0.10832632436267041
+real_train,,,test,KLD: share ≤ 0.3,0.9875
+real_train,,,test,KLD: undefined values (of 320),1.0
+real_train,,,test,KLD: failures outside the near-base of PV labels,0.0
+real_train,,,test,FID: median,0.04447261775349538
+real_train,,,test,FID: share < 5,1.0
+real_train,,,test,"FID, time rows: median",0.06887368281453334
+real_train,,,test,"FID, time rows: share < 5",1.0
+real_train,,,test,share of cells at the end of the colour scale,
+published,,shuffle0,self,KLD: median,0.08064400967325563
+published,,shuffle0,self,KLD: share ≤ 0.3,1.0
+published,,shuffle1,self,KLD: median,0.08118317295670377
+published,,shuffle1,self,KLD: share ≤ 0.3,1.0
+published,,shuffle2,self,KLD: median,0.08069735753739236
+published,,shuffle2,self,KLD: share ≤ 0.3,1.0
+published,,shuffle3,self,KLD: median,0.08042865846792166
+published,,shuffle3,self,KLD: share ≤ 0.3,1.0
+published,,shuffle4,self,KLD: median,0.07980262932107089
+published,,shuffle4,self,KLD: share ≤ 0.3,1.0
+published,,shuffle5,self,KLD: median,0.08049527019756705
+published,,shuffle5,self,KLD: share ≤ 0.3,1.0
+published,,shuffle6,self,KLD: median,0.0808490458722884
+published,,shuffle6,self,KLD: share ≤ 0.3,1.0
+published,,shuffle7,self,KLD: median,0.08107982473791037
+published,,shuffle7,self,KLD: share ≤ 0.3,1.0
+published,,shuffle8,self,KLD: median,0.08106786133210572
+published,,shuffle8,self,KLD: share ≤ 0.3,1.0
+published,,shuffle9,self,KLD: median,0.08108569013206497
+published,,shuffle9,self,KLD: share ≤ 0.3,1.0
+published,,shuffle10,self,KLD: median,0.08111715342477761
+published,,shuffle10,self,KLD: share ≤ 0.3,1.0
+published,,shuffle11,self,KLD: median,0.08053647536911841
+published,,shuffle11,self,KLD: share ≤ 0.3,1.0
+published,,shuffle12,self,KLD: median,0.08097308414901068
+published,,shuffle12,self,KLD: share ≤ 0.3,1.0
+published,,shuffle13,self,KLD: median,0.08018559461007163
+published,,shuffle13,self,KLD: share ≤ 0.3,1.0
+published,,shuffle14,self,KLD: median,0.07973581611424577
+published,,shuffle14,self,KLD: share ≤ 0.3,1.0
+published,,shuffle15,self,KLD: median,0.079937500767862
+published,,shuffle15,self,KLD: share ≤ 0.3,1.0
+published,,shuffle16,self,KLD: median,0.07984631661417058
+published,,shuffle16,self,KLD: share ≤ 0.3,1.0
+published,,shuffle17,self,KLD: median,0.08049358619452392
+published,,shuffle17,self,KLD: share ≤ 0.3,1.0
+published,,shuffle18,self,KLD: median,0.07962726316758678
+published,,shuffle18,self,KLD: share ≤ 0.3,1.0
+published,,shuffle19,self,KLD: median,0.08019359259603023
+published,,shuffle19,self,KLD: share ≤ 0.3,1.0
+published,,shuffle20,self,KLD: median,0.08105230135656462
+published,,shuffle20,self,KLD: share ≤ 0.3,1.0
+published,,shuffle21,self,KLD: median,0.08007320208270766
+published,,shuffle21,self,KLD: share ≤ 0.3,1.0
+published,,shuffle22,self,KLD: median,0.08086246513757198
+published,,shuffle22,self,KLD: share ≤ 0.3,1.0
+published,,shuffle23,self,KLD: median,0.08104393821022796
+published,,shuffle23,self,KLD: share ≤ 0.3,1.0
+published,,shuffle24,self,KLD: median,0.08092278853261556
+published,,shuffle24,self,KLD: share ≤ 0.3,1.0
+published,,shuffle25,self,KLD: median,0.08019991038390142
+published,,shuffle25,self,KLD: share ≤ 0.3,1.0
+published,,shuffle26,self,KLD: median,0.0806360786388729
+published,,shuffle26,self,KLD: share ≤ 0.3,1.0
+published,,shuffle27,self,KLD: median,0.08030174527068494
+published,,shuffle27,self,KLD: share ≤ 0.3,1.0
+published,,shuffle28,self,KLD: median,0.08064869215988087
+published,,shuffle28,self,KLD: share ≤ 0.3,1.0
+published,,shuffle29,self,KLD: median,0.08141239045255633
+published,,shuffle29,self,KLD: share ≤ 0.3,1.0
+published,,shuffle30,self,KLD: median,0.08004633988571377
+published,,shuffle30,self,KLD: share ≤ 0.3,1.0
+published,,shuffle31,self,KLD: median,0.07965985805372648
+published,,shuffle31,self,KLD: share ≤ 0.3,1.0
+published,,shuffle32,self,KLD: median,0.08001829514165937
+published,,shuffle32,self,KLD: share ≤ 0.3,1.0
+published,,shuffle33,self,KLD: median,0.07999337383585574
+published,,shuffle33,self,KLD: share ≤ 0.3,1.0
+published,,shuffle34,self,KLD: median,0.08056966304782234
+published,,shuffle34,self,KLD: share ≤ 0.3,1.0
+published,,shuffle35,self,KLD: median,0.08065081457246773
+published,,shuffle35,self,KLD: share ≤ 0.3,1.0
+published,,shuffle36,self,KLD: median,0.08031086722287378
+published,,shuffle36,self,KLD: share ≤ 0.3,1.0
+published,,shuffle37,self,KLD: median,0.08164464930769849
+published,,shuffle37,self,KLD: share ≤ 0.3,1.0
+published,,shuffle38,self,KLD: median,0.07988632243223734
+published,,shuffle38,self,KLD: share ≤ 0.3,1.0
+published,,shuffle39,self,KLD: median,0.07982000407456395
+published,,shuffle39,self,KLD: share ≤ 0.3,1.0
+real_train,,shuffle0,self,KLD: median,0.09654370912398531
+real_train,,shuffle0,self,KLD: share ≤ 0.3,1.0
+real_train,,shuffle1,self,KLD: median,0.09727276700634635
+real_train,,shuffle1,self,KLD: share ≤ 0.3,1.0
+real_train,,shuffle2,self,KLD: median,0.09862989098184813
+real_train,,shuffle2,self,KLD: share ≤ 0.3,0.990625
+real_train,,shuffle3,self,KLD: median,0.09467069546632542
+real_train,,shuffle3,self,KLD: share ≤ 0.3,0.99375
+real_train,,shuffle4,self,KLD: median,0.09659976493534846
+real_train,,shuffle4,self,KLD: share ≤ 0.3,0.996875
+real_train,,shuffle5,self,KLD: median,0.09705115748775799
+real_train,,shuffle5,self,KLD: share ≤ 0.3,0.990625
+real_train,,shuffle6,self,KLD: median,0.09702103596966064
+real_train,,shuffle6,self,KLD: share ≤ 0.3,0.990625
+real_train,,shuffle7,self,KLD: median,0.09653519512300443
+real_train,,shuffle7,self,KLD: share ≤ 0.3,0.99375
+real_train,,shuffle8,self,KLD: median,0.09703049539324429
+real_train,,shuffle8,self,KLD: share ≤ 0.3,0.99375
+real_train,,shuffle9,self,KLD: median,0.09637108843491908
+real_train,,shuffle9,self,KLD: share ≤ 0.3,0.99375
+real_train,,shuffle10,self,KLD: median,0.09462894428696847
+real_train,,shuffle10,self,KLD: share ≤ 0.3,1.0
+real_train,,shuffle11,self,KLD: median,0.09601167138775774
+real_train,,shuffle11,self,KLD: share ≤ 0.3,0.99375
+real_train,,shuffle12,self,KLD: median,0.09729066536068967
+real_train,,shuffle12,self,KLD: share ≤ 0.3,0.99375
+real_train,,shuffle13,self,KLD: median,0.09754488618246987
+real_train,,shuffle13,self,KLD: share ≤ 0.3,0.99375
+real_train,,shuffle14,self,KLD: median,0.09799790285376525
+real_train,,shuffle14,self,KLD: share ≤ 0.3,0.996875
+real_train,,shuffle15,self,KLD: median,0.09583843871208184
+real_train,,shuffle15,self,KLD: share ≤ 0.3,0.996875
+real_train,,shuffle16,self,KLD: median,0.0972862939943816
+real_train,,shuffle16,self,KLD: share ≤ 0.3,0.990625
+real_train,,shuffle17,self,KLD: median,0.0975438268106138
+real_train,,shuffle17,self,KLD: share ≤ 0.3,0.990625
+real_train,,shuffle18,self,KLD: median,0.09576997689680058
+real_train,,shuffle18,self,KLD: share ≤ 0.3,1.0
+real_train,,shuffle19,self,KLD: median,0.0965831205587129
+real_train,,shuffle19,self,KLD: share ≤ 0.3,0.99375
+real_train,,shuffle20,self,KLD: median,0.09614161832582993
+real_train,,shuffle20,self,KLD: share ≤ 0.3,0.996875
+real_train,,shuffle21,self,KLD: median,0.09592357125625944
+real_train,,shuffle21,self,KLD: share ≤ 0.3,0.996875
+real_train,,shuffle22,self,KLD: median,0.09502021285436257
+real_train,,shuffle22,self,KLD: share ≤ 0.3,0.996875
+real_train,,shuffle23,self,KLD: median,0.09496714992157747
+real_train,,shuffle23,self,KLD: share ≤ 0.3,0.996875
+real_train,,shuffle24,self,KLD: median,0.09901062662968235
+real_train,,shuffle24,self,KLD: share ≤ 0.3,0.990625
+real_train,,shuffle25,self,KLD: median,0.09923518214426162
+real_train,,shuffle25,self,KLD: share ≤ 0.3,0.996875
+real_train,,shuffle26,self,KLD: median,0.0968226446109672
+real_train,,shuffle26,self,KLD: share ≤ 0.3,0.990625
+real_train,,shuffle27,self,KLD: median,0.09646237223126787
+real_train,,shuffle27,self,KLD: share ≤ 0.3,1.0
+real_train,,shuffle28,self,KLD: median,0.09740053525064091
+real_train,,shuffle28,self,KLD: share ≤ 0.3,1.0
+real_train,,shuffle29,self,KLD: median,0.09604378333173857
+real_train,,shuffle29,self,KLD: share ≤ 0.3,0.996875
+real_train,,shuffle30,self,KLD: median,0.0959702553209825
+real_train,,shuffle30,self,KLD: share ≤ 0.3,0.990625
+real_train,,shuffle31,self,KLD: median,0.09794140316347516
+real_train,,shuffle31,self,KLD: share ≤ 0.3,0.9875
+real_train,,shuffle32,self,KLD: median,0.0965536799408808
+real_train,,shuffle32,self,KLD: share ≤ 0.3,0.990625
+real_train,,shuffle33,self,KLD: median,0.09770506972113945
+real_train,,shuffle33,self,KLD: share ≤ 0.3,1.0
+real_train,,shuffle34,self,KLD: median,0.09691695301222925
+real_train,,shuffle34,self,KLD: share ≤ 0.3,0.990625
+real_train,,shuffle35,self,KLD: median,0.09689619525693335
+real_train,,shuffle35,self,KLD: share ≤ 0.3,0.996875
+real_train,,shuffle36,self,KLD: median,0.09811533310283044
+real_train,,shuffle36,self,KLD: share ≤ 0.3,0.984375
+real_train,,shuffle37,self,KLD: median,0.09778182367413085
+real_train,,shuffle37,self,KLD: share ≤ 0.3,0.990625
+real_train,,shuffle38,self,KLD: median,0.0963523520462958
+real_train,,shuffle38,self,KLD: share ≤ 0.3,0.996875
+real_train,,shuffle39,self,KLD: median,0.09781623310658921
+real_train,,shuffle39,self,KLD: share ≤ 0.3,0.996875
+real_test,,shuffle0,self,KLD: median,0.10836923701755735
+real_test,,shuffle0,self,KLD: share ≤ 0.3,0.978125
+real_test,,shuffle1,self,KLD: median,0.1094620428206215
+real_test,,shuffle1,self,KLD: share ≤ 0.3,0.9875
+real_test,,shuffle2,self,KLD: median,0.10930181394062172
+real_test,,shuffle2,self,KLD: share ≤ 0.3,0.978125
+real_test,,shuffle3,self,KLD: median,0.10890640028879554
+real_test,,shuffle3,self,KLD: share ≤ 0.3,0.98125
+real_test,,shuffle4,self,KLD: median,0.10765960930997545
+real_test,,shuffle4,self,KLD: share ≤ 0.3,0.984375
+real_test,,shuffle5,self,KLD: median,0.10842119475890649
+real_test,,shuffle5,self,KLD: share ≤ 0.3,0.975
+real_test,,shuffle6,self,KLD: median,0.10783716604910829
+real_test,,shuffle6,self,KLD: share ≤ 0.3,0.990625
+real_test,,shuffle7,self,KLD: median,0.10910780679712075
+real_test,,shuffle7,self,KLD: share ≤ 0.3,0.98125
+real_test,,shuffle8,self,KLD: median,0.1081030132859054
+real_test,,shuffle8,self,KLD: share ≤ 0.3,0.9875
+real_test,,shuffle9,self,KLD: median,0.1051512590043025
+real_test,,shuffle9,self,KLD: share ≤ 0.3,0.996875
+real_test,,shuffle10,self,KLD: median,0.10926317126879286
+real_test,,shuffle10,self,KLD: share ≤ 0.3,0.98125
+real_test,,shuffle11,self,KLD: median,0.10735723920270833
+real_test,,shuffle11,self,KLD: share ≤ 0.3,0.9875
+real_test,,shuffle12,self,KLD: median,0.10896700716962068
+real_test,,shuffle12,self,KLD: share ≤ 0.3,0.978125
+real_test,,shuffle13,self,KLD: median,0.10867173589297058
+real_test,,shuffle13,self,KLD: share ≤ 0.3,0.98125
+real_test,,shuffle14,self,KLD: median,0.10994840776052467
+real_test,,shuffle14,self,KLD: share ≤ 0.3,0.978125
+real_test,,shuffle15,self,KLD: median,0.1101497334153502
+real_test,,shuffle15,self,KLD: share ≤ 0.3,0.96875
+real_test,,shuffle16,self,KLD: median,0.10836124934409183
+real_test,,shuffle16,self,KLD: share ≤ 0.3,0.978125
+real_test,,shuffle17,self,KLD: median,0.10744013620812584
+real_test,,shuffle17,self,KLD: share ≤ 0.3,0.984375
+real_test,,shuffle18,self,KLD: median,0.10727110211562517
+real_test,,shuffle18,self,KLD: share ≤ 0.3,0.99375
+real_test,,shuffle19,self,KLD: median,0.10528908866836492
+real_test,,shuffle19,self,KLD: share ≤ 0.3,0.9875
+real_test,,shuffle20,self,KLD: median,0.10907379276079932
+real_test,,shuffle20,self,KLD: share ≤ 0.3,0.978125
+real_test,,shuffle21,self,KLD: median,0.10835772255871678
+real_test,,shuffle21,self,KLD: share ≤ 0.3,0.98125
+real_test,,shuffle22,self,KLD: median,0.10865267541583543
+real_test,,shuffle22,self,KLD: share ≤ 0.3,0.978125
+real_test,,shuffle23,self,KLD: median,0.10800493375185813
+real_test,,shuffle23,self,KLD: share ≤ 0.3,0.99375
+real_test,,shuffle24,self,KLD: median,0.10873272375632986
+real_test,,shuffle24,self,KLD: share ≤ 0.3,0.9875
+real_test,,shuffle25,self,KLD: median,0.10916582794919177
+real_test,,shuffle25,self,KLD: share ≤ 0.3,0.98125
+real_test,,shuffle26,self,KLD: median,0.10485030851957541
+real_test,,shuffle26,self,KLD: share ≤ 0.3,0.9875
+real_test,,shuffle27,self,KLD: median,0.10773955973554852
+real_test,,shuffle27,self,KLD: share ≤ 0.3,0.9875
+real_test,,shuffle28,self,KLD: median,0.10779921997585724
+real_test,,shuffle28,self,KLD: share ≤ 0.3,0.9875
+real_test,,shuffle29,self,KLD: median,0.10664378643024958
+real_test,,shuffle29,self,KLD: share ≤ 0.3,0.990625
+real_test,,shuffle30,self,KLD: median,0.11002815751861147
+real_test,,shuffle30,self,KLD: share ≤ 0.3,0.975
+real_test,,shuffle31,self,KLD: median,0.10573573513205242
+real_test,,shuffle31,self,KLD: share ≤ 0.3,0.9875
+real_test,,shuffle32,self,KLD: median,0.11140608152596915
+real_test,,shuffle32,self,KLD: share ≤ 0.3,0.98125
+real_test,,shuffle33,self,KLD: median,0.10763684403274693
+real_test,,shuffle33,self,KLD: share ≤ 0.3,0.978125
+real_test,,shuffle34,self,KLD: median,0.10861711819725589
+real_test,,shuffle34,self,KLD: share ≤ 0.3,0.99375
+real_test,,shuffle35,self,KLD: median,0.10950368542394884
+real_test,,shuffle35,self,KLD: share ≤ 0.3,0.984375
+real_test,,shuffle36,self,KLD: median,0.10974804412816222
+real_test,,shuffle36,self,KLD: share ≤ 0.3,0.978125
+real_test,,shuffle37,self,KLD: median,0.10930843352965355
+real_test,,shuffle37,self,KLD: share ≤ 0.3,0.98125
+real_test,,shuffle38,self,KLD: median,0.11020802047174497
+real_test,,shuffle38,self,KLD: share ≤ 0.3,0.9875
+real_test,,shuffle39,self,KLD: median,0.10866708311910989
+real_test,,shuffle39,self,KLD: share ≤ 0.3,0.978125
+stand_in PV flag flipped,,,paper,|Δ mean| load (kWh): median,0.5739266193123882
+stand_in PV flag flipped,,,paper,|Δ mean| load (kWh): share < 1,0.6875
+stand_in PV flag flipped,,,paper,|Δ std| load (kWh): median,0.6623295574857554
+stand_in PV flag flipped,,,paper,|Δ std| load (kWh): share < 1,0.6796875
+stand_in PV flag flipped,,,paper,|Δ mean| time (h): median,2.449657793209876
+stand_in PV flag flipped,,,paper,|Δ mean| time (h): share < 1,0.041666666666666664
+stand_in PV flag flipped,,,paper,|Δ std| time (h): median,1.9492461054088899
+stand_in PV flag flipped,,,paper,|Δ std| time (h): share < 1,0.09895833333333333
+stand_in PV flag flipped,,,paper,|Δ mean| time (h): share of labels with all three < 1,0.0
+stand_in PV flag flipped,,,paper,"|Δ mean| time (h), no technology and PV only: share < 1",0.08333333333333333
+stand_in PV flag flipped,,,paper,"|Δ mean| time (h), no technology: share < 1",0.08333333333333333
+stand_in PV flag flipped,,,paper,"|Δ mean| time (h), no technology: median",3.1645852182641527
+stand_in PV flag flipped,,,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.359375
+stand_in PV flag flipped,,,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.34375
+stand_in PV flag flipped,,,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,0.171875
+stand_in PV flag flipped,,,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.140625
+stand_in PV flag flipped,,,paper,near-peak: median of std / mean,0.9982071857772223
+stand_in PV flag flipped,,,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+stand_in PV flag flipped,,,paper,KLD: median,0.10919625138034843
+stand_in PV flag flipped,,,paper,KLD: share ≤ 0.3,0.8875
+stand_in PV flag flipped,,,paper,KLD: undefined values (of 320),0.0
+stand_in PV flag flipped,,,paper,KLD: failures outside the near-base of PV labels,36.0
+stand_in PV flag flipped,,,paper,FID: median,6.51549130210583
+stand_in PV flag flipped,,,paper,FID: share < 5,0.409375
+stand_in PV flag flipped,,,paper,"FID, time rows: median",9.85089175689842
+stand_in PV flag flipped,,,paper,"FID, time rows: share < 5",0.09895833333333333
+stand_in PV flag flipped,,,paper,share of cells at the end of the colour scale,
+stand_in heat-pump flag flipped,,,paper,|Δ mean| load (kWh): median,0.4446365949105636
+stand_in heat-pump flag flipped,,,paper,|Δ mean| load (kWh): share < 1,0.7265625
+stand_in heat-pump flag flipped,,,paper,|Δ std| load (kWh): median,0.40477107238782295
+stand_in heat-pump flag flipped,,,paper,|Δ std| load (kWh): share < 1,0.9296875
+stand_in heat-pump flag flipped,,,paper,|Δ mean| time (h): median,0.4904042691150541
+stand_in heat-pump flag flipped,,,paper,|Δ mean| time (h): share < 1,0.8958333333333334
+stand_in heat-pump flag flipped,,,paper,|Δ std| time (h): median,0.16633710372207156
+stand_in heat-pump flag flipped,,,paper,|Δ std| time (h): share < 1,0.953125
+stand_in heat-pump flag flipped,,,paper,|Δ mean| time (h): share of labels with all three < 1,0.71875
+stand_in heat-pump flag flipped,,,paper,"|Δ mean| time (h), no technology and PV only: share < 1",0.8958333333333334
+stand_in heat-pump flag flipped,,,paper,"|Δ mean| time (h), no technology: share < 1",0.9166666666666666
+stand_in heat-pump flag flipped,,,paper,"|Δ mean| time (h), no technology: median",0.42095303356944935
+stand_in heat-pump flag flipped,,,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.0625
+stand_in heat-pump flag flipped,,,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.28125
+stand_in heat-pump flag flipped,,,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,0.703125
+stand_in heat-pump flag flipped,,,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.5625
+stand_in heat-pump flag flipped,,,paper,near-peak: median of std / mean,0.9982071857772223
+stand_in heat-pump flag flipped,,,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+stand_in heat-pump flag flipped,,,paper,KLD: median,0.10643382653601946
+stand_in heat-pump flag flipped,,,paper,KLD: share ≤ 0.3,0.990625
+stand_in heat-pump flag flipped,,,paper,KLD: undefined values (of 320),0.0
+stand_in heat-pump flag flipped,,,paper,KLD: failures outside the near-base of PV labels,1.0
+stand_in heat-pump flag flipped,,,paper,FID: median,0.35441463710903953
+stand_in heat-pump flag flipped,,,paper,FID: share < 5,0.984375
+stand_in heat-pump flag flipped,,,paper,"FID, time rows: median",0.3210145854971165
+stand_in heat-pump flag flipped,,,paper,"FID, time rows: share < 5",1.0
+stand_in heat-pump flag flipped,,,paper,share of cells at the end of the colour scale,
+stand_in EV flag flipped,,,paper,|Δ mean| load (kWh): median,0.33020673055515704
+stand_in EV flag flipped,,,paper,|Δ mean| load (kWh): share < 1,0.765625
+stand_in EV flag flipped,,,paper,|Δ std| load (kWh): median,0.2582980814186687
+stand_in EV flag flipped,,,paper,|Δ std| load (kWh): share < 1,0.75
+stand_in EV flag flipped,,,paper,|Δ mean| time (h): median,0.32979139826801696
+stand_in EV flag flipped,,,paper,|Δ mean| time (h): share < 1,0.8489583333333334
+stand_in EV flag flipped,,,paper,|Δ std| time (h): median,0.19522548089939606
+stand_in EV flag flipped,,,paper,|Δ std| time (h): share < 1,0.9427083333333334
+stand_in EV flag flipped,,,paper,|Δ mean| time (h): share of labels with all three < 1,0.546875
+stand_in EV flag flipped,,,paper,"|Δ mean| time (h), no technology and PV only: share < 1",0.8125
+stand_in EV flag flipped,,,paper,"|Δ mean| time (h), no technology: share < 1",0.875
+stand_in EV flag flipped,,,paper,"|Δ mean| time (h), no technology: median",0.5293050014102931
+stand_in EV flag flipped,,,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.0
+stand_in EV flag flipped,,,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.1875
+stand_in EV flag flipped,,,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,0.96875
+stand_in EV flag flipped,,,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.875
+stand_in EV flag flipped,,,paper,near-peak: median of std / mean,0.9982071857772223
+stand_in EV flag flipped,,,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+stand_in EV flag flipped,,,paper,KLD: median,0.0948331837750683
+stand_in EV flag flipped,,,paper,KLD: share ≤ 0.3,0.96875
+stand_in EV flag flipped,,,paper,KLD: undefined values (of 320),1.0
+stand_in EV flag flipped,,,paper,KLD: failures outside the near-base of PV labels,5.0
+stand_in EV flag flipped,,,paper,FID: median,0.17981426065492273
+stand_in EV flag flipped,,,paper,FID: share < 5,0.978125
+stand_in EV flag flipped,,,paper,"FID, time rows: median",0.17981426065492273
+stand_in EV flag flipped,,,paper,"FID, time rows: share < 5",0.9635416666666666
+stand_in EV flag flipped,,,paper,share of cells at the end of the colour scale,
+stand_in other season 1,,,paper,|Δ mean| load (kWh): median,0.4920656031480869
+stand_in other season 1,,,paper,|Δ mean| load (kWh): share < 1,0.8359375
+stand_in other season 1,,,paper,|Δ std| load (kWh): median,0.34341240204068835
+stand_in other season 1,,,paper,|Δ std| load (kWh): share < 1,0.96875
+stand_in other season 1,,,paper,|Δ mean| time (h): median,0.3917434998192828
+stand_in other season 1,,,paper,|Δ mean| time (h): share < 1,0.8229166666666666
+stand_in other season 1,,,paper,|Δ std| time (h): median,0.17977965763060588
+stand_in other season 1,,,paper,|Δ std| time (h): share < 1,0.90625
+stand_in other season 1,,,paper,|Δ mean| time (h): share of labels with all three < 1,0.484375
+stand_in other season 1,,,paper,"|Δ mean| time (h), no technology and PV only: share < 1",0.8958333333333334
+stand_in other season 1,,,paper,"|Δ mean| time (h), no technology: share < 1",1.0
+stand_in other season 1,,,paper,"|Δ mean| time (h), no technology: median",0.1966565255731929
+stand_in other season 1,,,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.03125
+stand_in other season 1,,,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.203125
+stand_in other season 1,,,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,0.515625
+stand_in other season 1,,,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.78125
+stand_in other season 1,,,paper,near-peak: median of std / mean,0.9982071857772223
+stand_in other season 1,,,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+stand_in other season 1,,,paper,KLD: median,0.10127040342952842
+stand_in other season 1,,,paper,KLD: share ≤ 0.3,0.975
+stand_in other season 1,,,paper,KLD: undefined values (of 320),1.0
+stand_in other season 1,,,paper,KLD: failures outside the near-base of PV labels,4.0
+stand_in other season 1,,,paper,FID: median,0.2699675231453412
+stand_in other season 1,,,paper,FID: share < 5,0.946875
+stand_in other season 1,,,paper,"FID, time rows: median",0.2228869651761601
+stand_in other season 1,,,paper,"FID, time rows: share < 5",0.9114583333333334
+stand_in other season 1,,,paper,share of cells at the end of the colour scale,
+stand_in other season 2,,,paper,|Δ mean| load (kWh): median,0.41183339103259725
+stand_in other season 2,,,paper,|Δ mean| load (kWh): share < 1,0.71875
+stand_in other season 2,,,paper,|Δ std| load (kWh): median,0.214825683043238
+stand_in other season 2,,,paper,|Δ std| load (kWh): share < 1,0.84375
+stand_in other season 2,,,paper,|Δ mean| time (h): median,0.3295939039408866
+stand_in other season 2,,,paper,|Δ mean| time (h): share < 1,0.7708333333333334
+stand_in other season 2,,,paper,|Δ std| time (h): median,0.23828802944872107
+stand_in other season 2,,,paper,|Δ std| time (h): share < 1,0.9375
+stand_in other season 2,,,paper,|Δ mean| time (h): share of labels with all three < 1,0.375
+stand_in other season 2,,,paper,"|Δ mean| time (h), no technology and PV only: share < 1",0.75
+stand_in other season 2,,,paper,"|Δ mean| time (h), no technology: share < 1",1.0
+stand_in other season 2,,,paper,"|Δ mean| time (h), no technology: median",0.1905201917493775
+stand_in other season 2,,,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.421875
+stand_in other season 2,,,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.484375
+stand_in other season 2,,,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,0.484375
+stand_in other season 2,,,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.6875
+stand_in other season 2,,,paper,near-peak: median of std / mean,0.9982071857772223
+stand_in other season 2,,,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+stand_in other season 2,,,paper,KLD: median,0.10497492403047075
+stand_in other season 2,,,paper,KLD: share ≤ 0.3,0.940625
+stand_in other season 2,,,paper,KLD: undefined values (of 320),0.0
+stand_in other season 2,,,paper,KLD: failures outside the near-base of PV labels,16.0
+stand_in other season 2,,,paper,FID: median,0.2665093522858032
+stand_in other season 2,,,paper,FID: share < 5,0.85625
+stand_in other season 2,,,paper,"FID, time rows: median",0.25162983159316565
+stand_in other season 2,,,paper,"FID, time rows: share < 5",0.875
+stand_in other season 2,,,paper,share of cells at the end of the colour scale,
+stand_in other season 3,,,paper,|Δ mean| load (kWh): median,0.6964820459460348
+stand_in other season 3,,,paper,|Δ mean| load (kWh): share < 1,0.6171875
+stand_in other season 3,,,paper,|Δ std| load (kWh): median,0.3596358920930367
+stand_in other season 3,,,paper,|Δ std| load (kWh): share < 1,0.96875
+stand_in other season 3,,,paper,|Δ mean| time (h): median,0.41914285714285704
+stand_in other season 3,,,paper,|Δ mean| time (h): share < 1,0.7447916666666666
+stand_in other season 3,,,paper,|Δ std| time (h): median,0.32292593884989507
+stand_in other season 3,,,paper,|Δ std| time (h): share < 1,0.90625
+stand_in other season 3,,,paper,|Δ mean| time (h): share of labels with all three < 1,0.375
+stand_in other season 3,,,paper,"|Δ mean| time (h), no technology and PV only: share < 1",0.7083333333333334
+stand_in other season 3,,,paper,"|Δ mean| time (h), no technology: share < 1",1.0
+stand_in other season 3,,,paper,"|Δ mean| time (h), no technology: median",0.17961950721908293
+stand_in other season 3,,,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.0
+stand_in other season 3,,,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.375
+stand_in other season 3,,,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,0.5
+stand_in other season 3,,,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.671875
+stand_in other season 3,,,paper,near-peak: median of std / mean,0.9982071857772223
+stand_in other season 3,,,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+stand_in other season 3,,,paper,KLD: median,0.11239096020727687
+stand_in other season 3,,,paper,KLD: share ≤ 0.3,0.928125
+stand_in other season 3,,,paper,KLD: undefined values (of 320),0.0
+stand_in other season 3,,,paper,KLD: failures outside the near-base of PV labels,18.0
+stand_in other season 3,,,paper,FID: median,0.5474410148782973
+stand_in other season 3,,,paper,FID: share < 5,0.9
+stand_in other season 3,,,paper,"FID, time rows: median",0.42184424491884287
+stand_in other season 3,,,paper,"FID, time rows: share < 5",0.8333333333333334
+stand_in other season 3,,,paper,share of cells at the end of the colour scale,
+stand_in other day type,,,paper,|Δ mean| load (kWh): median,0.07881904759615826
+stand_in other day type,,,paper,|Δ mean| load (kWh): share < 1,1.0
+stand_in other day type,,,paper,|Δ std| load (kWh): median,0.06160533437731164
+stand_in other day type,,,paper,|Δ std| load (kWh): share < 1,1.0
+stand_in other day type,,,paper,|Δ mean| time (h): median,0.17017502513689653
+stand_in other day type,,,paper,|Δ mean| time (h): share < 1,1.0
+stand_in other day type,,,paper,|Δ std| time (h): median,0.13077802330437738
+stand_in other day type,,,paper,|Δ std| time (h): share < 1,1.0
+stand_in other day type,,,paper,|Δ mean| time (h): share of labels with all three < 1,1.0
+stand_in other day type,,,paper,"|Δ mean| time (h), no technology and PV only: share < 1",1.0
+stand_in other day type,,,paper,"|Δ mean| time (h), no technology: share < 1",1.0
+stand_in other day type,,,paper,"|Δ mean| time (h), no technology: median",0.2082328042328041
+stand_in other day type,,,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,1.0
+stand_in other day type,,,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.953125
+stand_in other day type,,,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,0.921875
+stand_in other day type,,,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.984375
+stand_in other day type,,,paper,near-peak: median of std / mean,0.9982071857772223
+stand_in other day type,,,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+stand_in other day type,,,paper,KLD: median,0.09701414041478137
+stand_in other day type,,,paper,KLD: share ≤ 0.3,0.984375
+stand_in other day type,,,paper,KLD: undefined values (of 320),2.0
+stand_in other day type,,,paper,KLD: failures outside the near-base of PV labels,0.0
+stand_in other day type,,,paper,FID: median,0.034314567585441005
+stand_in other day type,,,paper,FID: share < 5,1.0
+stand_in other day type,,,paper,"FID, time rows: median",0.05800586971984732
+stand_in other day type,,,paper,"FID, time rows: share < 5",1.0
+stand_in other day type,,,paper,share of cells at the end of the colour scale,
+stand_in flat days,,,paper,|Δ mean| load (kWh): median,1.147925054486772
+stand_in flat days,,,paper,|Δ mean| load (kWh): share < 1,0.4375
+stand_in flat days,,,paper,|Δ std| load (kWh): median,0.7135450676535907
+stand_in flat days,,,paper,|Δ std| load (kWh): share < 1,0.65625
+stand_in flat days,,,paper,|Δ mean| time (h): median,1.3018393292647517
+stand_in flat days,,,paper,|Δ mean| time (h): share < 1,0.34375
+stand_in flat days,,,paper,|Δ std| time (h): median,0.9382922079599905
+stand_in flat days,,,paper,|Δ std| time (h): share < 1,0.515625
+stand_in flat days,,,paper,|Δ mean| time (h): share of labels with all three < 1,0.03125
+stand_in flat days,,,paper,"|Δ mean| time (h), no technology and PV only: share < 1",0.3125
+stand_in flat days,,,paper,"|Δ mean| time (h), no technology: share < 1",0.3333333333333333
+stand_in flat days,,,paper,"|Δ mean| time (h), no technology: median",1.9921224647266316
+stand_in flat days,,,paper,|Δ mean| near-peak / near-peak: share < scale-matched bar,0.0
+stand_in flat days,,,paper,|Δ std| near-peak / near-peak: share < scale-matched bar,0.0
+stand_in flat days,,,paper,|Δ mean| near-base / near-peak: share < scale-matched bar,0.0
+stand_in flat days,,,paper,|Δ std| near-base / near-peak: share < scale-matched bar,0.46875
+stand_in flat days,,,paper,near-peak: median of std / mean,0.9982071857772223
+stand_in flat days,,,paper,"near-peak, no technology: median of std / mean",1.3255899832614482
+stand_in flat days,,,paper,KLD: median,0.1398543241008162
+stand_in flat days,,,paper,KLD: share ≤ 0.3,0.96875
+stand_in flat days,,,paper,KLD: undefined values (of 320),0.0
+stand_in flat days,,,paper,KLD: failures outside the near-base of PV labels,10.0
+stand_in flat days,,,paper,FID: median,3.576213852136978
+stand_in flat days,,,paper,FID: share < 5,0.66875
+stand_in flat days,,,paper,"FID, time rows: median",4.546611558335268
+stand_in flat days,,,paper,"FID, time rows: share < 5",0.5625
+stand_in flat days,,,paper,share of cells at the end of the colour scale,

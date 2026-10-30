@@ -6,6 +6,13 @@ from data_prep import N_LABELS, calendar, decode_label, label_names, label_of, s
 from metrics import _ks, accuracy, frechet, key_parameters, reference_key_parameters
 
 
+def test_reference_key_parameters_ranks():
+    day = np.arange(24.0)[None]
+    assert reference_key_parameters(day)["Peak_load"][0] == 22 and reference_key_parameters(day)["Base_load"][0] == 1
+    k = reference_key_parameters(day, 21, 3)
+    assert k["Peak_load"][0] == 21 and k["Base_load"][0] == 3
+
+
 def test_label_round_trip():
     lab = np.arange(N_LABELS)
     d, g, s = decode_label(lab)

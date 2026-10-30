@@ -93,11 +93,12 @@ def key_parameters(X: np.ndarray) -> dict[str, np.ndarray]:
     }
 
 
-def reference_key_parameters(X: np.ndarray) -> dict[str, np.ndarray]:
-    """The key parameters exactly as computed in cGAN_EB ``utils.stats_plot``."""
+def reference_key_parameters(X: np.ndarray, peak_rank: int = 22, base_rank: int = 1) -> dict[str, np.ndarray]:
+    """The key parameters exactly as computed in cGAN_EB ``utils.stats_plot``; the ranks are the positions
+    of the near-peak and near-base load in the sorted day, by default those of the published code."""
     X = np.asarray(X, np.float64)
     s = np.sort(X, axis=1)
-    peak, base = s[:, 22], s[:, 1]
+    peak, base = s[:, peak_rank], s[:, base_rank]
     dp, db = np.abs(X - peak[:, None]), np.abs(X - base[:, None])
     return {
         "Peak_load": peak,

@@ -129,6 +129,11 @@ def reference_row(runs: Path, splits, src: str) -> dict:
     return summary
 
 
+def markdown_table(table: pd.DataFrame) -> str:
+    """Pipe table whose labels may hold the pipes of |Δ mean|."""
+    return table.rename(columns=lambda c: c.replace("|", "\\|")).to_markdown() + "\n"
+
+
 def finished_runs(runs: Path, model: str):
     for run_dir in sorted(Path(runs, model).glob("seed*")):
         if (run_dir / "train_summary.json").exists():
@@ -392,7 +397,7 @@ def main(argv=None):
         print(cmp_.to_markdown(index=False))
     c = criteria_table(rows)
     c.to_csv(out / "paper_criteria.csv")
-    (out / "paper_criteria.md").write_text(c.to_markdown() + "\n", encoding="utf-8")
+    (out / "paper_criteria.md").write_text(markdown_table(c), encoding="utf-8")
     print(c.to_markdown())
 
     if args.paper_protocol:
@@ -400,7 +405,7 @@ def main(argv=None):
         c = criteria_table(pr)
         c.insert(0, "Accuracy (in-sample)", [f"{100 * v:.1f}" for v in
                                              pd.DataFrame(pr).groupby("model", sort=False)["accuracy"].mean()])
-        (out / "paper_protocol.md").write_text(c.to_markdown() + "\n", encoding="utf-8")
+        (out / "paper_protocol.md").write_text(markdown_table(c), encoding="utf-8")
         print(c.to_markdown())
 
     if args.ablation:

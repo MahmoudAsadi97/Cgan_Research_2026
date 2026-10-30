@@ -69,7 +69,7 @@ def paper_criteria(per_label: pd.DataFrame) -> dict:
     """Share of (label, key parameter) pairs that meet the acceptance levels quoted by Li et al. (2025):
     |difference of mean| and |difference of std| below 1 (kWh for loads, h for times), KL below 0.3 and
     FID below 5; for the paper's text definitions with a proper KL (``paper.``) and for the definitions
-    and "KLD" of the cGAN_EB code that produced the published figures (``paper_code.``)."""
+    and "KLD" of the published cGAN_EB code (``paper_code.``)."""
     out = {}
     for prefix, keys, kl in (("paper", PAPER_KEYS, "kl"), ("paper_code", REF_KEYS, "kld")):
         cols = lambda m: [f"{prefix}.{m}.{k}" for k in keys if f"{prefix}.{m}.{k}" in per_label]

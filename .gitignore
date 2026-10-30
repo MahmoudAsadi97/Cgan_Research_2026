@@ -221,3 +221,7 @@ runs_*/
 results/**/*_real.csv
 # generated days of the reference model (figures only; the final model's are kept)
 results/figures/faithful_*/*_gen.csv
+# values read from the figures of the paper, copies of the figures, per-cell tables
+results/**/paper_digitised.csv
+results/**/paper_cells_*.csv
+results/paper_side_by_side/
