@@ -115,6 +115,8 @@ def main(argv=None):
 
     cache, rows, devices = {}, [], set()
     models = sorted(p.name for p in runs.iterdir() if p.is_dir() and any(p.glob("seed*/train_summary.json")))
+    if not models:
+        raise SystemExit(f"no finished run in {runs}")
     for model in models:
         for run_dir in finished_runs(runs, model):
             env_file = run_dir / "environment.json"
