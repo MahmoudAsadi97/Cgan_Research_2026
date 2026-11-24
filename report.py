@@ -46,8 +46,8 @@ import numpy as np
 import pandas as pd
 import torch
 
-from data_prep import (DAYTYPE_NAMES, GROUP_NAMES, N_LABELS, SEASON_NAMES, Split, decode_label, household_table,
-                       load_profiles)
+from data_check import household_table
+from data_prep import DAYTYPE_NAMES, GROUP_NAMES, N_LABELS, SEASON_NAMES, Split, decode_label, load_profiles
 from evaluate import EVAL_SEED, HEADLINE, evaluate, real_reference, summarise
 
 ROOT = Path(__file__).resolve().parent
@@ -383,7 +383,7 @@ def main(argv=None):
     (out / "table1_labels.md").write_text(labels.to_markdown(index=False) + "\n\nTotal days: "
                                           + ", ".join(f"{d} {n:,}" for d, n in totals.items()) + "\n",
                                           encoding="utf-8")
-    household_table(args.data).to_csv(out / "household_split.csv", index=False)
+    household_table(args.data, splits=splits).to_csv(out / "household_split.csv", index=False)
     for src, name in (("val", "Real: validation households"), ("train", "Real: training households")):
         rows.append({"model": name, "seed": "-", **reference_row(runs, splits, src)})
     pd.DataFrame(rows).drop(columns="_fingerprint").to_csv(out / "all_runs.csv", index=False)
