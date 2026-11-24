@@ -33,10 +33,13 @@ def test_a_trained_run_is_scored_on_the_test_households_of_its_split(archive, tm
     # the classifier test needs five households per label, more than the small archive has
     monkeypatch.setattr("metrics.c2st_auc", lambda *args, **kwargs: float("nan"))
     small = {"epochs": 2, "val_every": 1, "val_max_per_label": 40, "batch_size": 128, "hidden_size": 32}
-    for name, split_seed in (("improved", S.STUDY_SEED), ("improved_split1", 1), ("improved_split2", 2)):
-        T.train({**T.DEFAULTS, **T.CONFIGS["improved"], **small, "config": "improved", "seed": 0,
+    for name, split_seed in (("improved", S.STUDY_SEED), ("improved_split1", 1), ("improved_split2", 2),
+                             ("final_split1", 1)):
+        config = name.split("_")[0]
+        T.train({**T.DEFAULTS, **T.CONFIGS[config], **small, "config": config, "seed": 0,
                  "data": str(archive), "split_seed": split_seed}, tmp_path / "runs" / name / "seed0")
-    models = [str(tmp_path / "runs" / name) for name in ("improved_split1", "improved_split2", "improved")]
+    models = [str(tmp_path / "runs" / name) for name in ("improved_split1", "improved_split2", "improved",
+                                                         "final_split1")]
     assert S.one_run(S.finished(models)[0])["split_seed"] == 1
     S.main(["--splits", "3", "--workers", "1", "--out", str(tmp_path), "--data", str(archive), "--trained", *models])
     df = pd.read_csv(tmp_path / "split_sensitivity.csv")
@@ -45,15 +48,17 @@ def test_a_trained_run_is_scored_on_the_test_households_of_its_split(archive, tm
     real = df[df.set == "real[train]"].set_index("split_seed")
     assert (runs["test days"] == real.loc[runs.index, "test days"]).all()      # the test households of its own split
     sets = df[df.set.isin(S.SETS)]
-    assert len(df) == 4 * len(S.SETS) + 3 and sets[sets.split_seed == 0][list(S.PROFILE)].isna().all().all()
+    assert len(df) == 4 * len(S.SETS) + 4 and sets[sets.split_seed == 0][list(S.PROFILE)].isna().all().all()
+    assert df[df.set == "final[best]/seed0"].split_seed.tolist() == [1]
     assert sets[sets.split_seed != 0]["profile.coverage"].notna().all()     # the splits with a trained run
     text = (tmp_path / "split_sensitivity.md").read_text(encoding="utf-8")
     assert "Trained model `improved`" in text and text.count("mean ± SD of the 2 other splits") == 2
+    assert "Trained model `final`" in text
     (tmp_path / "runs" / "other" / "seed0").mkdir(parents=True)
     for name in ("config.json", "train_summary.json"):
         cfg = (tmp_path / "runs" / "improved" / "seed0" / name).read_text().replace('"depth": 3', '"depth": 2')
         (tmp_path / "runs" / "other" / "seed0" / name).write_text(cfg)
-    with pytest.raises(SystemExit, match="one configuration"):
+    with pytest.raises(SystemExit, match="differ in more than the split and the seed"):
         S.finished([*models, str(tmp_path / "runs" / "other")])
     with pytest.raises(SystemExit, match="not among the scored splits"):
         S.main(["--splits", "1", "--workers", "1", "--out", str(tmp_path), "--data", str(archive),

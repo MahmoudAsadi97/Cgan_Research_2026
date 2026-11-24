@@ -1,8 +1,8 @@
 """Statistical accuracy over other random splits of the households.
 
     python split_sensitivity.py                                      # the split of the study and 20 other splits
-    python run_jobs.py jobs/splits.txt --runs runs_splits            # `improved` trained on eight of them
-    python split_sensitivity.py --trained runs_splits/* runs/improved
+    python run_jobs.py jobs/splits.txt --runs runs_splits            # models trained on some of them
+    python split_sensitivity.py --trained runs_splits/* runs/improved runs/final
 
 Every number of the study is conditional on one random split of the households
 (``split_seed`` 2024).  This script draws the split again with other seeds and
@@ -23,7 +23,8 @@ training and validation households of the split in its configuration
 on the test households of its own split (``report.evaluate_run``,
 validation-selected checkpoint) and compared with the benchmark and the copula
 of that split, for which the classifier test, coverage and the DCR ratio are
-then computed as well.  The runs must be one configuration.
+then computed as well.  The runs of one configuration must differ in the split
+and the seed only.
 
 Output: ``results/split_sensitivity.md`` and ``.csv`` (one row per split and set).
 """
@@ -81,20 +82,25 @@ def one_run(run_dir) -> dict:
 
 
 def finished(models: list[str]) -> list[Path]:
-    """Finished runs of the model folders; they must differ in the split and the seed only."""
+    """Finished runs of the model folders; the runs of a configuration must differ in the split and the seed
+    only."""
     runs = [d for m in models for d in sorted(Path(m).glob("seed*")) if (d / "train_summary.json").exists()]
-    cfgs = {json.dumps({k: v for k, v in json.loads((d / "config.json").read_text()).items()
-                        if k not in ("split_seed", "seed", "data")}, sort_keys=True) for d in runs}
-    if len(cfgs) > 1:
-        raise SystemExit("--trained: the runs are not one configuration")
+    settings = {}
+    for d in runs:
+        cfg = json.loads((d / "config.json").read_text())
+        rest = {k: v for k, v in cfg.items() if k not in ("split_seed", "seed", "data")}
+        if settings.setdefault(cfg["config"], rest) != rest:
+            raise SystemExit(f"--trained: the runs of {cfg['config']} differ in more than the split and the seed")
     return runs
 
 
 def trained_tables(df: pd.DataFrame) -> str:
-    """The trained model next to the benchmark and the copula of the same split, split by split."""
-    model = df.set.str.extract(r"^(.+\[best\])/seed\d+$")[0]
-    t = df[model.notna()]
-    name = f"`{model.dropna().iloc[0].split('[')[0]}`"
+    """Every trained model next to the benchmark and the copula of the same split, split by split."""
+    model = df.set.str.extract(r"^(.+)\[best\]/seed\d+$")[0]
+    return "".join(model_tables(df, df[model == m], f"`{m}`") for m in model.dropna().unique())
+
+
+def model_tables(df: pd.DataFrame, t: pd.DataFrame, name: str) -> str:
     train, copula = SETS["real[train]"], SETS["baseline[copula]"]
     runs = t.groupby("split_seed")[[*TERMS, *PROFILE]].mean()                       # the seeds of a split averaged
     sets = {name: runs, **{SETS[k]: df[df.set == k].set_index("split_seed").loc[runs.index]
