@@ -29,6 +29,11 @@ heat-pump indicator, which keeps 8 groups and 64 labels.
 
 Households are split into train / validation / test (70 / 15 / 15 %,
 stratified by group); no household contributes days to two splits.
+
+Two checks tie a local copy to the published results: the SHA-256 of ``raw.zip``
+(``RAW_SHA256``, compared when the archive is converted) and the split of every
+meter, stored in ``results/household_split.csv`` (``household_table``;
+``tests/test_data.py`` compares both with the prepared data).
 """
 from __future__ import annotations
 
@@ -59,6 +64,18 @@ N_LABELS = N_DAYTYPES * N_GROUPS * N_SEASONS
 # Belgian public holidays 2024.
 HOLIDAYS = ["2024-01-01", "2024-04-01", "2024-05-01", "2024-05-09", "2024-05-20",
             "2024-07-21", "2024-08-15", "2024-11-01", "2024-11-11", "2024-12-25"]
+
+# raw.zip of the release ``data``; the reported results were computed from this archive.
+RAW_SHA256 = "934cc871e9fe18dbe30530472816d711ece878ec7cd8725d9d8417bbdb389bd8"
+SPLIT_NAMES = ["train", "val", "test"]
+
+
+def sha256_of(path: Path) -> str:
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for block in iter(lambda: f.read(1 << 22), b""):
+            h.update(block)
+    return h.hexdigest()
 
 
 # ---------------------------------------------------------------------------
@@ -240,13 +257,36 @@ def load_profiles(path: str | Path = "data/processed/fluvius_hourly.npz", target
     return out
 
 
+def household_table(path: str | Path = "data/processed/fluvius_hourly.npz", split_seed: int = 2024,
+                    fractions=(0.7, 0.15, 0.15)):
+    """Split and number of valid days of every meter: ``EAN_ID``, the three indicators, the group, the split
+    (``train`` / ``val`` / ``test``, or ``duplicate`` for the removed copies) and the days used."""
+    import pandas as pd
+
+    z = np.load(path, allow_pickle=False)
+    splits = load_profiles(path, "net", split_seed, fractions)
+    group = z["pv"] + 2 * z["hp"] + 4 * z["ev"]
+    split = np.full(len(group), "duplicate", object)
+    days = np.zeros(len(group), np.int64)
+    for name in SPLIT_NAMES:
+        meters, counts = np.unique(splits[name].meter, return_counts=True)
+        split[meters], days[meters] = name, counts
+    return pd.DataFrame({"EAN_ID": z["ean"], "pv": z["pv"], "hp": z["hp"], "ev": z["ev"],
+                         "group": np.array(GROUP_NAMES)[group], "split": split, "days": days})
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--raw", default="data/raw/raw.zip")
     ap.add_argument("--out", default="data/processed/fluvius_hourly.npz")
     args = ap.parse_args(argv)
+    raw_sha256 = sha256_of(Path(args.raw))
+    if raw_sha256 != RAW_SHA256:
+        print(f"WARNING: {args.raw} is not the archive of the data release (SHA-256 {raw_sha256}, expected "
+              f"{RAW_SHA256}); results can differ from the published ones", flush=True)
     summary = convert(Path(args.raw), Path(args.out))
     splits = load_profiles(args.out)
+    summary["raw_sha256"] = raw_sha256
     summary["profiles"] = splits["train"].info
     Path(args.out).with_suffix(".json").write_text(json.dumps(summary, indent=2))
     print(json.dumps(summary["profiles"], indent=2))
