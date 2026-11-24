@@ -19,7 +19,9 @@ depend on that shift.
 Output: ``results/uncertainty.md`` with, for the final model (seed-averaged),
 accuracy, household SE, seed SD, total SE = sqrt(SE_house^2 + SD_seed^2 / n),
 the 95 % interval and the one-sided 95 % lower bound against 85 %, and paired
-differences to the GitHub model and the real-data benchmarks.
+differences to the GitHub model and the real-data benchmarks.  ``--compare``
+adds paired differences to other trained models (e.g. ``abl_quantile``) and
+``--baselines`` to the classical generators of ``baselines.py`` (run it first).
 """
 import argparse
 import json
@@ -67,6 +69,10 @@ def main(argv=None):
     ap.add_argument("--out", default="results")
     ap.add_argument("--final", default="final")
     ap.add_argument("--faithful", default="faithful")
+    ap.add_argument("--compare", nargs="*", default=[], metavar="MODEL[:CKPT]",
+                    help="other trained models to compare with the final model, e.g. abl_quantile improved_big")
+    ap.add_argument("--baselines", nargs="*", default=[], help="classical baselines, e.g. copula gmm")
+    ap.add_argument("--baseline-seeds", type=int, default=5)
     ap.add_argument("--reps", type=int, default=100)
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--data", default="data/processed/fluvius_hourly.npz")
@@ -77,7 +83,8 @@ def main(argv=None):
     splits = load_profiles(args.data)
     test = splits["test"]
     sources, point = {}, {}
-    for model, ckpts in ((args.final, ["best"]), (args.faithful, ["best", "last"])):
+    compare = [(m, c or "best") for m, _, c in (spec.partition(":") for spec in args.compare)]
+    for model, ckpts in ((args.final, ["best"]), (args.faithful, ["best", "last"]), *((m, [c]) for m, c in compare)):
         for run_dir in sorted((runs / model).glob("seed*")):
             if not (run_dir / "train_summary.json").exists():
                 continue
@@ -86,6 +93,20 @@ def main(argv=None):
                 name = f"{model}[{ckpt}]/{run_dir.name}"
                 sources[name] = wrapped.sample_kwh(test.label, EVAL_SEED + cfg["seed"]).astype(np.float32)
                 point[name] = json.loads((run_dir / f"eval_test_{ckpt}.json").read_text())["accuracy"]
+    titles = {}
+    if args.baselines:
+        import baselines as B
+
+        cache = runs / "baselines"
+        for name in args.baselines:
+            k = B.selected_components(cache) if name == "gmm" else None
+            titles[name] = B.TITLES[name] + (f" ({k} components)" if k else "")
+            model = None
+            for seed in range(args.baseline_seeds):
+                model = B.build(name, splits["train"], seed, k, cache) if name == "gmm" or model is None else model
+                key = f"baseline[{name}]/seed{seed}"
+                sources[key] = model.sample_kwh(test.label, EVAL_SEED + seed).astype(np.float32)
+                point[key] = json.loads((cache / name / f"seed{seed}_eval_test.json").read_text())["accuracy"]
     for src in ("val", "train"):
         sources[f"real[{src}]"] = real_reference(splits, src, "test")[0].astype(np.float32)
         point[f"real[{src}]"] = json.loads((runs / "real_reference" / f"eval_test_{src}.json").read_text())["accuracy"]
@@ -117,6 +138,8 @@ def main(argv=None):
              "one-sided 95% lower bound": 100 * (acc - 1.645 * se_total)}]
     for other, label in ((group(f"{args.faithful}[last]"), "GitHub cGAN [last]"),
                          (group(f"{args.faithful}[best]"), "GitHub cGAN [best]"),
+                         *((group(f"{m}[{c}]"), f"{m} [{c}]") for m, c in compare),
+                         *((group(f"baseline[{name}]"), title) for name, title in titles.items()),
                          (["real[val]"], "real: validation households"),
                          (["real[train]"], "real: training households")):
         if not other:
