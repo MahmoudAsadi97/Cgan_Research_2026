@@ -4,6 +4,7 @@ import pandas as pd
 import pytest
 
 import split_sensitivity as S
+import train as T
 
 
 def test_one_split_scores_the_three_sets(archive):
@@ -26,3 +27,31 @@ def test_household_se_is_half_the_sd_of_the_half_differences(tmp_path):
     copula = (a.iloc[:, 1:3] - b.iloc[:, 1:3]).mean(axis=1)             # the seeds are averaged before the SD
     assert se["baseline[copula]"] == pytest.approx(copula.std(ddof=1) / 2)
     assert S.household_se(tmp_path / "missing.csv") == {}
+
+
+@pytest.mark.filterwarnings("ignore:Only one class")     # the classifier test needs more households per label
+def test_a_trained_run_is_scored_on_the_test_households_of_its_split(archive, tmp_path):
+    small = {"epochs": 2, "val_every": 1, "val_max_per_label": 40, "batch_size": 128, "hidden_size": 32}
+    for name, split_seed in (("improved", S.STUDY_SEED), ("improved_split1", 1), ("improved_split2", 2)):
+        T.train({**T.DEFAULTS, **T.CONFIGS["improved"], **small, "config": "improved", "seed": 0,
+                 "data": str(archive), "split_seed": split_seed}, tmp_path / "runs" / name / "seed0")
+    models = [str(tmp_path / "runs" / name) for name in ("improved_split1", "improved_split2", "improved")]
+    assert S.one_run(S.finished(models)[0])["split_seed"] == 1
+    S.main(["--splits", "3", "--workers", "1", "--out", str(tmp_path), "--data", str(archive), "--trained", *models])
+    df = pd.read_csv(tmp_path / "split_sensitivity.csv")
+    runs = df[df.set == "improved[best]/seed0"].set_index("split_seed")
+    assert sorted(runs.index) == [1, 2, S.STUDY_SEED] and runs[["accuracy", "profile.coverage"]].notna().all().all()
+    real = df[df.set == "real[train]"].set_index("split_seed")
+    assert (runs["test days"] == real.loc[runs.index, "test days"]).all()      # the test households of its own split
+    assert df[df.set.isin(S.SETS)][list(S.PROFILE)].isna().all().all() and len(df) == 4 * len(S.SETS) + 3
+    text = (tmp_path / "split_sensitivity.md").read_text(encoding="utf-8")
+    assert "Trained model `improved`" in text and "mean ± SD of the 2 other splits" in text
+    (tmp_path / "runs" / "other" / "seed0").mkdir(parents=True)
+    for name in ("config.json", "train_summary.json"):
+        cfg = (tmp_path / "runs" / "improved" / "seed0" / name).read_text().replace('"depth": 3', '"depth": 2')
+        (tmp_path / "runs" / "other" / "seed0" / name).write_text(cfg)
+    with pytest.raises(SystemExit, match="one configuration"):
+        S.finished([*models, str(tmp_path / "runs" / "other")])
+    with pytest.raises(SystemExit, match="not among the scored splits"):
+        S.main(["--splits", "1", "--workers", "1", "--out", str(tmp_path), "--data", str(archive),
+                "--trained", *models])
