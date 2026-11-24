@@ -1,5 +1,5 @@
-# Independent re-training on other hardware (docs/technical_notes.md, "Independent replication"):
-# one seed of `improved` and of the final model, written to their own run folder, e.g.
+# Re-training on other hardware (replication.py): one seed of `improved` and of the final model,
+# written to their own run folder, e.g.
 #   python run_jobs.py jobs/replication.txt --runs runs_cpu
 improved 0
 final 0
