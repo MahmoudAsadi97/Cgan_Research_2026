@@ -69,7 +69,8 @@ def test_an_interrupted_run_resumes_exactly(name, archive, tmp_path, monkeypatch
         assert torch.equal(weights(tmp_path / "whole", ckpt), weights(tmp_path / "parts", ckpt))
     whole = json.loads((tmp_path / "whole" / "train_summary.json").read_text())
     assert (summary["best_epoch"], summary["best_val_accuracy"]) == (whole["best_epoch"], whole["best_val_accuracy"])
-    for table, columns in (("val.csv", ["epoch", "val_accuracy", "val_min_label"]), ("history.csv", ["epoch", "loss_G", "loss_D"])):
+    for table, columns in (("val.csv", ["epoch", "val_accuracy", "val_min_label"]),
+                           ("history.csv", ["epoch", "loss_G", "loss_D"])):
         pd.testing.assert_frame_equal(pd.read_csv(tmp_path / "whole" / table)[columns],
                                       pd.read_csv(tmp_path / "parts" / table)[columns])
     starts = json.loads((tmp_path / "parts" / "environment.json").read_text())

@@ -267,7 +267,8 @@ def label_table(splits) -> pd.DataFrame:
             m = splits[name].label == lab
             x = splits[name].X[m].astype(np.float64)
             squares = pd.Series(((x - x.mean(0)) ** 2).sum(1)).groupby(splits[name].meter[m]).sum()
-            row[f"largest household share of variance {name} (%)"] = round(100 * float(squares.max() / squares.sum()), 1)
+            share = float(squares.max() / squares.sum())
+            row[f"largest household share of variance {name} (%)"] = round(100 * share, 1)
         rows.append(row)
     return pd.DataFrame(rows)
 
@@ -440,7 +441,8 @@ def main(argv=None):
             for ckpt in args.ckpts:
                 rows.append({"model": f"{model} [{ckpt}]", "seed": run_dir.name,
                              **evaluate_run(run_dir, ckpt, cache)})
-                per_label.setdefault(f"{DISPLAY.get(model, model)} [{ckpt}]", []).append(run_dir / f"eval_test_{ckpt}.csv")
+                per_label.setdefault(f"{DISPLAY.get(model, model)} [{ckpt}]", []).append(
+                    run_dir / f"eval_test_{ckpt}.csv")
     splits = cache.get(("net", 2024)) or load_profiles(args.data)
     write_label_table(splits, out)
     household_table(args.data, splits=splits).to_csv(out / "household_split.csv", index=False)

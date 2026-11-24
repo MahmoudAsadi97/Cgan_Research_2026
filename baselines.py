@@ -296,7 +296,8 @@ def main(argv=None):
     for name in args.models:
         model = None if name == "gmm" else build(name, train)
         for seed in range(args.seeds):
-            fp = {"code": code, "eval_seed": EVAL_SEED, "seed": seed, "components": n_components if name == "gmm" else None}
+            fp = {"code": code, "eval_seed": EVAL_SEED, "seed": seed,
+                  "components": n_components if name == "gmm" else None}
 
             def compute():
                 m = build("gmm", train, seed, n_components, cache) if name == "gmm" else model

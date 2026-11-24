@@ -77,7 +77,8 @@ def read_published(results: Path) -> dict[tuple[str, str], Published]:
     raw = results / "ablation_runs.csv"
     if raw.exists():
         for model, g in pd.read_csv(raw).groupby("model", sort=False):
-            out.setdefault((model, "best"), Published(g.set_index("seed")[[m for m in METRICS if m in g]].astype(float)))
+            seeds = g.set_index("seed")[[m for m in METRICS if m in g]].astype(float)
+            out.setdefault((model, "best"), Published(seeds))
     elif (results / "ablation.csv").exists():
         table = pd.read_csv(results / "ablation.csv", index_col=0)
         for model, row in table.iterrows():
@@ -126,7 +127,8 @@ def main(argv=None):
             for ckpt in args.ckpts:
                 summary = evaluate_run(run_dir, ckpt, cache)
                 rows.append({"model": model, "ckpt": ckpt, "seed": int(run_dir.name[4:]),
-                             "device": env.get("device", ""), **{k: v for k, v in summary.items() if k != "_fingerprint"}})
+                             "device": env.get("device", ""),
+                             **{k: v for k, v in summary.items() if k != "_fingerprint"}})
     new = pd.DataFrame(rows)
     new.to_csv(out / "replication_runs.csv", index=False)
 
@@ -168,13 +170,14 @@ def main(argv=None):
         if pub is None or extra.empty:
             continue
         if first:
-            text.append("## Steps of the ablation ladder with additional seeds\n\nValidation-selected checkpoints.  The "
-                        "published seeds were trained on CUDA, the additional seeds here.\n")
+            text.append("## Steps of the ablation ladder with additional seeds\n\nValidation-selected checkpoints.  "
+                        "The published seeds were trained on CUDA, the additional seeds here.\n")
             first = False
         table = []
         for m in [m for m in METRICS if m in pub.mean.index]:
+            digits = 1 if pub.runs is None else 2
             row = {"metric": COLUMNS[m],
-                   f"published, {pub.n} seed{'s' * (pub.n > 1)}": fmt(m, pub.mean[m], pub.sd[m], 1 if pub.runs is None else 2)}
+                   f"published, {pub.n} seed{'s' * (pub.n > 1)}": fmt(m, pub.mean[m], pub.sd[m], digits)}
             for _, r in extra.iterrows():
                 row[f"seed {r.seed}"] = fmt(m, r[m])
             mean, sd = pub.combined(m, extra[m].tolist())
