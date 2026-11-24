@@ -275,6 +275,8 @@ ranking of the two models.
 - The statistical accuracy and the acceptance levels of the paper do not
   separate the final model clearly from a Gaussian copula.  The ranking of
   close models rests on the key parameters, the classifier test and coverage.
+- The trained models are evaluated on one split of the households.  Only the
+  real-data benchmarks and the copula are repeated on other splits.
 - The technology labels are registry indicators: a household without the EV
   flag may still own an EV.  The data cover one region and one year.
 
@@ -291,7 +293,7 @@ curl -L -o data/raw/raw.zip https://github.com/MahmoudAsadi97/Cgan_Research_2026
 python data_prep.py                                    # hourly profiles, labels and household split (~1 min)
 python data_check.py                                   # the local data are those of the published results
 python -m pytest                                       # unit tests
-python baselines.py                                    # classical baselines (CPU, no trained model needed)
+python baselines.py                                    # classical baselines (CPU; the mixtures take a few hours)
 python split_sensitivity.py                            # benchmarks and copula on 20 other household splits
 
 python run_jobs.py jobs/variants.txt --parallel 3      # selection candidates and reference model, seed 0
