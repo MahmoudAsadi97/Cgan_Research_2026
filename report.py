@@ -20,7 +20,7 @@ Outputs in ``results/``:
     paper_protocol.md          the same criteria with the paper's protocol: generated days against
                                the *training* households (in-sample), 2,000 days per label
     ablation.md                validation-selected checkpoint of every step of the ablation ladder, with
-                               the seed-matched difference to the previous step
+                               the seed-matched difference to the previous step (ablation_runs.csv: every seed)
     selection.md               validation accuracy of the model-selection candidates (no test data), as
                                used by the selection rule and re-scored with 5 fresh noise draws
     table1_labels.md           days and households per label and split (counterpart of Table 1)
@@ -414,6 +414,7 @@ def main(argv=None):
     if args.ablation:
         abl = [{"model": model, "seed": run_dir.name, **evaluate_run(run_dir, "best", cache)}
                for model in args.ablation for run_dir in finished_runs(runs, model)]
+        pd.DataFrame(abl).drop(columns="_fingerprint").to_csv(out / "ablation_runs.csv", index=False)
         t = table(abl + [row for row in rows if row["model"].startswith("Real")], steps=True)
         deltas = ablation_deltas(abl, args.ablation)
         t.insert(2, "Δ accuracy vs previous step (pt)", [deltas.get(i, "") for i in t.index])
