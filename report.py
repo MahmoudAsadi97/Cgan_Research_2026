@@ -23,12 +23,15 @@ Outputs in ``results/``:
                                the seed-matched difference to the previous step (ablation_runs.csv: every seed)
     selection.md               validation accuracy of the model-selection candidates (no test data), as
                                used by the selection rule and re-scored with 5 fresh noise draws
+    per_label.csv              statistical accuracy of every label: every model and checkpoint (mean over
+                               seeds), the real-data benchmarks and the classical baselines, if evaluated
     table1_labels.md           days and households per label and split (counterpart of Table 1), with the
                                largest share of one household in the variance of each label
     household_split.csv        the split of every meter (train / val / test, or duplicate) and its days
     figures/<model>_<ckpt>/    the paper's Figs. 3-12 (``utils.stats_plot``, both definition sets),
                                seed 0, 2,000 generated days per label, and the generated days
     figures/compare/           Figs. 3-4 with the real days and every generator in each panel
+    figures/per_label_accuracy.png  accuracy of every label: the last model listed and the two benchmarks
     figures/validation_curves.png   validation accuracy during training, every finished seed; the
                                dotted line is the real benchmark on the validation households
                                (``evaluate.py --real train --split val``)
@@ -279,6 +282,47 @@ def write_label_table(splits, out: Path) -> pd.DataFrame:
     return labels
 
 
+def per_label_table(sources: dict[str, list[Path]], metric: str = "accuracy") -> pd.DataFrame:
+    """``metric`` of every label, in percent: one column per model, the mean over the per-label evaluation
+    files of its seeds (``sources``: column title -> files)."""
+    rows = []
+    for lab in range(N_LABELS):
+        d, g, se = (int(v) for v in decode_label(lab))
+        rows.append({"Label": lab, "Group": GROUP_NAMES[g], "Season": SEASON_NAMES[se], "Day type": DAYTYPE_NAMES[d]})
+    out = pd.DataFrame(rows)
+    for title, files in sources.items():
+        values = [pd.read_csv(f).query("metric == @metric").set_index("label").value for f in files]
+        out[title] = (100 * pd.concat(values, axis=1).mean(axis=1)).reindex(range(N_LABELS)).round(2).to_numpy()
+    return out
+
+
+def per_label_figure(table: pd.DataFrame, path: Path, columns: list[str] | None = None):
+    """One heatmap per model: technology groups in the rows, day type and season in the columns."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    columns = columns or [c for c in table.columns if c not in ("Label", "Group", "Season", "Day type")]
+    fig, axes = plt.subplots(1, len(columns), figsize=(5.6 * len(columns) + 1.2, 4.6), squeeze=False, sharey=True)
+    ticks = [f"{s[:2]}" for _ in DAYTYPE_NAMES for s in SEASON_NAMES]
+    for ax, col in zip(axes[0], columns):
+        grid = table[col].to_numpy().reshape(N_LABELS // 32, 8, 4)
+        grid = np.hstack(list(grid))                                   # 8 groups x (4 seasons of each day type)
+        im = ax.imshow(grid, vmin=60, vmax=100, cmap="YlGn", aspect="auto")       # light to dark: also without colour
+        for (i, j), v in np.ndenumerate(grid):
+            ax.text(j, i, f"{v:.0f}", ha="center", va="center", fontsize=8, color="black")
+        ax.set_xticks(range(8), ticks)
+        ax.set_yticks(range(8), GROUP_NAMES)
+        ax.axvline(3.5, color="white", lw=2)
+        ax.set_xlabel("weekday" + " " * 22 + "weekend")
+        ax.set_title(f"{col}\nmean {grid.mean():.1f} %, lowest {grid.min():.1f} %", fontsize=10)
+    fig.colorbar(im, ax=axes[0].tolist(), shrink=0.85, label="statistical accuracy of the label (%)")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+
+
 def per_seed_table(rows: list[dict]) -> pd.DataFrame:
     df = pd.DataFrame([r for r in rows if not r["model"].startswith("Real")])
     if df.empty:
@@ -390,16 +434,31 @@ def main(argv=None):
 
     cache = {}
     rows = []
+    per_label = {}
     for model in args.models:
         for run_dir in finished_runs(runs, model):
             for ckpt in args.ckpts:
                 rows.append({"model": f"{model} [{ckpt}]", "seed": run_dir.name,
                              **evaluate_run(run_dir, ckpt, cache)})
+                per_label.setdefault(f"{DISPLAY.get(model, model)} [{ckpt}]", []).append(run_dir / f"eval_test_{ckpt}.csv")
     splits = cache.get(("net", 2024)) or load_profiles(args.data)
     write_label_table(splits, out)
     household_table(args.data, splits=splits).to_csv(out / "household_split.csv", index=False)
     for src, name in (("val", "Real: validation households"), ("train", "Real: training households")):
         rows.append({"model": name, "seed": "-", **reference_row(runs, splits, src)})
+        per_label[name] = [runs / "real_reference" / f"eval_test_{src}.csv"]
+    for folder in sorted((runs / "baselines").glob("*/")):          # classical baselines, if baselines.py has run
+        files = sorted(folder.glob("seed*_eval_test.csv"))
+        if files:
+            from baselines import TITLES
+
+            per_label[TITLES.get(folder.name, folder.name)] = files
+    labels_acc = per_label_table(per_label)
+    labels_acc.to_csv(out / "per_label.csv", index=False)
+    shown = [c for c in labels_acc.columns if c.endswith("[best]") and not c.startswith("GitHub")] or \
+        [c for c in labels_acc.columns if c.endswith("]")][:1]
+    per_label_figure(labels_acc, out / "figures" / "per_label_accuracy.png",
+                     shown[-1:] + ["Real: validation households", "Real: training households"])
     pd.DataFrame(rows).drop(columns="_fingerprint").to_csv(out / "all_runs.csv", index=False)
     t = table(rows)
     t.to_csv(out / "summary.csv")
