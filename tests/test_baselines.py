@@ -1,8 +1,9 @@
 import numpy as np
+import pandas as pd
 import pytest
 from scipy.stats import spearmanr
 
-from baselines import Gaussian, GaussianCopula, GaussianMixture, IndependentHours, select_components
+from baselines import Gaussian, GaussianCopula, GaussianMixture, IndependentHours, comparison, select_components
 from metrics import _ks
 from train import Scaler
 
@@ -83,3 +84,15 @@ def test_sampling_repeats_for_a_seed_and_does_not_depend_on_the_other_labels():
 ])
 def test_select_components(scores, expected):
     assert select_components(scores) == expected
+
+
+def test_comparison_marks_where_all_seeds_are_better_or_worse():
+    final = pd.DataFrame({"accuracy": [0.88, 0.87], "paper.fid": [0.8, 0.9], "profile.c2st_auc": [0.60, 0.62]})
+    rows = pd.DataFrame({"model": ["a", "a", "b", "b"], "accuracy": [0.80, 0.81, 0.875, 0.90],
+                         "paper.fid": [2.0, 2.1, 0.5, 0.6], "profile.c2st_auc": [0.80, 0.82, 0.39, 0.41]})
+    table = comparison(final, rows).set_index("metric")
+    assert list(table.index) == ["Accuracy", "FID (5 KP)", "C2ST AUC"]
+    assert table.loc["Accuracy", "a"] == "0.805 +" and table.loc["Accuracy", "b"].endswith("=")
+    assert table.loc["FID (5 KP)", "a"].endswith("+") and table.loc["FID (5 KP)", "b"].endswith("-")
+    # the AUC counts by its distance to 0.5: 0.39 and 0.41 are as far from it as 0.61 and 0.59
+    assert table.loc["C2ST AUC", "a"].endswith("+") and table.loc["C2ST AUC", "b"].endswith("=")

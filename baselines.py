@@ -8,6 +8,9 @@ then treated like a trained cGAN: for every label it produces as many days as
 the test households have, and ``evaluate.evaluate`` computes the same metrics
 (``results/baselines.md`` and ``.csv``).  Fitting and sampling use NumPy,
 SciPy and scikit-learn on the CPU, so the table can be repeated without a GPU.
+With the seeds of the final model in ``results/all_runs.csv`` (``report.py``),
+``baselines.md`` also compares the final model with every generator, metric by
+metric.
 
     indep_hours   every hour drawn on its own from the days of the label: exact hourly
                   distributions, no relation between the hours of a day
@@ -39,7 +42,7 @@ from data_prep import N_LABELS, decode_label, load_profiles
 from evaluate import EVAL_SEED, evaluate, summarise
 
 ROOT = Path(__file__).resolve().parent
-GMM_COMPONENTS = [1, 2, 5, 10, 20, 40]
+GMM_COMPONENTS = [1, 2, 5, 10, 20, 40, 80, 160]
 SELECTION_MARGIN = 0.001          # 0.1 percentage point, as for the cGAN candidates
 TITLES = {"indep_hours": "Independent hours", "gaussian": "Multivariate normal", "copula": "Gaussian copula",
           "gmm": "Gaussian mixture"}
@@ -209,6 +212,29 @@ def code_hash() -> str:
     return h.hexdigest()[:12]
 
 
+def comparison(final: pd.DataFrame, rows: pd.DataFrame) -> pd.DataFrame:
+    """Every ranked metric: the final model (mean ± SD over its seeds) next to the mean of every generator
+    in ``rows``, marked ``+`` where every seed of the final model is better than every seed of the
+    generator, ``-`` where every seed is worse, and ``=`` where the seeds overlap."""
+    from report import COLUMNS, DIRECTION, _badness
+
+    out = []
+    for k, direction in DIRECTION.items():
+        if direction is None or k not in final or k not in rows or final[k].isna().all():
+            continue
+        row = {"metric": COLUMNS.get(k, k.replace("criteria.", "")),
+               "better": f"closer to {direction[1]}" if isinstance(direction, tuple) else
+               {+1: "higher", -1: "lower"}[direction],
+               "final": f"{final[k].mean():.4g} ± {final[k].std():.2g}"}
+        bad_final = _badness(final[k], direction)
+        for model, g in rows.groupby("model", sort=False):
+            bad = _badness(g[k], direction)
+            mark = "+" if bad_final.max() < bad.min() else "-" if bad_final.min() > bad.max() else "="
+            row[model] = f"{g[k].mean():.4g} {mark}"
+        out.append(row)
+    return pd.DataFrame(out)
+
+
 def _cached(path: Path, fingerprint: dict, compute):
     """``compute()`` (a dict), cached in ``path`` together with ``fingerprint``."""
     if path.exists():
@@ -232,6 +258,9 @@ def main(argv=None):
                     help="candidate numbers of mixture components (selected on the validation households)")
     ap.add_argument("--runs", default="runs", help="folder for the cached evaluations (runs/baselines)")
     ap.add_argument("--out", default="results")
+    ap.add_argument("--trained", default=None, metavar="CSV",
+                    help="all_runs.csv with the seeds of the trained models (default: in --out)")
+    ap.add_argument("--final", default="final", help="trained model compared with the generators")
     ap.add_argument("--data", default="data/processed/fluvius_hourly.npz")
     args = ap.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
@@ -281,7 +310,17 @@ def main(argv=None):
             rows.append({"model": title, "seed": f"seed{seed}", **summary})
             print(f"{title} seed {seed}: accuracy {100 * summary['accuracy']:.2f} %", flush=True)
 
-    pd.DataFrame(rows).drop(columns="_fingerprint").to_csv(out / "baselines.csv", index=False)
+    scores = pd.DataFrame(rows).drop(columns="_fingerprint")
+    scores.to_csv(out / "baselines.csv", index=False)
+    trained = Path(args.trained) if args.trained else out / "all_runs.csv"
+    if trained.exists():
+        final = pd.read_csv(trained)
+        final = final[final.model == f"{args.final} [best]"]
+        if len(final):
+            notes.append(f"`{args.final}` (validation-selected checkpoints, {len(final)} seeds, `{trained.name}`) "
+                         "against every generator.  Values are fractions; + every seed of the final model is "
+                         "better than every seed of the generator, - every seed is worse, = the seeds overlap:\n\n"
+                         + comparison(final, scores).to_markdown(index=False) + "\n")
     t = table(rows)
     text = (t.to_markdown() + "\n\nClassical generators fitted per label on the training households and scored on the "
             f"held-out test households with the protocol of `results/summary.md` (as many generated days per label as "
