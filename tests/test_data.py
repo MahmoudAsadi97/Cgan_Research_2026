@@ -8,7 +8,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from data_prep import GROUP_NAMES, N_LABELS, RAW_SHA256, household_table, load_profiles, sha256_of
+from data_check import RAW_SHA256, check, household_table, sha256_of
+from data_prep import GROUP_NAMES, N_LABELS, load_profiles
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data" / "processed" / "fluvius_hourly.npz"
@@ -63,3 +64,8 @@ def test_labels_without_pv_hold_almost_no_negative_load(splits):
 @pytest.mark.skipif(not RAW.exists(), reason="raw.zip not found")
 def test_raw_archive_is_the_released_one():
     assert sha256_of(RAW) == RAW_SHA256
+
+
+def test_data_check_passes():
+    result = check(DATA)
+    assert len(result) == 4 and all(result.values()), result
