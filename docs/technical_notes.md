@@ -111,6 +111,21 @@ hourly energy and builds daily profiles as in the paper (Sec. 2.1–2.2):
 | Group | PV, heat-pump and EV indicators: `No PV HP EV`, `PV`, `HP`, `PV+HP`, `EV`, `PV+EV`, `HP+EV`, `PV+HP+EV` |
 | Label | `daytype · 32 + group · 4 + season` → 64 labels, the layout of the reference |
 
+**Source.**  The archive holds the two parts of the 2024 sample
+(`P6269_1_50_DMK_Sample_Elek_2024_Deel_1` and `_Deel_2`) and the legend of the
+Fluvius open data set *Verbruiksprofielen digitale elektriciteitsmeters:
+kwartierwaarden voor een volledig jaar*
+([opendata.fluvius.be](https://opendata.fluvius.be/explore/dataset/1_50-verbruiksprofielen-dm-elek-kwartierwaarden-voor-een-volledig-jaar/),
+[open data licence of Fluvius](https://opendata.fluvius.be/p/licentieopendatafluvius)).
+According to the legend, the scope is the residential digital meters whose
+users asked Fluvius to read the quarter-hourly values and for which all values
+of the year are available.  A meter counts as "with PV" when it registered
+injection in all 12 months and as "without PV" when it registered none in the
+whole year, and meters with a known storage system are left out.  From this
+scope Fluvius took 300 meters for each of the eight technology groups.  The
+sample is therefore balanced by design and does not represent the mix of
+households in Flanders.
+
 **EV labels.** The reference distinguishes EV households by charger level
 (Level 1, Level 2, both).  The Fluvius release has no charger information,
 only a yes/no EV indicator (an EV declared by the customer or detected by
@@ -794,6 +809,7 @@ LICENSE-cGAN_EB  license of the reference code adapted in cGAN.py and utils.py
 
 ## References
 
+* Fluvius. Verbruiksprofielen digitale elektriciteitsmeters: kwartierwaarden voor een volledig jaar (sample of 2024). Fluvius Open Data. https://opendata.fluvius.be/explore/dataset/1_50-verbruiksprofielen-dm-elek-kwartierwaarden-voor-een-volledig-jaar/
 * Li, Y., Dong, B., Qiu, Y. (2025). Conditional generative adversarial network (cGAN) for generating building load profiles with photovoltaics and electric vehicles. *Energy and Buildings* 335, 115584. https://doi.org/10.1016/j.enbuild.2025.115584
 * Price, P. N. (2010). Methods for analyzing electric load shape and its variability. LBNL-3713E.
 * Wang, Z., Hong, T. (2020). Generating realistic building electrical load profiles through the Generative Adversarial Network (GAN). *Energy and Buildings* 224, 110299.

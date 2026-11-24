@@ -52,7 +52,7 @@ households: real data, my final model and the reference model.*
 
 | | |
 |---|---|
-| Source | Fluvius 2024 sample: 2,400 residential digital meters with quarter-hourly grid import and export for the whole year |
+| Source | [Fluvius Open Data](https://opendata.fluvius.be/explore/dataset/1_50-verbruiksprofielen-dm-elek-kwartierwaarden-voor-een-volledig-jaar/), sample of 2024: 2,400 residential digital meters, 300 per technology group, with quarter-hourly grid import and export for the whole year |
 | Target | hourly **net load** = import − export (kWh), 24 values per day; negative while PV exports |
 | Conditions | 64 labels = day type (weekday / weekend and Belgian public holidays) × technology group (the eight combinations of PV, heat pump and EV) × season |
 | Cleaning | 33 duplicated meters, the two daylight-saving days and 866 meter-days without any flow are removed |
@@ -212,7 +212,7 @@ split again 20 times and scoring what needs no trained network gives:
 |---|---|---|---|
 | Real days, training households (%) | 87.9 | 88.4 ± 1.2 | 84.6 to 90.1 |
 | Real days, validation households (%) | 86.1 | 86.7 ± 1.1 | 84.4 to 88.5 |
-| Gaussian copula (%) | 85.8 | 86.3 ± 1.1 | 82.7 to 87.8 |
+| Gaussian copula, one sampling seed (%) | 85.8 | 86.3 ± 1.1 | 82.7 to 87.8 |
 | Gaussian copula − training households (points) | −2.2 | −2.2 ± 0.2 | −2.5 to −1.7 |
 
 - The split of this study is an ordinary one: 4 of the 20 other splits give
@@ -277,6 +277,10 @@ ranking of the two models.
   close models rests on the key parameters, the classifier test and coverage.
 - The trained models are evaluated on one split of the households.  Only the
   real-data benchmarks and the copula are repeated on other splits.
+- The sample does not represent the mix of households in Flanders.  Fluvius
+  drew 300 meters per technology group from the meters whose users had asked
+  for quarter-hourly readings, and left out meters with a known storage
+  system.
 - The technology labels are registry indicators: a household without the EV
   flag may still own an EV.  The data cover one region and one year.
 
@@ -326,6 +330,7 @@ estimates and the comparison with the paper are in the
 
 ## References
 
+- Fluvius. Verbruiksprofielen digitale elektriciteitsmeters: kwartierwaarden voor een volledig jaar (sample of 2024). Fluvius Open Data. https://opendata.fluvius.be/explore/dataset/1_50-verbruiksprofielen-dm-elek-kwartierwaarden-voor-een-volledig-jaar/
 - Li, Y., Dong, B., Qiu, Y. (2025). Conditional generative adversarial network (cGAN) for generating building load profiles with photovoltaics and electric vehicles. *Energy and Buildings* 335, 115584. https://doi.org/10.1016/j.enbuild.2025.115584
 - Price, P. N. (2010). Methods for analyzing electric load shape and its variability. LBNL-3713E.
 - Gulrajani, I., Ahmed, F., Arjovsky, M., Dumoulin, V., Courville, A. (2017). Improved training of Wasserstein GANs. NeurIPS.
