@@ -1,0 +1,6 @@
+# Seeds 1 and 2 of the two data-handling steps of the ablation ladder (seed 0 is in jobs/ablation.txt),
+# so that every step of the ladder has three seeds.
+abl_quantile 1
+abl_quantile 2
+abl_shuffle 1
+abl_shuffle 2

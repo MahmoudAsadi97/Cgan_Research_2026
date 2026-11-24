@@ -22,12 +22,17 @@ repeated).  ``run_jobs.py`` runs a list of jobs this way.
 
 A run directory ``runs/<name>/seed<k>/`` receives ``config.json``,
 ``history.csv`` (losses) and ``val.csv`` (validation accuracy), both written while
-training runs (``dashboard.py`` shows them live), ``best.pt`` and ``last.pt``.
+training runs (``dashboard.py`` shows them live), ``best.pt`` and ``last.pt``, and
+``environment.json``: the software, hardware and code version of every start of the
+run (training is deterministic for a seed on one device type, but CPU and CUDA draw
+different random numbers, so the device belongs to the record of a run).
 """
 import argparse
 import csv
 import json
 import os
+import platform
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -199,6 +204,33 @@ def _set_rng_state(s):
         torch.cuda.set_rng_state_all(s["cuda"])
 
 
+def environment_info() -> dict:
+    """Software, hardware and code version of this process (provenance; not part of the configuration)."""
+    import scipy
+
+    info = {"time": time.strftime("%Y-%m-%d %H:%M:%S"), "python": platform.python_version(),
+            "platform": platform.platform(), "torch": torch.__version__, "numpy": np.__version__,
+            "scipy": scipy.__version__, "device": "cuda" if torch.cuda.is_available() else "cpu",
+            "threads": torch.get_num_threads()}
+    if torch.cuda.is_available():
+        info.update(gpu=torch.cuda.get_device_name(0), cuda=torch.version.cuda)
+    try:
+        root = Path(__file__).resolve().parent
+        info["commit"] = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, capture_output=True, text=True,
+                                        timeout=10).stdout.strip() or None
+    except (OSError, subprocess.SubprocessError):
+        info["commit"] = None
+    return info
+
+
+def _record_environment(run_dir: Path, start_epoch: int):
+    """Append this start of the run to ``environment.json`` (one entry per start or resume)."""
+    path = run_dir / "environment.json"
+    entries = json.loads(path.read_text()) if path.exists() else []
+    entries.append({"start_epoch": start_epoch, **environment_info()})
+    path.write_text(json.dumps(entries, indent=2))
+
+
 def _truncate_csv(path: Path, epoch: int):
     """Keep the header and the rows up to ``epoch`` (rows written after the last checkpoint are repeated)."""
     with open(path, newline="") as f:
@@ -234,6 +266,7 @@ def train(cfg, run_dir: Path, resume: bool = False):
                              ("history.csv", ["epoch", "loss_G", "loss_D", "seconds"])):
             with open(run_dir / name, "w", newline="") as f:
                 csv.writer(f).writerow(header)
+    _record_environment(run_dir, start_epoch)
     val_f = open(run_dir / "val.csv", "a", newline="")
     val_w = csv.writer(val_f)
     hist_f = open(run_dir / "history.csv", "a", newline="")
