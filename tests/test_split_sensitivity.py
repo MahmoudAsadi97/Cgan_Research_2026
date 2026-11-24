@@ -29,8 +29,9 @@ def test_household_se_is_half_the_sd_of_the_half_differences(tmp_path):
     assert S.household_se(tmp_path / "missing.csv") == {}
 
 
-@pytest.mark.filterwarnings("ignore:Only one class")     # the classifier test needs more households per label
-def test_a_trained_run_is_scored_on_the_test_households_of_its_split(archive, tmp_path):
+def test_a_trained_run_is_scored_on_the_test_households_of_its_split(archive, tmp_path, monkeypatch):
+    # the classifier test needs five households per label, more than the small archive has
+    monkeypatch.setattr("metrics.c2st_auc", lambda *args, **kwargs: float("nan"))
     small = {"epochs": 2, "val_every": 1, "val_max_per_label": 40, "batch_size": 128, "hidden_size": 32}
     for name, split_seed in (("improved", S.STUDY_SEED), ("improved_split1", 1), ("improved_split2", 2)):
         T.train({**T.DEFAULTS, **T.CONFIGS["improved"], **small, "config": "improved", "seed": 0,
@@ -43,9 +44,11 @@ def test_a_trained_run_is_scored_on_the_test_households_of_its_split(archive, tm
     assert sorted(runs.index) == [1, 2, S.STUDY_SEED] and runs[["accuracy", "profile.coverage"]].notna().all().all()
     real = df[df.set == "real[train]"].set_index("split_seed")
     assert (runs["test days"] == real.loc[runs.index, "test days"]).all()      # the test households of its own split
-    assert df[df.set.isin(S.SETS)][list(S.PROFILE)].isna().all().all() and len(df) == 4 * len(S.SETS) + 3
+    sets = df[df.set.isin(S.SETS)]
+    assert len(df) == 4 * len(S.SETS) + 3 and sets[sets.split_seed == 0][list(S.PROFILE)].isna().all().all()
+    assert sets[sets.split_seed != 0]["profile.coverage"].notna().all()     # the splits with a trained run
     text = (tmp_path / "split_sensitivity.md").read_text(encoding="utf-8")
-    assert "Trained model `improved`" in text and "mean ± SD of the 2 other splits" in text
+    assert "Trained model `improved`" in text and text.count("mean ± SD of the 2 other splits") == 2
     (tmp_path / "runs" / "other" / "seed0").mkdir(parents=True)
     for name in ("config.json", "train_summary.json"):
         cfg = (tmp_path / "runs" / "improved" / "seed0" / name).read_text().replace('"depth": 3', '"depth": 2')

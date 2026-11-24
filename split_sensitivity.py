@@ -22,7 +22,8 @@ training and validation households of the split in its configuration
 (``split_seed``), so every finished run of the given model folders is scored
 on the test households of its own split (``report.evaluate_run``,
 validation-selected checkpoint) and compared with the benchmark and the copula
-of that split.  The runs must be one configuration.
+of that split, for which the classifier test, coverage and the DCR ratio are
+then computed as well.  The runs must be one configuration.
 
 Output: ``results/split_sensitivity.md`` and ``.csv`` (one row per split and set).
 """
@@ -49,18 +50,22 @@ PROFILE = {"profile.c2st_auc": "C2ST AUC", "profile.coverage": "coverage", "prof
 
 
 def one_split(job) -> list[dict]:
-    """The three sets scored on the test households of the split with seed ``job[0]``."""
-    seed, data = job
+    """The three sets scored on the test households of the split with seed ``job[0]``, also with the metrics
+    of ``PROFILE`` if ``job[2]`` is true (no DCR ratio for the training households, which are the training
+    data)."""
+    seed, data, *profile = job
+    profile = bool(profile and profile[0])
     splits = load_profiles(data, split_seed=seed)
     test = splits["test"]
-    sets = {"real[train]": real_reference(splits, "train", "test")[0],
-            "real[val]": real_reference(splits, "val", "test")[0],
-            "baseline[copula]": GaussianCopula().fit(splits["train"]).sample_kwh(test.label, EVAL_SEED)}
+    sets = {"real[train]": real_reference(splits, "train", "test"), "real[val]": real_reference(splits, "val", "test"),
+            "baseline[copula]": (GaussianCopula().fit(splits["train"]).sample_kwh(test.label, EVAL_SEED), None)}
     rows = []
-    for name, gen in sets.items():
-        s = summarise(evaluate(gen, test, splits["train"], profile=False))
+    for name, (gen, households) in sets.items():
+        s = summarise(evaluate(gen, test, splits["train"], profile=profile, gen_groups=households))
+        if name == "real[train]":
+            s["profile.dcr_ratio"] = np.nan
         rows.append({"split_seed": seed, "set": name, "test households": len(np.unique(test.meter)),
-                     "test days": len(test), **{k: s[k] for k in TERMS}})
+                     "test days": len(test), **{k: s[k] for k in (*TERMS, *(PROFILE if profile else ()))}})
     return rows
 
 
@@ -90,38 +95,39 @@ def trained_tables(df: pd.DataFrame) -> str:
     model = df.set.str.extract(r"^(.+\[best\])/seed\d+$")[0]
     t = df[model.notna()]
     name = f"`{model.dropna().iloc[0].split('[')[0]}`"
-    runs = t.groupby("split_seed")[[*TERMS, *PROFILE]].mean()
-    acc = 100 * df[model.isna()].pivot(index="split_seed", columns="set", values="accuracy").loc[runs.index]
-    cols = {name: 100 * runs.accuracy, SETS["real[train]"]: acc["real[train]"],
-            SETS["baseline[copula]"]: acc["baseline[copula]"],
-            f"{name} - training households": 100 * runs.accuracy - acc["real[train]"],
-            f"{name} - Gaussian copula": 100 * runs.accuracy - acc["baseline[copula]"],
-            **{title: runs[k] for k, title in PROFILE.items()}}
-    table = pd.DataFrame(cols)
-    spec = {c: "+.2f" if " - " in c else ".3f" if c in PROFILE.values() else ".2f" for c in table}
-    other = table.drop(index=STUDY_SEED, errors="ignore")
-    order = [s for s in (STUDY_SEED, *other.index) if s in table.index]
-    body = table.loc[order].copy()
-    for c in body:
-        body[c] = body[c].map(lambda v, c=c: format(v, spec[c]))
-    body.insert(0, "seeds", t.groupby("split_seed").size().loc[order])
-    body.insert(0, "split", [f"of the study (seed {s})" if s == STUDY_SEED else f"seed {s}" for s in order])
-    detail = ""
+    train, copula = SETS["real[train]"], SETS["baseline[copula]"]
+    runs = t.groupby("split_seed")[[*TERMS, *PROFILE]].mean()                       # the seeds of a split averaged
+    sets = {name: runs, **{SETS[k]: df[df.set == k].set_index("split_seed").loc[runs.index]
+                           for k in ("real[train]", "baseline[copula]")}}
+    other = sorted(set(runs.index) - {STUDY_SEED})
+    order = [s for s in (STUDY_SEED, *other) if s in runs.index]
+    tables = {
+        "accuracy": (pd.DataFrame({**{s: 100 * v.accuracy for s, v in sets.items()},
+                                   f"{name} - training households": 100 * (runs.accuracy - sets[train].accuracy),
+                                   f"{name} - Gaussian copula": 100 * (runs.accuracy - sets[copula].accuracy)}), ".2f"),
+        "realism": (pd.DataFrame({f"{title}, {s}": v[k] for k, title in PROFILE.items() for s, v in sets.items()
+                                  if (k, s) != ("profile.dcr_ratio", train)}), ".3f")}
+    text = ""
+    for table, spec in tables.values():
+        fmt = {c: "+" + spec if " - " in c else spec for c in table}
+        body = pd.DataFrame({c: table.loc[order, c].map(lambda v, c=c: format(v, fmt[c])) for c in table})
+        body.insert(0, "seeds", t.groupby("split_seed").size().loc[order])
+        body.insert(0, "split", [f"of the study (seed {s})" if s == STUDY_SEED else f"seed {s}" for s in order])
+        if len(other) > 1:
+            v = table.loc[other]
+            body = pd.concat([body, pd.DataFrame([{
+                "split": f"mean ± SD of the {len(other)} other splits", "seeds": "",
+                **{c: f"{v[c].mean():{fmt[c]}} ± {v[c].std(ddof=1):{spec}}" for c in table}}])])
+        text += "\n\n" + body.to_markdown(index=False, disable_numparse=True)
     if len(other) > 1:
-        summary = {c: f"{other[c].mean():{spec[c]}} ± {other[c].std(ddof=1):{spec[c].lstrip('+')}}" for c in table}
-        body = pd.concat([body, pd.DataFrame([{"split": f"mean ± SD of the {len(other)} other splits", "seeds": "",
-                                               **summary}])])
-        sets = {name: t[t.split_seed != STUDY_SEED].groupby("split_seed")[list(TERMS)].mean(),
-                **{SETS[k]: df[(df.set == k) & df.split_seed.isin(other.index)].set_index("split_seed")[list(TERMS)]
-                   for k in ("real[train]", "baseline[copula]")}}
-        terms = pd.DataFrame({TERMS[k]: [f"{100 * v[k].mean():.1f} ± {100 * v[k].std(ddof=1):.1f}"
-                                         for v in sets.values()] for k in TERMS}, index=list(sets))
-        detail = (f"\n\nTerms of the accuracy and worst label over these {len(other)} other splits, mean ± SD:\n\n"
-                  + terms.to_markdown())
+        terms = pd.DataFrame({title: [f"{100 * v.loc[other, k].mean():.1f} ± {100 * v.loc[other, k].std(ddof=1):.1f}"
+                                      for v in sets.values()] for k, title in TERMS.items()}, index=list(sets))
+        text += (f"\n\nTerms of the accuracy and worst label over these {len(other)} other splits, mean ± SD:\n\n"
+                 + terms.to_markdown())
     return (f"\n\nTrained model {name} (validation-selected checkpoint) on the test households of the split it "
-            "was trained on, with the benchmark and the copula of the same split; accuracies in percent, "
-            "differences in percentage points:\n\n" + body.to_markdown(index=False, disable_numparse=True)
-            + detail + "\n")
+            "was trained on, with the benchmark and the copula of the same split.  Accuracies in percent and "
+            "differences in percentage points; then the classifier test (0.5 ideal), coverage and DCR ratio (about "
+            "1 expected) of the same sets:" + text + "\n")
 
 
 def household_se(replicates: Path) -> dict[str, float]:
@@ -153,7 +159,10 @@ def main(argv=None):
     out.mkdir(parents=True, exist_ok=True)
     seeds = [STUDY_SEED, *range(args.splits)]
     runs = finished(args.trained)
-    jobs = [(s, args.data) for s in seeds]
+    with_runs = {json.loads((d / "config.json").read_text())["split_seed"] for d in runs}
+    if not with_runs <= set(seeds):
+        raise SystemExit(f"--trained: the splits {sorted(with_runs - set(seeds))} are not among the scored splits")
+    jobs = [(s, args.data, s in with_runs) for s in seeds]
     if args.workers > 1:
         with ProcessPoolExecutor(args.workers) as ex:
             parts, trained = list(ex.map(one_split, jobs)), list(ex.map(one_run, runs))
@@ -162,8 +171,6 @@ def main(argv=None):
     rows = [r for part in parts for r in part]
     size = {r["split_seed"]: (r["test households"], r["test days"]) for r in rows}
     for r in trained:
-        if r["split_seed"] not in size:
-            raise SystemExit(f"--trained: split {r['split_seed']} is not among the scored splits (--splits)")
         households, days = size[r["split_seed"]]
         rows.append({"split_seed": r.pop("split_seed"), "set": r.pop("set"), "test households": households,
                      "test days": days, **r})
