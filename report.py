@@ -23,7 +23,8 @@ Outputs in ``results/``:
                                the seed-matched difference to the previous step (ablation_runs.csv: every seed)
     selection.md               validation accuracy of the model-selection candidates (no test data), as
                                used by the selection rule and re-scored with 5 fresh noise draws
-    table1_labels.md           days and households per label and split (counterpart of Table 1)
+    table1_labels.md           days and households per label and split (counterpart of Table 1), with the
+                               largest share of one household in the variance of each label
     household_split.csv        the split of every meter (train / val / test, or duplicate) and its days
     figures/<model>_<ckpt>/    the paper's Figs. 3-12 (``utils.stats_plot``, both definition sets),
                                seed 0, 2,000 generated days per label, and the generated days
@@ -246,7 +247,10 @@ def ablation_deltas(abl: list[dict], order: list[str]) -> dict[str, str]:
 
 
 def label_table(splits) -> pd.DataFrame:
-    """Days and households per label and split (counterpart of Table 1 of the paper)."""
+    """Days and households per label and split (counterpart of Table 1 of the paper), and the largest share
+    of one household in the variance of the label: the sum over the 24 hours of the squared deviations of
+    its days from the mean day of the label, relative to that of all days.  Where it is large, the hourly
+    standard deviation of the label, and with it the accuracy, depends on single households."""
     rows = []
     for lab in range(N_LABELS):
         d, g, se = (int(v) for v in decode_label(lab))
@@ -256,8 +260,23 @@ def label_table(splits) -> pd.DataFrame:
             row[f"days {name}"] = int(m.sum())
             row[f"households {name}"] = int(len(np.unique(splits[name].meter[m])))
         row["days all"] = row["days train"] + row["days val"] + row["days test"]
+        for name in ("train", "val", "test"):
+            m = splits[name].label == lab
+            x = splits[name].X[m].astype(np.float64)
+            squares = pd.Series(((x - x.mean(0)) ** 2).sum(1)).groupby(splits[name].meter[m]).sum()
+            row[f"largest household share of variance {name} (%)"] = round(100 * float(squares.max() / squares.sum()), 1)
         rows.append(row)
     return pd.DataFrame(rows)
+
+
+def write_label_table(splits, out: Path) -> pd.DataFrame:
+    labels = label_table(splits)
+    labels.to_csv(out / "table1_labels.csv", index=False)
+    totals = {d: int(labels.loc[labels["Day type"] == d, "days all"].sum()) for d in DAYTYPE_NAMES}
+    (out / "table1_labels.md").write_text(labels.to_markdown(index=False) + "\n\nTotal days: "
+                                          + ", ".join(f"{d} {n:,}" for d, n in totals.items()) + "\n",
+                                          encoding="utf-8")
+    return labels
 
 
 def per_seed_table(rows: list[dict]) -> pd.DataFrame:
@@ -377,12 +396,7 @@ def main(argv=None):
                 rows.append({"model": f"{model} [{ckpt}]", "seed": run_dir.name,
                              **evaluate_run(run_dir, ckpt, cache)})
     splits = cache.get(("net", 2024)) or load_profiles(args.data)
-    labels = label_table(splits)
-    labels.to_csv(out / "table1_labels.csv", index=False)
-    totals = {d: int(labels.loc[labels["Day type"] == d, "days all"].sum()) for d in DAYTYPE_NAMES}
-    (out / "table1_labels.md").write_text(labels.to_markdown(index=False) + "\n\nTotal days: "
-                                          + ", ".join(f"{d} {n:,}" for d, n in totals.items()) + "\n",
-                                          encoding="utf-8")
+    write_label_table(splits, out)
     household_table(args.data, splits=splits).to_csv(out / "household_split.csv", index=False)
     for src, name in (("val", "Real: validation households"), ("train", "Real: training households")):
         rows.append({"model": name, "seed": "-", **reference_row(runs, splits, src)})
