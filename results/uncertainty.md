@@ -1,9 +1,11 @@
-| quantity                            |   estimate |   SE households |   SD seeds |   SE total | 95% CI       |   one-sided 95% lower bound |
-|:------------------------------------|-----------:|----------------:|-----------:|-----------:|:-------------|----------------------------:|
-| accuracy, final (mean of 5 seeds)   |      87.87 |            0.73 |       0.21 |       0.74 | 86.4 to 89.3 |                       86.66 |
-| final - GitHub cGAN [last]          |      39.52 |            0.61 |     nan    |     nan    | 38.3 to 40.7 |                       38.51 |
-| final - GitHub cGAN [best]          |      32.72 |            0.47 |     nan    |     nan    | 31.8 to 33.7 |                       31.94 |
-| final - real: validation households |       1.81 |            0.64 |     nan    |     nan    | 0.6 to 3.1   |                        0.75 |
-| final - real: training households   |      -0.08 |            0.39 |     nan    |     nan    | -0.8 to 0.7  |                       -0.72 |
+| quantity                                  |   estimate |   SE households |   SD seeds |   SE total | 95% CI       |   one-sided 95% lower bound |
+|:------------------------------------------|-----------:|----------------:|-----------:|-----------:|:-------------|----------------------------:|
+| accuracy, final (mean of 5 seeds)         |      87.87 |            0.73 |       0.21 |       0.74 | 86.4 to 89.3 |                       86.66 |
+| final - GitHub cGAN [last]                |      39.52 |            0.61 |     nan    |     nan    | 38.3 to 40.7 |                       38.51 |
+| final - GitHub cGAN [best]                |      32.72 |            0.47 |     nan    |     nan    | 31.8 to 33.7 |                       31.94 |
+| final - Gaussian copula                   |       2.16 |            0.34 |     nan    |     nan    | 1.5 to 2.8   |                        1.59 |
+| final - Gaussian mixture (160 components) |       2.02 |            0.37 |     nan    |     nan    | 1.3 to 2.7   |                        1.41 |
+| final - real: validation households       |       1.81 |            0.64 |     nan    |     nan    | 0.6 to 3.1   |                        0.75 |
+| final - real: training households         |      -0.08 |            0.39 |     nan    |     nan    | -0.8 to 0.7  |                       -0.72 |
 
 Stratified half-sampling of the test households, 100 replicates; differences are paired (same household splits for all sets).  Accuracies in percent, differences in percentage points.  The final-model SE for differences uses the household term only (seed SD is shown separately).
