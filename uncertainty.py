@@ -22,6 +22,14 @@ the 95 % interval and the one-sided 95 % lower bound against 85 %, and paired
 differences to the GitHub model and the real-data benchmarks.  ``--compare``
 adds paired differences to other trained models (e.g. ``abl_quantile``) and
 ``--baselines`` to the classical generators of ``baselines.py`` (run it first).
+
+``--stored results`` reuses the half-sample scores of an earlier run of this
+script (``uncertainty_replicates.csv``, with the accuracies of
+``all_runs.csv``): sets that are stored are not sampled again, so rows can be
+added without the checkpoints of the models that are already in the table, for
+instance the classical generators on a machine without the trained models.
+The household halves depend only on the replicate number, and the stored
+scores of the real-data benchmarks must equal the recomputed ones.
 """
 import argparse
 import json
@@ -73,6 +81,9 @@ def main(argv=None):
                     help="other trained models to compare with the final model, e.g. abl_quantile improved_big")
     ap.add_argument("--baselines", nargs="*", default=[], help="classical baselines, e.g. copula gmm")
     ap.add_argument("--baseline-seeds", type=int, default=5)
+    ap.add_argument("--stored", default=None, metavar="FOLDER",
+                    help="folder with uncertainty_replicates.csv and all_runs.csv of an earlier run; "
+                         "sets stored there are not sampled again")
     ap.add_argument("--reps", type=int, default=100)
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--data", default="data/processed/fluvius_hourly.npz")
@@ -82,15 +93,27 @@ def main(argv=None):
     runs = Path(args.runs)
     splits = load_profiles(args.data)
     test = splits["test"]
-    sources, point = {}, {}
+    sources, point, stored = {}, {}, {}
+    if args.stored:
+        rep = pd.read_csv(Path(args.stored) / "uncertainty_replicates.csv", header=[0, 1])
+        if len(rep) < args.reps:
+            raise SystemExit(f"{args.stored} holds {len(rep)} replicates, fewer than --reps {args.reps}")
+        stored = {name: (rep["A"][name].to_numpy()[: args.reps], rep["B"][name].to_numpy()[: args.reps])
+                  for name in rep["A"].columns}
+        published = pd.read_csv(Path(args.stored) / "all_runs.csv").set_index(["model", "seed"])["accuracy"]
+        for name in stored:                 # "final[best]/seed0" is the row ("final [best]", "seed0")
+            if not name.startswith(("real[", "baseline[")):
+                point[name] = float(published[name.split("/")[0].replace("[", " ["), name.split("/")[1]])
     compare = [(m, c or "best") for m, _, c in (spec.partition(":") for spec in args.compare)]
     for model, ckpts in ((args.final, ["best"]), (args.faithful, ["best", "last"]), *((m, [c]) for m, c in compare)):
         for run_dir in sorted((runs / model).glob("seed*")):
             if not (run_dir / "train_summary.json").exists():
                 continue
             for ckpt in ckpts:
-                wrapped, cfg = load_run(run_dir, ckpt)
                 name = f"{model}[{ckpt}]/{run_dir.name}"
+                if name in stored:
+                    continue
+                wrapped, cfg = load_run(run_dir, ckpt)
                 sources[name] = wrapped.sample_kwh(test.label, EVAL_SEED + cfg["seed"]).astype(np.float32)
                 point[name] = json.loads((run_dir / f"eval_test_{ckpt}.json").read_text())["accuracy"]
     titles = {}
@@ -100,27 +123,38 @@ def main(argv=None):
         cache = runs / "baselines"
         for name in args.baselines:
             k = B.selected_components(cache) if name == "gmm" else None
-            titles[name] = B.TITLES[name] + (f" ({k} components)" if k else "")
+            tag = f"{name}{k or ''}"                     # the mixture is stored with its number of components
+            titles[tag] = B.TITLES[name] + (f" ({k} components)" if k else "")
             model = None
             for seed in range(args.baseline_seeds):
-                model = B.build(name, splits["train"], seed, k, cache) if name == "gmm" or model is None else model
-                key = f"baseline[{name}]/seed{seed}"
-                sources[key] = model.sample_kwh(test.label, EVAL_SEED + seed).astype(np.float32)
+                key = f"baseline[{tag}]/seed{seed}"
                 point[key] = json.loads((cache / name / f"seed{seed}_eval_test.json").read_text())["accuracy"]
+                if key in stored:
+                    continue
+                if name == "gmm" or model is None:
+                    model = B.build(name, splits["train"], seed, k, cache)
+                sources[key] = model.sample_kwh(test.label, EVAL_SEED + seed).astype(np.float32)
     for src in ("val", "train"):
         sources[f"real[{src}]"] = real_reference(splits, src, "test")[0].astype(np.float32)
         point[f"real[{src}]"] = json.loads((runs / "real_reference" / f"eval_test_{src}.json").read_text())["accuracy"]
-    print(f"{len(sources)} generated sets, {args.reps} replicates", flush=True)
+    print(f"{len(sources)} generated sets to score, {len(stored)} stored, {args.reps} replicates", flush=True)
 
     with ProcessPoolExecutor(args.workers, initializer=_init,
                              initargs=(test.X, test.label, test.meter, sources)) as ex:
         reps = list(ex.map(_replicate, range(args.reps)))
     a = pd.DataFrame([{k: v[0] for k, v in r.items()} for r in reps])
     b = pd.DataFrame([{k: v[1] for k, v in r.items()} for r in reps])
+    for name, (stored_a, stored_b) in stored.items():
+        if name in a:                                    # the benchmarks: same halves and data as the stored run
+            if not (np.allclose(a[name], stored_a, atol=1e-9) and np.allclose(b[name], stored_b, atol=1e-9)):
+                raise SystemExit(f"the stored half-sample scores of {name} differ from the recomputed ones")
+        a[name], b[name] = stored_a, stored_b
+    order = [*stored, *(c for c in a.columns if c not in stored)]
+    a, b = a[order], b[order]
     d = a - b                                            # half-to-half differences, one column per set
 
     def group(prefix):
-        return [c for c in sources if c.startswith(prefix)]
+        return [c for c in a.columns if c.startswith(prefix)]
 
     def se(cols_x, cols_y=None):
         """SE of mean(x) - mean(y) over the given sets (paired through the replicates)."""
@@ -139,7 +173,7 @@ def main(argv=None):
     for other, label in ((group(f"{args.faithful}[last]"), "GitHub cGAN [last]"),
                          (group(f"{args.faithful}[best]"), "GitHub cGAN [best]"),
                          *((group(f"{m}[{c}]"), f"{m} [{c}]") for m, c in compare),
-                         *((group(f"baseline[{name}]"), title) for name, title in titles.items()),
+                         *((group(f"baseline[{tag}]"), title) for tag, title in titles.items()),
                          (["real[val]"], "real: validation households"),
                          (["real[train]"], "real: training households")):
         if not other:
