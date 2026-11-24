@@ -58,6 +58,13 @@ percent; ± is the standard deviation over seeds.
   BCE model is better on the worst label (78.9 % against 74.6 %), the
   key-parameter FID (0.69 against 0.85), the near-base KL (0.070 against
   0.080) and the key-parameter std (90.7 % against 90.1 %).
+* **Classical generators** (*Classical baselines*, `results/baselines.md`): a
+  Gaussian copula fitted per label reaches 85.7 ± 0.2 % and a Gaussian mixture
+  85.8 ± 0.1 %; drawing every hour independently reaches 78.4 %.  The final model
+  is ahead of all of them on the key parameters, the classifier test and
+  coverage, with every seed.  In statistical accuracy it is 2.2 points above
+  the copula (paired 95 % interval over households 1.5 to 2.8) and 2.0 points
+  above the mixture (1.3 to 2.7).
 * **Acceptance levels of the paper** (`results/paper_criteria.md`, test
   households, share of label × key-parameter pairs, with the paper's
   definitions and a proper KL; the reference-code definitions are in the same
@@ -273,6 +280,93 @@ no-PV floor change only how generated days are read out and which checkpoint
 is selected: with the same seed, `abl_wide`, `abl_ema` and `improved` follow
 the same training trajectory, so their differences are not affected by
 training noise.
+
+## Classical baselines (`baselines.py`)
+
+Four generators without a neural network show what the conditional GAN adds.
+Each is fitted per label on the days of the training households and then
+treated like a trained model: it produces as many days per label as the test
+households have, and `evaluate.evaluate` computes the same metrics
+(`results/baselines.md` and `.csv`, five seeds; `python baselines.py` runs on a
+CPU and needs no trained model).
+
+| generator | fitted per label | reproduces by construction |
+|---|---|---|
+| independent hours | every hour is drawn on its own from the training days | the distribution of every hour; no relation between the hours of a day |
+| multivariate normal | mean day and covariance matrix of the 24 hours, in kWh | means, standard deviations and linear correlations; its values are symmetric and unbounded |
+| Gaussian copula | empirical distribution of every hour, joined by the correlation matrix of the normal scores | the distribution of every hour and the rank correlation between the hours |
+| Gaussian mixture | K normal components with full covariances in the per-hour Gaussianised space of the final model, with its floor of 0 kWh for labels without PV | several kinds of days within a label |
+
+A seed fixes the sampling noise and, for the mixture, the initialisation of the
+fit; the other fits are deterministic, so their spread over seeds is sampling
+noise only.  The number of mixture components is chosen on the validation
+households among 1, 2, 5, 10, 20, 40, 80 and 160, with the rule of the cGAN
+candidates (highest validation accuracy, the smaller mixture if two are within
+0.1 point): the validation accuracy is 83.1, 84.2, 85.0, 85.3, 85.7, 86.2, 86.7
+and 87.2 %, so the mixture has 160 components.  The accuracy still rises at the
+end of the grid.  The grid ends there because a component of the smallest label
+then holds 33 training days on average, hardly more than the 24 values of a
+day.  On the same validation days the Gaussian copula scores 86.7 % and the
+final model 88.5 % (seed 0 with fresh noise draws, `results/selection.md`).
+
+| generator | accuracy | hourly part (of 62.5) | key-parameter part (of 37.5) | worst label | FID (5 KP) ↓ | rFD ↓ | C2ST AUC | precision | recall | coverage ↑ | negative load, no PV |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| independent hours | 78.4 ± 0.1 | 52.9 | 25.4 | 59.9 | 11.7 | 0.481 | 0.99 | 0.29 | 0.81 | 0.18 | 0 |
+| multivariate normal | 74.7 ± 0.1 | 51.0 | 23.7 | 52.8 | 37.8 | 0.126 | 0.99 | 0.36 | 0.85 | 0.19 | 23.4 % |
+| Gaussian copula | 85.7 ± 0.2 | 53.0 | 32.7 | 67.4 | 2.04 | 0.141 | 0.80 | 0.76 | 0.90 | 0.62 | 0 |
+| Gaussian mixture (160 components) | 85.8 ± 0.1 | 52.2 | 33.7 | 68.4 | 1.43 | 0.147 | 0.68 | 0.79 | 0.89 | 0.77 | 0 |
+| **final [best]** | **87.9 ± 0.2** | 53.3 | 34.6 | 74.6 | 0.85 | 0.117 | 0.61 | 0.82 | 0.88 | 0.81 | 0 |
+| real: validation households | 86.1 | 51.6 | 34.5 | 76.9 | 0.75 | 0.167 | 0.50 | 0.83 | 0.83 | 0.79 | 0 |
+| real: training households | 87.9 | 53.0 | 35.0 | 70.6 | 0.50 | 0.132 | 0.49 | 0.83 | 0.88 | 0.82 | 0 |
+
+The accuracy is the sum of two parts, given here in points: the hourly part
+(mean profile + std profile + hourly 1−KS / 2) / 4, which depends only on the
+distribution of each hour, and the key-parameter part
+((KP mean + KP std) / 2 + KP 1−KS / 2) / 4, which depends on the shape of the
+days.
+
+* **The accuracy has a narrow range between generators that copy the hourly
+  distributions.**  Such a generator gets about 53 of the 62.5 points of the
+  hourly part, as real days of the training households do (53.0): what is
+  missing is the difference between the training and the test households, which
+  no generator can know.  The models differ in the key-parameter part, from
+  25.4 points without any relation between the hours to 35.0 for real days of
+  the training households.  On this data set the accuracy of a generator with
+  the right hourly distributions therefore lies between 78.4 % and about 88 %,
+  and the copula and the mixture pass the 85 % target.
+* **The final model is ahead on the shape of the days.**  `baselines.md`
+  compares the final model with every generator metric by metric.  Every seed
+  of the final model is better than every seed of the copula and of the
+  mixture on the key-parameter terms, the key-parameter FID and KL, the worst
+  label, rFD, the C2ST AUC, precision, coverage and the DCR ratio.
+  The exceptions: independent hours and the copula reuse the training values
+  of every hour and are 0.2 point ahead on the hourly 1−KS (93.6 against
+  93.5 %); the copula is within the seed spread of the final model on the mean
+  profile and the hourly standard deviation; and the copula and the mixture
+  have a higher recall (0.90 and 0.89 against 0.88) with a lower precision
+  (0.76 and 0.79 against 0.82), so they spread wider than the real days.  The
+  mixture is closer to the final model than the copula on the shape of the
+  days (key-parameter FID 1.43 against 2.04, C2ST AUC 0.68 against 0.80,
+  coverage 0.77 against 0.62) but loses on the hourly standard deviation
+  (76.4 % against 78.8 %).  Its DCR ratio of 1.02 gives no sign that the many
+  components copy training days.
+* **The acceptance levels of the paper do not separate the models.**  With the
+  definitions of the paper the copula meets them for 94, 100, 98 and 100 % of
+  the pairs and the mixture for 97, 100, 99 and 100 % (|difference of mean| < 1,
+  |difference of std| < 1, KL < 0.3, FID < 5), against 99, 100, 100 and 100 %
+  for the final model.
+* **rFD and the correlation error see only means and covariances.**  The
+  multivariate normal reproduces both by construction: its rFD (0.126) and
+  correlation error (0.071) are close to those of the final model (0.117 and
+  0.071), while its days are the least realistic of all (C2ST AUC 0.99, 23 % of
+  the values of labels without PV negative).
+* **Household uncertainty** (`results/uncertainty.md`): with the half-sampling
+  of the test households the final model is 2.16 points above the copula
+  (standard error 0.34, 95 % interval 1.5 to 2.8) and 2.02 points above the
+  mixture (0.37, 1.3 to 2.7).  In 20 other splits of the households the copula
+  stays 2.2 ± 0.2 points below real days of the training households
+  (`results/split_sensitivity.md`); the final model is level with this
+  benchmark in the split of the study (−0.1, interval −0.8 to +0.7).
 
 ## Paper, reference code and this implementation
 
@@ -533,7 +627,41 @@ many real days a label has — fewer days give a lower score — so it is
 comparable only between rows evaluated on the same test set, as all rows here
 are, and the 85 % target refers to this test split.  All results are
 conditional on the 1,657 training households, and the benchmarks on their pool
-of households.
+of households.  The household halves depend only on the replicate number, so
+`uncertainty.py --stored results` adds rows to the table without sampling the
+stored sets again, as for the classical baselines; it stops if the stored
+scores of the real-data benchmarks differ from the recomputed ones.
+
+**Other household splits** (`split_sensitivity.py`,
+`results/split_sensitivity.md`).  The half-sampling keeps the training
+households fixed and works with the test households of one split.  As a check
+that needs no trained network, the split is drawn again with 20 other seeds
+(same fractions and stratification), and the two real-data benchmarks and the
+Gaussian copula (one sampling seed) are scored on the test households of every
+split:
+
+| | split of the study | 20 other splits, mean ± SD | median | range | household SE, split of the study |
+|---|---|---|---|---|---|
+| real: training households | 87.95 | 88.44 ± 1.18 | 88.66 | 84.63 to 90.06 | 0.78 |
+| real: validation households | 86.06 | 86.70 ± 1.10 | 86.72 | 84.43 to 88.45 | 0.98 |
+| Gaussian copula | 85.78 | 86.28 ± 1.12 | 86.54 | 82.65 to 87.76 | 0.77 |
+| Gaussian copula − training households | −2.17 | −2.16 ± 0.18 | | −2.46 to −1.67 | |
+| validation − training households | −1.89 | −1.75 ± 1.34 | | −3.98 to +0.92 | |
+
+The split of the study is an ordinary one, somewhat below the average (4 of
+the 20 other splits give a lower training-household benchmark).  The level of
+the accuracy varies more between splits than the half-sampling standard error
+of one split indicates (SD 1.1–1.2 points against 0.8–1.0), mostly through single
+splits far below the others: the distribution has a tail towards low values
+(84.6 and 86.7 % for the training-household benchmark of two splits, all others
+87.6–90.1 %), as expected when single households carry much of the variance of
+a label.  The 85 % target is therefore not a fixed bar, and the intervals of
+`uncertainty.md` describe the split of the study.  The difference between the
+copula and the training-household benchmark of the same split is nearly
+constant (SD 0.18 points), whereas the validation-household benchmark, a pool
+of 356 households, moves by 1.3 points against it: differences between
+generators that are scored on the same test households are more reliable than
+the levels.
 
 **Reliability check** (`reliability.py`, `results/reliability.md`).  Five
 headline metrics with approximate 95 % intervals over the test households (normal
@@ -576,6 +704,30 @@ published figures only and is not used to rank models.
   existed were restarted from scratch; since then every run writes
   `resume.pt` and continues after an interruption (`run_jobs.py`).
 
+## Re-training on other hardware (`replication.py`)
+
+All runs of the result tables were trained on one CUDA device.  To see how
+much the results depend on the hardware and the package versions, `improved`
+(seed 0) was trained again on a CPU with the environment of
+`requirements-lock.txt` (`jobs/replication.txt`, one thread; every run writes
+its environment to `environment.json`).  A seed fixes a run on one type of
+device (on the CPU a run repeats exactly, also after an interruption;
+`tests/test_train.py`), but the CPU and CUDA generators draw different random
+numbers, so a re-trained run is a new, independent run of its configuration
+and is compared with the spread of the published seeds
+(`results/replication.md`):
+
+| | test accuracy | worst label | FID (5 KP) | rFD | C2ST AUC | coverage | DCR ratio |
+|---|---|---|---|---|---|---|---|
+| `improved` [best], 5 published seeds | 87.5 ± 0.2 | 76.0 ± 1.5 | 1.03 ± 0.08 | 0.117 ± 0.005 | 0.645 ± 0.011 | 0.791 ± 0.004 | 1.03 ± 0.01 |
+| `improved` [best], re-trained (seed 0) | 87.7 | 77.2 | 1.08 | 0.112 | 0.646 | 0.792 | 1.03 |
+
+The re-trained run lies within the seed-to-seed spread of the published runs:
+its accuracy is 0.2 point above their mean (0.9 of their standard deviations),
+and of the metrics in `replication.md` only the mean profile differs by more
+than 1.2 standard deviations (87.0 % against 86.5 ± 0.2 %).  The published
+values of `improved` are read from the rounded cells of `results/ablation.csv`.
+
 ## Reproducing
 
 ```bash
@@ -586,6 +738,7 @@ pip install -r requirements.txt
 mkdir -p data/raw
 curl -L -o data/raw/raw.zip https://github.com/MahmoudAsadi97/Cgan_Research_2026/releases/download/data/raw.zip
 python data_prep.py                                   # -> data/processed/fluvius_hourly.npz (~1 min)
+python data_check.py                                  # checksum, cleaning, split and label counts of the local data
 python -m pytest
 
 python run_jobs.py jobs/variants.txt --parallel 3     # model-selection candidates and faithful seed 0
@@ -596,11 +749,16 @@ python report.py --models faithful final --figures faithful:last final:best \
     --ablation faithful abl_shuffle abl_quantile abl_wgan_refnets abl_wide abl_ema improved improved_big final \
     --selection dev_improved_nofloor improved_diff improved_big improved_bigdiff final \
     --paper-protocol faithful:last final:best --curves faithful final
-python uncertainty.py --reps 100                      # household-level uncertainty (needs report.py first)
+python baselines.py                                   # classical baselines (CPU; compares with all_runs.csv of report.py)
+python uncertainty.py --reps 100 --baselines copula gmm   # household-level uncertainty (needs report.py and baselines.py first)
+python split_sensitivity.py                           # real-data benchmarks and copula on 20 other household splits (CPU)
 python reliability.py --models final:best faithful:last --reps 10 --workers 6   # five metrics with household intervals
 python compare_paper.py --pdf <paper.pdf> --reference-gen "<cGAN_EB>/cGAN Generation"   # needs the PDF, poppler's pdfimages and a clone of the reference
 python compare_paper.py --pdf <paper.pdf> --reference-gen "<cGAN_EB>/cGAN Generation" --ranks 21 3 --out results/figure_ranks
 python dashboard.py                                   # live training monitor, http://127.0.0.1:8050
+
+python run_jobs.py jobs/replication.txt --runs runs_cpu   # improved and final (seed 0) again, e.g. on other hardware
+python replication.py --runs runs_cpu                 # the re-trained runs against the published seeds
 ```
 
 `run_jobs.py` starts every job with `train.py --resume`: running a job file
@@ -612,20 +770,25 @@ checkpoint and skips finished ones.  Single runs:
 
 ```
 data_prep.py   raw.zip -> hourly arrays; labels, cleaning, household split
+data_check.py  checks of a local copy of the data; the split of every meter
 cGAN.py        reference Generator / Discriminator / cGAN; cWGAN (improved and final models)
 train.py       configurations, value transforms, validation, checkpoints and resuming
+baselines.py   classical baseline generators, fitted, selected and scored like the models
 run_jobs.py    runs a job file a few jobs at a time, resuming interrupted runs
 metrics.py     key parameters (paper text and reference code), accuracy, KL / FID, other metrics
 evaluate.py    evaluation of one run (or of the real-data benchmarks)
 report.py      result tables and figures for all finished runs
 uncertainty.py household-level standard errors and paired differences (half-sampling)
+split_sensitivity.py real-data benchmarks and Gaussian copula on other random household splits
 reliability.py five headline metrics with confidence intervals over households
+replication.py re-trained runs against the published seeds; additional seeds of the ablation
 compare_paper.py comparison with the published figures of the paper, all seeds
 utils.py       reference result analysis: per-label CSVs and the paper's Figs. 3-12
 dashboard.py   live training monitor
 jobs/          job files of all experiments
 results/       tables and figures (generated days of the final model in results/figures/final_best)
 tests/         unit tests
+requirements-lock.txt  exact package versions of a tested CPU environment
 LICENSE-cGAN_EB  license of the reference code adapted in cGAN.py and utils.py
 ```
 
