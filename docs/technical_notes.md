@@ -138,6 +138,36 @@ data (316–9,325 days per label), the labels are nearly balanced, so the
 paper's explanation of its weakest labels by class imbalance does not arise
 here.
 
+**Checks of a local copy.**  `results/household_split.csv` lists the split of
+every meter (and the 33 removed copies), so the split does not depend on the
+random-number stream of a NumPy version.  `python data_check.py` compares a
+local copy with the published data: the SHA-256 of `raw.zip`
+(`934cc871…389bd8`), the numbers of removed meters and meter-days, the
+households and days per split, the split of every meter and the days per label.
+
+**Meters without PV.**  The legend of the release states that meters without
+the PV indicator registered no injection during the year.  Three of the 1,200
+such meters do register a little (0.001, 0.012 and 4.7 kWh in the year), and the
+net load of one of them, a training household, is negative in 5 hours (minimum
+−0.40 kWh).  The validation and test households hold no negative value for
+labels without PV.
+
+**Single households.**  Households differ strongly (the mean net load of a
+household ranges from −15 to 103 kWh a day, median 9 kWh), and a label of the
+test households holds the days of 42–45 households only.
+`results/table1_labels.md` therefore also gives, per label and split, the
+largest share of one household in the variance of the label (its part of the
+squared deviations from the mean day of the label).  For 10 of the 64 labels of
+the test households one household carries more than 25 % of the variance (six
+labels of the group without technology and four of the heat-pump group), and
+for the group without technology in winter two thirds (66.6 % on weekdays and
+64.9 % at weekends, against 17.0 % and 15.9 % for the training households).  The
+hourly standard deviation of such a label, one of the four terms of the
+statistical accuracy, is then set by one household that no generator can know:
+real days of the training households score 70.6 % on the weekday winter label
+of the group without technology, their lowest label, and 78.4 % on average over
+the eight labels of this group against 85.8–92.1 % for the other groups.
+
 ## Models (`cGAN.py`, `train.py`)
 
 ### `faithful` — the GitHub code
