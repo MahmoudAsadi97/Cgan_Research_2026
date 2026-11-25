@@ -212,7 +212,7 @@ split again 20 times and scoring what needs no trained network gives:
 |---|---|---|---|
 | Real days, training households (%) | 87.9 | 88.4 ± 1.2 | 84.6 to 90.1 |
 | Real days, validation households (%) | 86.1 | 86.7 ± 1.1 | 84.4 to 88.5 |
-| Gaussian copula, one sampling seed (%) | 85.8 | 86.3 ± 1.1 | 82.7 to 87.8 |
+| Gaussian copula, one sampling seed (%) | 85.8 | 86.3 ± 1.1 | 82.6 to 87.8 |
 | Gaussian copula − training households (points) | −2.2 | −2.2 ± 0.2 | −2.5 to −1.7 |
 
 - The split of this study is an ordinary one: 4 of the 20 other splits give
