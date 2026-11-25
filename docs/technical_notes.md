@@ -722,26 +722,37 @@ published figures only and is not used to rank models.
 ## Re-training on other hardware (`replication.py`)
 
 All runs of the result tables were trained on one CUDA device.  To see how
-much the results depend on the hardware and the package versions, `improved`
-(seed 0) was trained again on a CPU with the environment of
-`requirements-lock.txt` (`jobs/replication.txt`, one thread; every run writes
-its environment to `environment.json`).  A seed fixes a run on one type of
-device (on the CPU a run repeats exactly, also after an interruption;
-`tests/test_train.py`), but the CPU and CUDA generators draw different random
-numbers, so a re-trained run is a new, independent run of its configuration
-and is compared with the spread of the published seeds
+much the results depend on the hardware and the package versions, the final
+model and `improved` (seed 0 each) were trained again on a CPU with the
+environment of `requirements-lock.txt` (`jobs/replication.txt`, one thread;
+every run writes its environment to `environment.json`).  A seed fixes a run on
+one type of device (on the CPU a run repeats exactly, also after an
+interruption; `tests/test_train.py`), but the CPU and CUDA generators draw
+different random numbers, so a re-trained run is a new, independent run of its
+configuration and is compared with the spread of the published seeds
 (`results/replication.md`):
 
 | | test accuracy | worst label | FID (5 KP) | rFD | C2ST AUC | coverage | DCR ratio |
 |---|---|---|---|---|---|---|---|
+| `final` [best], 5 published seeds | 87.9 ± 0.2 | 74.6 ± 0.6 | 0.85 ± 0.03 | 0.117 ± 0.005 | 0.609 ± 0.006 | 0.808 ± 0.002 | 1.01 ± 0.00 |
+| `final` [best], re-trained (seed 0) | 88.0 | 75.3 | 0.82 | 0.116 | 0.615 | 0.807 | 1.00 |
 | `improved` [best], 5 published seeds | 87.5 ± 0.2 | 76.0 ± 1.5 | 1.03 ± 0.08 | 0.117 ± 0.005 | 0.645 ± 0.011 | 0.791 ± 0.004 | 1.03 ± 0.01 |
 | `improved` [best], re-trained (seed 0) | 87.7 | 77.2 | 1.08 | 0.112 | 0.646 | 0.792 | 1.03 |
 
-The re-trained run lies within the seed-to-seed spread of the published runs:
-its accuracy is 0.2 point above their mean (0.9 of their standard deviations),
-and of the metrics in `replication.md` only the mean profile differs by more
-than 1.2 standard deviations (87.0 % against 86.5 ± 0.2 %).  The published
-values of `improved` are read from the rounded cells of `results/ablation.csv`.
+In accuracy both re-trained runs lie within the seed-to-seed spread of the
+published runs: the final model is 0.1 point above their mean (0.5 of their
+standard deviations; the five seeds range from 87.6 to 88.1 %) and `improved`
+0.2 point (0.9).  No metric of these checkpoints is worse than the published
+mean by more than 1.2 standard deviations.  In the other direction the largest
+distances are those of the mean profile (87.1 % against 86.7 ± 0.2 % for the
+final model, 87.0 % against 86.5 ± 0.2 % for `improved`) and of the hourly
+distributions of the final model (93.58 % against 93.47 ± 0.05 %), 1.9 to 2.5
+standard deviations.  The last iterate of the re-trained final model scores
+88.1 %, above its five published last iterates (87.6 ± 0.2 %, at most 87.9 %).
+A standard deviation from five seeds is itself uncertain by about a third, and
+one re-trained seed per model cannot separate the spread of independent runs
+from a small effect of the hardware.  The published values of `improved` are
+read from the rounded cells of `results/ablation.csv`.
 
 ## Reproducing
 

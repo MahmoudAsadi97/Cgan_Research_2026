@@ -226,11 +226,11 @@ split again 20 times and scoring what needs no trained network gives:
 
 ### Re-training on other hardware
 
-All runs above were trained on one GPU.  Trained again on a CPU, `improved`
-(seed 0) reaches 87.7 % against 87.5 ± 0.2 % for its five GPU seeds, and the
-other metrics agree as closely (`results/replication.md`).  This is an
-independent run of the configuration, because CPU and GPU draw different
-random numbers.
+All runs above were trained on one GPU.  Trained again on a CPU with seed 0,
+the final model reaches 88.0 % against 87.9 ± 0.2 % for its five GPU seeds, and
+`improved` 87.7 % against 87.5 ± 0.2 %.  The other metrics agree as closely
+(`results/replication.md`).  These are independent runs of the two
+configurations, because CPU and GPU draw different random numbers.
 
 ### Acceptance levels of the paper
 
