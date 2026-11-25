@@ -190,6 +190,15 @@ real days of the training households score 70.6 % on the weekday winter label
 of the group without technology, their lowest label, and 78.4 % on average over
 the eight labels of this group against 85.8–92.1 % for the other groups.
 
+The table also gives the share of the variance of a label that lies between
+households (every day replaced by the mean day of its household): 37.0 % on
+average over the labels for the training households, from 17.1 to 79.6 %
+(33.7 % for the validation and 34.1 % for the test households).  The models of
+this study, like the model of the paper, draw single days for a label and know
+no household.  They are trained and evaluated on the pooled days of a label;
+365 days drawn for one household would not share a level, and a set of such
+households would differ far less from each other than real households do.
+
 ## Models (`cGAN.py`, `train.py`)
 
 ### `faithful` — the GitHub code

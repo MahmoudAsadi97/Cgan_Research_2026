@@ -304,6 +304,11 @@ ranking of the two models.
 - The five seeds of every model share one split of the households.  On other
   splits `improved` has one run on eight of them; only the real-data benchmarks
   and the copula are scored on all 20.
+- The models generate single days and know no household.  Within a label,
+  37 % of the variance of the hourly load lies between households on average
+  (17 to 80 % depending on the label), so days drawn for one household would
+  not share its level.  All metrics compare the pooled days of a label, as the
+  paper does.
 - The sample does not represent the mix of households in Flanders.  Fluvius
   drew 300 meters per technology group from the meters whose users had asked
   for quarter-hourly readings, and left out meters with a known storage

@@ -46,10 +46,14 @@ def test_split_is_the_published_one():
 
 
 def test_label_table_is_the_published_one(splits):
+    from report import label_table
+
     published = pd.read_csv(ROOT / "results" / "table1_labels.csv")
     for name in ("train", "val", "test"):
         days = np.bincount(splits[name].label, minlength=N_LABELS)
         assert (days == published[f"days {name}"].to_numpy()).all()
+    pd.testing.assert_frame_equal(label_table(splits), published, check_dtype=False, check_exact=False,
+                                  rtol=0, atol=0.11)             # the shares of the variance are rounded to 0.1 %
 
 
 def test_labels_without_pv_hold_almost_no_negative_load(splits):

@@ -26,7 +26,8 @@ Outputs in ``results/``:
     per_label.csv              statistical accuracy of every label: every model and checkpoint (mean over
                                seeds), the real-data benchmarks and the classical baselines, if evaluated
     table1_labels.md           days and households per label and split (counterpart of Table 1), with the
-                               largest share of one household in the variance of each label
+                               largest share of one household in the variance of each label and the share
+                               of the variance between households
     household_split.csv        the split of every meter (train / val / test, or duplicate) and its days
     figures/<model>_<ckpt>/    the paper's Figs. 3-12 (``utils.stats_plot``, both definition sets),
                                seed 0, 2,000 generated days per label, and the generated days
@@ -249,11 +250,22 @@ def ablation_deltas(abl: list[dict], order: list[str]) -> dict[str, str]:
     return out
 
 
+def household_shares(x: np.ndarray, meter: np.ndarray) -> tuple[float, float]:
+    """Two shares of the variance of a label, the sum over the 24 hours of the squared deviations of its days
+    from its mean day: the largest share of one household, and the share between the households (every day
+    replaced by the mean day of its household)."""
+    dev = x.astype(np.float64) - x.astype(np.float64).mean(0)
+    squares = pd.Series((dev ** 2).sum(1)).groupby(meter).sum()
+    days = pd.DataFrame(dev).groupby(meter)
+    between = ((days.mean() ** 2).sum(axis=1) * days.size()).sum()
+    return float(squares.max() / squares.sum()), float(between / squares.sum())
+
+
 def label_table(splits) -> pd.DataFrame:
-    """Days and households per label and split (counterpart of Table 1 of the paper), and the largest share
-    of one household in the variance of the label: the sum over the 24 hours of the squared deviations of
-    its days from the mean day of the label, relative to that of all days.  Where it is large, the hourly
-    standard deviation of the label, and with it the accuracy, depends on single households."""
+    """Days and households per label and split (counterpart of Table 1 of the paper), and two shares of the
+    variance of the label (``household_shares``).  Where the largest share of one household is large, the
+    hourly standard deviation of the label, and with it the accuracy, depends on single households.  The
+    share between households is what a generator of single days cannot give to the days of one household."""
     rows = []
     for lab in range(N_LABELS):
         d, g, se = (int(v) for v in decode_label(lab))
@@ -263,12 +275,12 @@ def label_table(splits) -> pd.DataFrame:
             row[f"days {name}"] = int(m.sum())
             row[f"households {name}"] = int(len(np.unique(splits[name].meter[m])))
         row["days all"] = row["days train"] + row["days val"] + row["days test"]
-        for name in ("train", "val", "test"):
-            m = splits[name].label == lab
-            x = splits[name].X[m].astype(np.float64)
-            squares = pd.Series(((x - x.mean(0)) ** 2).sum(1)).groupby(splits[name].meter[m]).sum()
-            share = float(squares.max() / squares.sum())
-            row[f"largest household share of variance {name} (%)"] = round(100 * share, 1)
+        shares = {name: household_shares(splits[name].X[splits[name].label == lab],
+                                         splits[name].meter[splits[name].label == lab])
+                  for name in ("train", "val", "test")}
+        for k, title in enumerate(("largest household share of variance", "share of variance between households")):
+            for name in shares:
+                row[f"{title} {name} (%)"] = round(100 * shares[name][k], 1)
         rows.append(row)
     return pd.DataFrame(rows)
 
