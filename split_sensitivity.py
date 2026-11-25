@@ -2,7 +2,7 @@
 
     python split_sensitivity.py                                      # the split of the study and 20 other splits
     python run_jobs.py jobs/splits.txt --runs runs_splits            # models trained on some of them
-    python split_sensitivity.py --trained runs_splits/* runs/improved runs/final
+    python split_sensitivity.py --trained runs_splits/* runs_cpu/improved runs_cpu/final
 
 Every number of the study is conditional on one random split of the households
 (``split_seed`` 2024).  This script draws the split again with other seeds and
@@ -23,8 +23,9 @@ training and validation households of the split in its configuration
 on the test households of its own split (``report.evaluate_run``,
 validation-selected checkpoint) and compared with the benchmark and the copula
 of that split, for which the classifier test, coverage and the DCR ratio are
-then computed as well.  The runs of one configuration must differ in the split
-and the seed only.
+then computed as well.  Two configurations are also compared with each other
+on the splits with runs of both.  The runs of one configuration must differ in
+the split and the seed only.
 
 Output: ``results/split_sensitivity.md`` and ``.csv`` (one row per split and set).
 """
@@ -32,6 +33,7 @@ import argparse
 import json
 import sys
 from concurrent.futures import ProcessPoolExecutor
+from itertools import combinations
 from pathlib import Path
 
 import numpy as np
@@ -99,9 +101,39 @@ def finished(models: list[str]) -> list[Path]:
 
 
 def trained_tables(df: pd.DataFrame) -> str:
-    """Every trained model next to the benchmark and the copula of the same split, split by split."""
+    """Every trained model next to the benchmark and the copula of the same split, split by split; then the
+    models against each other on the splits with runs of both."""
     model = df.set.str.extract(r"^(.+)\[best\]/seed\d+$")[0]
-    return "".join(model_tables(df, df[model == m], f"`{m}`") for m in model.dropna().unique())
+    names = list(model.dropna().unique())
+    runs = {m: df[model == m].groupby("split_seed")[[*TERMS, *PROFILE]].mean() for m in names}
+    return ("".join(model_tables(df, df[model == m], f"`{m}`") for m in names)
+            + "".join(pair_table(runs[a], runs[b], f"`{a}`", f"`{b}`") for a, b in combinations(names, 2)))
+
+
+def split_name(seed: int) -> str:
+    return f"of the study (seed {seed})" if seed == STUDY_SEED else f"seed {seed}"
+
+
+def pair_table(a: pd.DataFrame, b: pd.DataFrame, name_a: str, name_b: str) -> str:
+    """Differences between two trained models (the seeds of a split averaged) on the splits with runs of both."""
+    shared = set(a.index) & set(b.index)
+    other = sorted(shared - {STUDY_SEED})
+    order = [STUDY_SEED] * (STUDY_SEED in shared) + other
+    if not order:
+        return ""
+    d = pd.DataFrame({**{f"{TERMS[k]} (points)": 100 * (a[k] - b[k]) for k in ("accuracy", "accuracy.min_label")},
+                      **{title: a[k] - b[k] for k, title in PROFILE.items()}})
+    spec = {c: ".2f" if c.endswith("(points)") else ".3f" for c in d}
+    body = pd.DataFrame({c: d.loc[order, c].map(lambda v, c=c: format(v, "+" + spec[c])) for c in d})
+    body.insert(0, "split", [split_name(s) for s in order])
+    if len(other) > 1:
+        v = d.loc[other]
+        body = pd.concat([body, pd.DataFrame([{
+            "split": f"mean ± SD of the {len(other)} other splits",
+            **{c: f"{v[c].mean():+{spec[c]}} ± {v[c].std(ddof=1):{spec[c]}}" for c in d}}])])
+    return (f"\n\n{name_a} minus {name_b} on the splits with runs of both (validation-selected checkpoints, each "
+            "on the test households of its split; accuracy and worst label in percentage points):\n\n"
+            + body.to_markdown(index=False, disable_numparse=True) + "\n")
 
 
 def model_tables(df: pd.DataFrame, t: pd.DataFrame, name: str) -> str:
@@ -122,7 +154,7 @@ def model_tables(df: pd.DataFrame, t: pd.DataFrame, name: str) -> str:
         fmt = {c: "+" + spec if " - " in c else spec for c in table}
         body = pd.DataFrame({c: table.loc[order, c].map(lambda v, c=c: format(v, fmt[c])) for c in table})
         body.insert(0, "seeds", t.groupby("split_seed").size().loc[order])
-        body.insert(0, "split", [f"of the study (seed {s})" if s == STUDY_SEED else f"seed {s}" for s in order])
+        body.insert(0, "split", [split_name(s) for s in order])
         if len(other) > 1:
             v = table.loc[other]
             body = pd.concat([body, pd.DataFrame([{
@@ -161,7 +193,7 @@ def main(argv=None):
     ap.add_argument("--out", default="results")
     ap.add_argument("--data", default="data/processed/fluvius_hourly.npz")
     ap.add_argument("--trained", nargs="*", default=[], metavar="FOLDER",
-                    help="model folders with trained runs (<folder>/seed<k>), e.g. runs_splits/* runs/improved")
+                    help="model folders with trained runs (<folder>/seed<k>), e.g. runs_splits/* runs_cpu/improved")
     args = ap.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")

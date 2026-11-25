@@ -54,6 +54,11 @@ def test_a_trained_run_is_scored_on_the_test_households_of_its_split(archive, tm
     text = (tmp_path / "split_sensitivity.md").read_text(encoding="utf-8")
     assert "Trained model `improved`" in text and text.count("mean ± SD of the 2 other splits") == 2
     assert "Trained model `final`" in text
+    pair = text[text.index("`improved` minus `final` on the splits with runs of both"):].splitlines()[4:]
+    cells = [c.strip() for c in pair[0].split("|")[1:-1]]              # the one split with runs of both
+    acc = df.set_index(["split_seed", "set"]).accuracy
+    assert cells[:2] == ["seed 1", f"{100 * (acc[1, 'improved[best]/seed0'] - acc[1, 'final[best]/seed0']):+.2f}"]
+    assert len(cells) == 6 and len(pair) == 1
     for folder, depth in (("other", 2), ("again", 3)):                  # another depth; the same run once more
         (tmp_path / "runs" / folder / "seed0").mkdir(parents=True)
         for name in ("config.json", "train_summary.json"):
