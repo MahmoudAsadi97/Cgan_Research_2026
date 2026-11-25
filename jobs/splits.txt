@@ -1,5 +1,6 @@
-# The `improved` configuration trained on other random splits of the households (split_sensitivity.py).
-# The split seeds are the first eight of the splits scored there; every run goes to its own folder:
+# Models trained on other random splits of the households (split_sensitivity.py): the `improved`
+# configuration on the first eight of the splits scored there and the final model on the first four.
+# Every run goes to its own folder:
 #   python run_jobs.py jobs/splits.txt --runs runs_splits
 improved 0 improved_split0 split_seed=0
 improved 0 improved_split1 split_seed=1
@@ -9,3 +10,7 @@ improved 0 improved_split4 split_seed=4
 improved 0 improved_split5 split_seed=5
 improved 0 improved_split6 split_seed=6
 improved 0 improved_split7 split_seed=7
+final 0 final_split0 split_seed=0
+final 0 final_split1 split_seed=1
+final 0 final_split2 split_seed=2
+final 0 final_split3 split_seed=3
