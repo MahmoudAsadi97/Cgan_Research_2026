@@ -54,12 +54,15 @@ def test_a_trained_run_is_scored_on_the_test_households_of_its_split(archive, tm
     text = (tmp_path / "split_sensitivity.md").read_text(encoding="utf-8")
     assert "Trained model `improved`" in text and text.count("mean ± SD of the 2 other splits") == 2
     assert "Trained model `final`" in text
-    (tmp_path / "runs" / "other" / "seed0").mkdir(parents=True)
-    for name in ("config.json", "train_summary.json"):
-        cfg = (tmp_path / "runs" / "improved" / "seed0" / name).read_text().replace('"depth": 3', '"depth": 2')
-        (tmp_path / "runs" / "other" / "seed0" / name).write_text(cfg)
+    for folder, depth in (("other", 2), ("again", 3)):                  # another depth; the same run once more
+        (tmp_path / "runs" / folder / "seed0").mkdir(parents=True)
+        for name in ("config.json", "train_summary.json"):
+            cfg = (tmp_path / "runs" / "improved" / "seed0" / name).read_text()
+            (tmp_path / "runs" / folder / "seed0" / name).write_text(cfg.replace('"depth": 3', f'"depth": {depth}'))
     with pytest.raises(SystemExit, match="differ in more than the split and the seed"):
         S.finished([*models, str(tmp_path / "runs" / "other")])
+    with pytest.raises(SystemExit, match=f"more than one seed0 of improved on the split {S.STUDY_SEED}"):
+        S.finished([*models, str(tmp_path / "runs" / "again")])
     with pytest.raises(SystemExit, match="not among the scored splits"):
         S.main(["--splits", "1", "--workers", "1", "--out", str(tmp_path), "--data", str(archive),
                 "--trained", *models])

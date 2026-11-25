@@ -83,14 +83,18 @@ def one_run(run_dir) -> dict:
 
 def finished(models: list[str]) -> list[Path]:
     """Finished runs of the model folders; the runs of a configuration must differ in the split and the seed
-    only."""
+    only, and a split has one run of a configuration per seed."""
     runs = [d for m in models for d in sorted(Path(m).glob("seed*")) if (d / "train_summary.json").exists()]
-    settings = {}
+    settings, seen = {}, set()
     for d in runs:
         cfg = json.loads((d / "config.json").read_text())
         rest = {k: v for k, v in cfg.items() if k not in ("split_seed", "seed", "data")}
         if settings.setdefault(cfg["config"], rest) != rest:
             raise SystemExit(f"--trained: the runs of {cfg['config']} differ in more than the split and the seed")
+        key = (cfg["config"], cfg["split_seed"], d.name)
+        if key in seen:
+            raise SystemExit(f"--trained: more than one {d.name} of {cfg['config']} on the split {cfg['split_seed']}")
+        seen.add(key)
     return runs
 
 
