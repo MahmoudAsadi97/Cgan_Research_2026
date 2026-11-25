@@ -117,6 +117,13 @@ Fluvius open data set *Verbruiksprofielen digitale elektriciteitsmeters:
 kwartierwaarden voor een volledig jaar*
 ([opendata.fluvius.be](https://opendata.fluvius.be/explore/dataset/1_50-verbruiksprofielen-dm-elek-kwartierwaarden-voor-een-volledig-jaar/),
 [open data licence of Fluvius](https://opendata.fluvius.be/p/licentieopendatafluvius)).
+The licence allows the data to be copied, redistributed, changed and combined
+with other data when the source (Fluvius) and the date of the last update are
+named and the reuse is not presented as approved by Fluvius.  The eight CSV
+files and the legend in `raw.zip` are unchanged copies: on 25 November 2026
+they had the size and the CRC-32 of the files in the two archives and of the
+legend on the portal, which date from 30 July 2025 (archives) and 29 September
+2025 (legend).
 According to the legend, the scope is the residential digital meters whose
 users asked Fluvius to read the quarter-hourly values and for which all values
 of the year are available.  A meter counts as "with PV" when it registered
@@ -895,7 +902,7 @@ LICENSE-cGAN_EB  license of the reference code adapted in cGAN.py and utils.py
 
 ## References
 
-* Fluvius. Verbruiksprofielen digitale elektriciteitsmeters: kwartierwaarden voor een volledig jaar (sample of 2024). Fluvius Open Data. https://opendata.fluvius.be/explore/dataset/1_50-verbruiksprofielen-dm-elek-kwartierwaarden-voor-een-volledig-jaar/
+* Fluvius. Verbruiksprofielen digitale elektriciteitsmeters: kwartierwaarden voor een volledig jaar (sample of 2024, files of 30 July 2025). Fluvius Open Data. https://opendata.fluvius.be/explore/dataset/1_50-verbruiksprofielen-dm-elek-kwartierwaarden-voor-een-volledig-jaar/
 * Li, Y., Dong, B., Qiu, Y. (2025). Conditional generative adversarial network (cGAN) for generating building load profiles with photovoltaics and electric vehicles. *Energy and Buildings* 335, 115584. https://doi.org/10.1016/j.enbuild.2025.115584
 * Price, P. N. (2010). Methods for analyzing electric load shape and its variability. LBNL-3713E.
 * Wang, Z., Hong, T. (2020). Generating realistic building electrical load profiles through the Generative Adversarial Network (GAN). *Energy and Buildings* 224, 110299.

@@ -70,7 +70,12 @@ code discards days with negative values.
 
 The raw data are in the
 [`data` release](https://github.com/MahmoudAsadi97/Cgan_Research_2026/releases/tag/data)
-of this repository.
+of this repository.  The archive holds the files of the 2024 sample as
+Fluvius publishes them under its
+[open data licence](https://opendata.fluvius.be/p/licentieopendatafluvius),
+which allows reuse and redistribution when the source and the date of its last
+update are named: Fluvius Open Data, data files of 30 July 2025 and legend of
+29 September 2025.
 
 ## Method
 
@@ -362,7 +367,7 @@ estimates and the comparison with the paper are in the
 
 ## References
 
-- Fluvius. Verbruiksprofielen digitale elektriciteitsmeters: kwartierwaarden voor een volledig jaar (sample of 2024). Fluvius Open Data. https://opendata.fluvius.be/explore/dataset/1_50-verbruiksprofielen-dm-elek-kwartierwaarden-voor-een-volledig-jaar/
+- Fluvius. Verbruiksprofielen digitale elektriciteitsmeters: kwartierwaarden voor een volledig jaar (sample of 2024, files of 30 July 2025). Fluvius Open Data. https://opendata.fluvius.be/explore/dataset/1_50-verbruiksprofielen-dm-elek-kwartierwaarden-voor-een-volledig-jaar/
 - Li, Y., Dong, B., Qiu, Y. (2025). Conditional generative adversarial network (cGAN) for generating building load profiles with photovoltaics and electric vehicles. *Energy and Buildings* 335, 115584. https://doi.org/10.1016/j.enbuild.2025.115584
 - Price, P. N. (2010). Methods for analyzing electric load shape and its variability. LBNL-3713E.
 - Gulrajani, I., Ahmed, F., Arjovsky, M., Dumoulin, V., Courville, A. (2017). Improved training of Wasserstein GANs. NeurIPS.
