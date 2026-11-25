@@ -778,8 +778,8 @@ and all three are lowest in split 0).  The final model was chosen over
 other splits confirm this choice for the classifier test and coverage, and on
 average for the accuracy.  Their benchmarks lie close together (88.1 to
 88.8 %), so they say nothing about a split with a low benchmark such as 4 or 7,
-and the standard deviations of this table are smaller than those of the eight
-splits of `improved` for that reason.
+and the accuracies vary less in this table than over the eight splits of
+`improved`.
 
 Two consequences follow.  A difference of a few tenths of a point between a
 trained model and the benchmark, like the −0.1 point of the final model in the
