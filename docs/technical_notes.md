@@ -382,6 +382,9 @@ days.
   stays 2.2 ± 0.2 points below real days of the training households
   (`results/split_sensitivity.md`); the final model is level with this
   benchmark in the split of the study (−0.1, interval −0.8 to +0.7).
+  `improved`, trained again on eight of these splits, is 0.6 to 2.6 points
+  above the copula of its split and between 1.6 points below and 0.6 points
+  above the benchmark (see "Trained models on other splits" below).
 
 ## Paper, reference code and this implementation
 
@@ -674,9 +677,70 @@ a label.  The 85 % target is therefore not a fixed bar, and the intervals of
 `uncertainty.md` describe the split of the study.  The difference between the
 copula and the training-household benchmark of the same split is nearly
 constant (SD 0.18 points), whereas the validation-household benchmark, a pool
-of 356 households, moves by 1.3 points against it: differences between
-generators that are scored on the same test households are more reliable than
-the levels.
+of 356 households, moves by 1.3 points against it.
+
+**Trained models on other splits** (`jobs/splits.txt`,
+`results/split_sensitivity.md`).  A trained model has to be trained again for
+every split.  `improved` was trained on the first eight of the 20 splits
+(`train.py --set split_seed=K`, seed 0, on a CPU with the environment of the
+section on other hardware).  Every run sees the training households of its
+split, its checkpoint is selected on the validation households of that split,
+and it is scored on the test households of that split, next to the benchmark
+and the copula of the same split:
+
+| split | `improved` | training households | Gaussian copula | `improved` − training households | `improved` − copula | C2ST AUC, `improved` / copula | coverage, `improved` / copula |
+|---|---|---|---|---|---|---|---|
+| of the study | 87.67 | 87.95 | 85.78 | −0.28 | +1.89 | 0.646 / 0.804 | 0.792 / 0.618 |
+| 0 | 88.92 | 88.81 | 86.35 | +0.11 | +2.57 | 0.639 / 0.806 | 0.806 / 0.646 |
+| 1 | 87.69 | 88.11 | 86.44 | −0.42 | +1.25 | 0.676 / 0.804 | 0.794 / 0.647 |
+| 2 | 87.70 | 88.75 | 86.56 | −1.05 | +1.14 | 0.638 / 0.800 | 0.795 / 0.629 |
+| 3 | 87.50 | 88.80 | 86.65 | −1.31 | +0.85 | 0.649 / 0.796 | 0.787 / 0.637 |
+| 4 | 87.01 | 86.67 | 84.68 | +0.34 | +2.33 | 0.668 / 0.809 | 0.788 / 0.623 |
+| 5 | 88.87 | 89.81 | 87.48 | −0.94 | +1.40 | 0.660 / 0.801 | 0.801 / 0.642 |
+| 6 | 87.43 | 88.99 | 86.79 | −1.56 | +0.64 | 0.677 / 0.802 | 0.794 / 0.640 |
+| 7 | 85.25 | 84.63 | 82.65 | +0.62 | +2.60 | 0.658 / 0.809 | 0.792 / 0.635 |
+| mean ± SD, 8 other splits | 87.55 ± 1.15 | 88.07 ± 1.66 | 85.95 ± 1.55 | −0.53 ± 0.81 | +1.60 ± 0.79 | 0.658 ± 0.015 / 0.803 ± 0.004 | 0.795 ± 0.006 / 0.638 ± 0.008 |
+
+The row of the split of the study is the CPU run of the section on other
+hardware (the five GPU seeds give 87.5 ± 0.2 %).  `improved` is above the
+copula in each of the eight splits.  In every split a classifier separates its
+days from real days less well than copula days (AUC 0.64–0.68 against
+0.80–0.81), its coverage is higher (0.79–0.81 against 0.62–0.65) and its DCR
+ratio stays near 1 (0.99–1.07).  The split with the lowest benchmark (seed 7,
+84.6 %) is also the one with the lowest accuracy of `improved` (85.3 %).
+
+The distance to the training-household benchmark is not constant: −0.5 ± 0.8
+points, from −1.6 to +0.6, against −2.1 ± 0.2 for the copula in the same eight
+splits.  The copula takes the distribution of every hour from the training
+households, so its mean-profile and standard-deviation terms follow those of
+the benchmark (differences of −0.1 ± 0.2 and −0.2 ± 0.3 points over the 20
+splits) and its distance comes from the key-parameter terms.  A trained model
+has to learn these distributions.  Over the eight splits the term of the hourly
+standard deviation of `improved` lies between 2.3 points below and 3.1 points
+above that of the benchmark (SD 1.9 points, of which a quarter enters the
+accuracy), while the differences in the other terms have an SD of 0.1 to 0.9
+points.  `improved` is above the benchmark where the benchmark is low (splits
+4 and 7, in which the hourly standard deviation of the training households
+scores 76.2 and 72.6 %) and below it where the benchmark is high (correlation
+−0.77 between the benchmark and the difference), so its accuracy varies less
+between splits (SD 1.2 points) than that of the benchmark (1.7).
+
+Two consequences follow.  A difference of a few tenths of a point between a
+trained model and the benchmark, like the −0.1 point of the final model in the
+split of the study, belongs to that split and can change sign in another one.
+And the difference between `improved` and the copula varies over the splits
+with an SD of 0.8 points, about twice the half-sampling standard error of the
+difference between the final model and the copula in the split of the study
+(0.34).  The half-sampling keeps the training households fixed, and single
+runs add the spread of the training seed and of the sampling seed of the
+copula (0.2 points each).  The intervals of `uncertainty.md` describe the test
+households of the split of the study; for another draw of the training
+households they are too narrow.
+
+This check has one run per split.  The configurations were chosen on the
+validation households of the split of the study, which are spread over the
+training, validation and test households of the other splits, so only the
+weights and the checkpoint of a run are free of its test households.
 
 **Reliability check** (`reliability.py`, `results/reliability.md`).  Five
 headline metrics with approximate 95 % intervals over the test households (normal
@@ -785,6 +849,8 @@ python dashboard.py                                   # live training monitor, h
 
 python run_jobs.py jobs/replication.txt --runs runs_cpu   # improved and final (seed 0) again, e.g. on other hardware
 python replication.py --runs runs_cpu                 # the re-trained runs against the published seeds
+python run_jobs.py jobs/splits.txt --runs runs_splits     # improved and final trained on other household splits
+python split_sensitivity.py --trained runs_splits/* runs_cpu/improved runs_cpu/final   # ... next to the benchmarks of their splits
 ```
 
 `run_jobs.py` starts every job with `train.py --resume`: running a job file
@@ -805,7 +871,7 @@ metrics.py     key parameters (paper text and reference code), accuracy, KL / FI
 evaluate.py    evaluation of one run (or of the real-data benchmarks)
 report.py      result tables and figures for all finished runs
 uncertainty.py household-level standard errors and paired differences (half-sampling)
-split_sensitivity.py real-data benchmarks and Gaussian copula on other random household splits
+split_sensitivity.py real-data benchmarks, Gaussian copula and trained models on other random household splits
 reliability.py five headline metrics with confidence intervals over households
 replication.py re-trained runs against the published seeds; additional seeds of the ablation
 compare_paper.py comparison with the published figures of the paper, all seeds

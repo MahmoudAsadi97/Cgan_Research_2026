@@ -125,7 +125,7 @@ have, and all metrics are computed per label and averaged over the 64 labels.
 - **Uncertainty**: ± is the standard deviation over training seeds; intervals
   over households come from stratified half-sampling of the test households.
   The real-data benchmarks and the copula are also scored on 20 other random
-  splits of the households.
+  splits of the households, and `improved` is trained again on eight of them.
 
 ## Results
 
@@ -220,9 +220,35 @@ split again 20 times and scoring what needs no trained network gives:
 - The level of the accuracy moves by about 1.2 points from split to split, and
   in one split real days of the training households score 84.6 %.  The 85 %
   target is therefore not a fixed bar.
-- The difference between a generator and the benchmark of its own split is
-  stable (SD 0.2 points).  Comparisons between rows of one table are more
-  reliable than the levels.
+
+A trained model has to be trained again for every split.  I trained `improved`
+on the first eight of the 20 splits (one run per split with seed 0, on a CPU)
+and scored every run on the test households of its own split:
+
+| | Split of this study | 8 other splits, mean ± SD | Range |
+|---|---|---|---|
+| `improved` (%) | 87.7 | 87.5 ± 1.2 | 85.3 to 88.9 |
+| Real days, training households (%) | 87.9 | 88.1 ± 1.7 | 84.6 to 89.8 |
+| Gaussian copula, one sampling seed (%) | 85.8 | 85.9 ± 1.5 | 82.6 to 87.5 |
+| `improved` − training households (points) | −0.3 | −0.5 ± 0.8 | −1.6 to +0.6 |
+| `improved` − Gaussian copula (points) | +1.9 | +1.6 ± 0.8 | +0.6 to +2.6 |
+| C2ST AUC, `improved` | 0.65 | 0.66 ± 0.02 | 0.64 to 0.68 |
+| C2ST AUC, Gaussian copula | 0.80 | 0.80 ± 0.00 | 0.80 to 0.81 |
+
+- `improved` is above the copula in all eight splits, and in every split a
+  classifier separates its days from real days less well than copula days.
+- Its distance to real days of the training households is not fixed: from 1.6
+  points below to 0.6 points above.  The copula keeps its distance (SD 0.2
+  points) because it copies the hourly distributions of the training
+  households, which a trained model has to learn.  A difference of a few
+  tenths of a point between a trained model and this benchmark can therefore
+  change sign with the split.
+- The lead over the copula varies more between splits (+0.6 to +2.6 points)
+  than the household interval of the split of this study suggests (1.5 to 2.8
+  for the final model).  That interval keeps the training households fixed.
+
+The column of the split of this study holds the CPU run of the next section
+(87.7 %; the five GPU seeds of `improved` give 87.5 ± 0.2 %).
 
 ### Re-training on other hardware
 
@@ -275,8 +301,9 @@ ranking of the two models.
 - The statistical accuracy and the acceptance levels of the paper do not
   separate the final model clearly from a Gaussian copula.  The ranking of
   close models rests on the key parameters, the classifier test and coverage.
-- The trained models are evaluated on one split of the households.  Only the
-  real-data benchmarks and the copula are repeated on other splits.
+- The five seeds of every model share one split of the households.  On other
+  splits `improved` has one run on eight of them; only the real-data benchmarks
+  and the copula are scored on all 20.
 - The sample does not represent the mix of households in Flanders.  Fluvius
   drew 300 meters per technology group from the meters whose users had asked
   for quarter-hourly readings, and left out meters with a known storage
