@@ -22,6 +22,35 @@ Terms of the accuracy and worst label, mean ± SD over the other splits:
 | Gaussian copula             | 86.3 ± 1.1 | 73.1 ± 6.5    | 87.4 ± 1.3     | 80.7 ± 2.6    | 86.1 ± 0.7 | 85.9 ± 1.6 | 93.1 ± 0.4    | 88.9 ± 0.3 |
 
 
+Trained model `final` (validation-selected checkpoint) on the test households of the split it was trained on, with the benchmark and the copula of the same split.  Accuracies in percent and differences in percentage points; then the classifier test (0.5 ideal), coverage and DCR ratio (about 1 expected) of the same sets:
+
+| split                           | seeds   | `final`      | real: training households   | Gaussian copula   | `final` - training households   | `final` - Gaussian copula   |
+|:--------------------------------|:--------|:-------------|:----------------------------|:------------------|:--------------------------------|:----------------------------|
+| of the study (seed 2024)        | 1       | 87.97        | 87.95                       | 85.78             | +0.02                           | +2.19                       |
+| seed 0                          | 1       | 88.89        | 88.81                       | 86.35             | +0.08                           | +2.54                       |
+| seed 1                          | 1       | 87.71        | 88.11                       | 86.44             | -0.39                           | +1.28                       |
+| seed 2                          | 1       | 88.18        | 88.75                       | 86.56             | -0.57                           | +1.62                       |
+| seed 3                          | 1       | 88.30        | 88.80                       | 86.65             | -0.50                           | +1.66                       |
+| mean ± SD of the 4 other splits |         | 88.27 ± 0.48 | 88.62 ± 0.34                | 86.50 ± 0.13      | -0.35 ± 0.29                    | +1.77 ± 0.54                |
+
+| split                           | seeds   | C2ST AUC, `final`   | C2ST AUC, real: training households   | C2ST AUC, Gaussian copula   | coverage, `final`   | coverage, real: training households   | coverage, Gaussian copula   | DCR ratio, `final`   | DCR ratio, Gaussian copula   |
+|:--------------------------------|:--------|:--------------------|:--------------------------------------|:----------------------------|:--------------------|:--------------------------------------|:----------------------------|:---------------------|:-----------------------------|
+| of the study (seed 2024)        | 1       | 0.615               | 0.486                                 | 0.804                       | 0.807               | 0.824                                 | 0.618                       | 1.004                | 1.070                        |
+| seed 0                          | 1       | 0.597               | 0.501                                 | 0.806                       | 0.829               | 0.837                                 | 0.646                       | 0.960                | 1.019                        |
+| seed 1                          | 1       | 0.607               | 0.493                                 | 0.804                       | 0.825               | 0.835                                 | 0.647                       | 1.004                | 1.073                        |
+| seed 2                          | 1       | 0.610               | 0.490                                 | 0.800                       | 0.808               | 0.827                                 | 0.629                       | 1.004                | 1.065                        |
+| seed 3                          | 1       | 0.619               | 0.497                                 | 0.796                       | 0.805               | 0.822                                 | 0.637                       | 0.995                | 1.069                        |
+| mean ± SD of the 4 other splits |         | 0.608 ± 0.009       | 0.495 ± 0.005                         | 0.802 ± 0.004               | 0.817 ± 0.012       | 0.830 ± 0.007                         | 0.640 ± 0.008               | 0.991 ± 0.021        | 1.057 ± 0.025                |
+
+Terms of the accuracy and worst label over these 4 other splits, mean ± SD:
+
+|                           | accuracy   | worst label   | mean profile   | std profile   | KP mean    | KP std     | hourly 1-KS   | KP 1-KS    |
+|:--------------------------|:-----------|:--------------|:---------------|:--------------|:-----------|:-----------|:--------------|:-----------|
+| `final`                   | 88.3 ± 0.5 | 79.6 ± 3.1    | 87.3 ± 1.0     | 82.2 ± 0.6    | 92.0 ± 0.5 | 88.8 ± 0.5 | 92.6 ± 0.3    | 93.7 ± 0.4 |
+| real: training households | 88.6 ± 0.3 | 78.1 ± 5.4    | 87.2 ± 1.0     | 82.2 ± 0.6    | 92.9 ± 0.5 | 90.2 ± 0.6 | 92.9 ± 0.2    | 94.2 ± 0.4 |
+| Gaussian copula           | 86.5 ± 0.1 | 74.5 ± 6.4    | 87.1 ± 0.8     | 82.0 ± 0.7    | 85.8 ± 0.4 | 86.6 ± 0.5 | 92.8 ± 0.2    | 88.7 ± 0.2 |
+
+
 Trained model `improved` (validation-selected checkpoint) on the test households of the split it was trained on, with the benchmark and the copula of the same split.  Accuracies in percent and differences in percentage points; then the classifier test (0.5 ideal), coverage and DCR ratio (about 1 expected) of the same sets:
 
 | split                           | seeds   | `improved`   | real: training households   | Gaussian copula   | `improved` - training households   | `improved` - Gaussian copula   |
@@ -57,3 +86,15 @@ Terms of the accuracy and worst label over these 8 other splits, mean ± SD:
 | `improved`                | 87.5 ± 1.2 | 75.7 ± 7.2    | 87.1 ± 1.2     | 80.6 ± 2.5    | 91.1 ± 0.8 | 88.1 ± 1.6 | 92.5 ± 0.6    | 93.2 ± 0.4 |
 | real: training households | 88.1 ± 1.7 | 73.4 ± 9.3    | 87.0 ± 1.4     | 80.2 ± 3.8    | 93.0 ± 1.2 | 89.6 ± 2.2 | 93.0 ± 0.5    | 94.4 ± 0.5 |
 | Gaussian copula           | 85.9 ± 1.5 | 70.5 ± 9.2    | 86.9 ± 1.4     | 80.1 ± 3.8    | 86.0 ± 0.6 | 85.8 ± 2.3 | 92.9 ± 0.6    | 88.9 ± 0.3 |
+
+
+`final` minus `improved` on the splits with runs of both (validation-selected checkpoints, each on the test households of its split; accuracy and worst label in percentage points):
+
+| split                           | accuracy (points)   | worst label (points)   | C2ST AUC       | coverage       | DCR ratio      |
+|:--------------------------------|:--------------------|:-----------------------|:---------------|:---------------|:---------------|
+| of the study (seed 2024)        | +0.30               | -1.90                  | -0.031         | +0.015         | -0.030         |
+| seed 0                          | -0.03               | -4.70                  | -0.042         | +0.023         | -0.030         |
+| seed 1                          | +0.03               | -1.10                  | -0.069         | +0.031         | -0.034         |
+| seed 2                          | +0.48               | +1.46                  | -0.028         | +0.013         | -0.026         |
+| seed 3                          | +0.81               | +6.27                  | -0.031         | +0.017         | -0.033         |
+| mean ± SD of the 4 other splits | +0.32 ± 0.40        | +0.48 ± 4.61           | -0.043 ± 0.019 | +0.021 ± 0.007 | -0.031 ± 0.004 |

@@ -400,6 +400,8 @@ days.
   benchmark in the split of the study (−0.1, interval −0.8 to +0.7).
   `improved`, trained again on eight of these splits, is 0.6 to 2.6 points
   above the copula of its split and between 1.6 points below and 0.6 points
+  above the benchmark; the final model, trained again on four of them, is 1.3
+  to 2.5 points above the copula and between 0.6 points below and 0.1 points
   above the benchmark (see "Trained models on other splits" below).
 
 ## Paper, reference code and this implementation
@@ -697,9 +699,9 @@ of 356 households, moves by 1.3 points against it.
 
 **Trained models on other splits** (`jobs/splits.txt`,
 `results/split_sensitivity.md`).  A trained model has to be trained again for
-every split.  `improved` was trained on the first eight of the 20 splits
-(`train.py --set split_seed=K`, seed 0, on a CPU with the environment of the
-section on other hardware).  Every run sees the training households of its
+every split.  `improved` was trained on the first eight of the 20 splits and
+the final model on the first four (`train.py --set split_seed=K`, seed 0, on a
+CPU with the environment of the section on other hardware).  Every run sees the training households of its
 split, its checkpoint is selected on the validation households of that split,
 and it is scored on the test households of that split, next to the benchmark
 and the copula of the same split:
@@ -741,14 +743,54 @@ scores 76.2 and 72.6 %) and below it where the benchmark is high (correlation
 −0.77 between the benchmark and the difference), so its accuracy varies less
 between splits (SD 1.2 points) than that of the benchmark (1.7).
 
+The final model was trained in the same way on the first four of these splits.
+The last column is its difference to `improved` on the same split:
+
+| split | `final` | training households | Gaussian copula | `final` − training households | `final` − copula | C2ST AUC, `final` / copula | coverage, `final` / copula | `final` − `improved` |
+|---|---|---|---|---|---|---|---|---|
+| of the study | 87.97 | 87.95 | 85.78 | +0.02 | +2.19 | 0.615 / 0.804 | 0.807 / 0.618 | +0.30 |
+| 0 | 88.89 | 88.81 | 86.35 | +0.08 | +2.54 | 0.597 / 0.806 | 0.829 / 0.646 | −0.03 |
+| 1 | 87.71 | 88.11 | 86.44 | −0.39 | +1.28 | 0.607 / 0.804 | 0.825 / 0.647 | +0.03 |
+| 2 | 88.18 | 88.75 | 86.56 | −0.57 | +1.62 | 0.610 / 0.800 | 0.808 / 0.629 | +0.48 |
+| 3 | 88.30 | 88.80 | 86.65 | −0.50 | +1.66 | 0.619 / 0.796 | 0.805 / 0.637 | +0.81 |
+| mean ± SD, 4 other splits | 88.27 ± 0.48 | 88.62 ± 0.34 | 86.50 ± 0.13 | −0.35 ± 0.29 | +1.77 ± 0.54 | 0.608 ± 0.009 / 0.802 ± 0.004 | 0.817 ± 0.012 / 0.640 ± 0.008 | +0.32 ± 0.40 |
+
+The row of the split of the study is again the CPU run (the five GPU seeds
+give 87.9 ± 0.2 %).  The final model is above the copula in each of the four
+splits (+1.3 to +2.5 points) and between 0.6 points below and 0.1 points above
+the training-household benchmark, where `improved` lies between 1.3 points
+below and 0.1 points above it in the same four splits.  Its key-parameter
+terms stay below those of the benchmark by a nearly constant amount (−0.9 ± 0.2
+points for the means, −1.4 ± 0.2 for the standard deviations and −0.6 ± 0.1
+for the distributions; `improved` on the same splits: −2.0 ± 0.5, −1.6 ± 0.6
+and −1.1 ± 0.1), and its term of the hourly standard deviation varies around
+that of the benchmark with an SD of 0.9 points (1.5 for `improved`).
+
+Against `improved` on the same split, the accuracy of the final model is level
+in two of the four splits and 0.5 and 0.8 points higher in the other two
+(+0.3 ± 0.4), and the worst label differs by −4.7 to +6.3 points without a
+common direction.  The measures of realism differ in the same direction in all
+four splits and in the split of the study: the C2ST AUC of the final model is
+lower by 0.03 to 0.07, its coverage higher by 0.01 to 0.03 and its DCR ratio
+lower by 0.03 (0.96 to 1.00 against 0.99 to 1.04; the copula has 1.02 to 1.07,
+and all three are lowest in split 0).  The final model was chosen over
+`improved` on the validation households of the split of the study.  The four
+other splits confirm this choice for the classifier test and coverage, and on
+average for the accuracy.  Their benchmarks lie close together (88.1 to
+88.8 %), so they say nothing about a split with a low benchmark such as 4 or 7,
+and the standard deviations of this table are smaller than those of the eight
+splits of `improved` for that reason.
+
 Two consequences follow.  A difference of a few tenths of a point between a
 trained model and the benchmark, like the −0.1 point of the final model in the
-split of the study, belongs to that split and can change sign in another one.
-And the difference between `improved` and the copula varies over the splits
-with an SD of 0.8 points, about twice the half-sampling standard error of the
-difference between the final model and the copula in the split of the study
-(0.34).  The half-sampling keeps the training households fixed, and single
-runs add the spread of the training seed and of the sampling seed of the
+split of the study, belongs to that split and can change sign in another one
+(−0.6 to +0.1 over the four other splits of the final model).  And the
+difference between `improved` and the copula varies over the splits with an SD
+of 0.8 points, about twice the half-sampling standard error of the difference
+between the final model and the copula in the split of the study (0.34); the
+difference between the final model and the copula has an SD of 0.5 points over
+its four splits.  The half-sampling keeps the training households fixed, and
+single runs add the spread of the training seed and of the sampling seed of the
 copula (0.2 points each).  The intervals of `uncertainty.md` describe the test
 households of the split of the study; for another draw of the training
 households they are too narrow.

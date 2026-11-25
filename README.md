@@ -25,7 +25,8 @@ The work answers two questions:
 - **My final model reaches 87.9 ± 0.2 %** over five training seeds (95 %
   interval over households: 86.4–89.3 %).  Real days of the training households
   score 87.9 % against the same test households, and real days of the
-  validation households 86.1 %.
+  validation households 86.1 %.  Trained again on four other random splits of
+  the households, it reaches 87.7 to 88.9 % on their test households.
 - **Most of the gain comes from how the data are fed to the networks, not from
   the networks or the loss.**  Reshuffling the minibatches (+11.2 points) and a
   per-hour value transform (+21.1 points) lift the original networks from
@@ -130,7 +131,8 @@ have, and all metrics are computed per label and averaged over the 64 labels.
 - **Uncertainty**: ± is the standard deviation over training seeds; intervals
   over households come from stratified half-sampling of the test households.
   The real-data benchmarks and the copula are also scored on 20 other random
-  splits of the households, and `improved` is trained again on eight of them.
+  splits of the households; `improved` is trained again on eight of them and
+  the final model on four.
 
 ## Results
 
@@ -252,8 +254,34 @@ and scored every run on the test households of its own split:
   than the household interval of the split of this study suggests (1.5 to 2.8
   for the final model).  That interval keeps the training households fixed.
 
-The column of the split of this study holds the CPU run of the next section
-(87.7 %; the five GPU seeds of `improved` give 87.5 ± 0.2 %).
+The final model was trained in the same way on the first four of these splits:
+
+| | Split of this study | 4 other splits, mean ± SD | Range |
+|---|---|---|---|
+| Final model (%) | 88.0 | 88.3 ± 0.5 | 87.7 to 88.9 |
+| Real days, training households (%) | 87.9 | 88.6 ± 0.3 | 88.1 to 88.8 |
+| Gaussian copula, one sampling seed (%) | 85.8 | 86.5 ± 0.1 | 86.4 to 86.6 |
+| Final model − training households (points) | +0.0 | −0.3 ± 0.3 | −0.6 to +0.1 |
+| Final model − Gaussian copula (points) | +2.2 | +1.8 ± 0.5 | +1.3 to +2.5 |
+| Final model − `improved` (points) | +0.3 | +0.3 ± 0.4 | 0.0 to +0.8 |
+| C2ST AUC, final model | 0.62 | 0.61 ± 0.01 | 0.60 to 0.62 |
+| C2ST AUC, Gaussian copula | 0.80 | 0.80 ± 0.00 | 0.80 to 0.81 |
+
+- The final model is above the copula in all four splits and stays within 0.6
+  points of real days of the training households.
+- Against `improved` it is level in accuracy in two of the four splits and 0.5
+  and 0.8 points ahead in the other two.  In every split a classifier separates
+  its days from real days less well than those of `improved` (AUC lower by 0.03
+  to 0.07) and its coverage is higher.  The choice between the two
+  configurations, which I made on the validation households of the split of
+  this study, holds on the other splits, more clearly for the classifier test
+  and coverage than for the accuracy.
+- The benchmark of these four splits lies between 88.1 and 88.8 %.  They do not
+  include a split with a low benchmark, like two of the eight above.
+
+The columns of the split of this study hold the CPU runs of the next section
+(87.7 % for `improved` and 88.0 % for the final model; their five GPU seeds
+give 87.5 ± 0.2 % and 87.9 ± 0.2 %).
 
 ### Re-training on other hardware
 
@@ -307,8 +335,8 @@ ranking of the two models.
   separate the final model clearly from a Gaussian copula.  The ranking of
   close models rests on the key parameters, the classifier test and coverage.
 - The five seeds of every model share one split of the households.  On other
-  splits `improved` has one run on eight of them; only the real-data benchmarks
-  and the copula are scored on all 20.
+  splits `improved` has one run on eight of them and the final model one run
+  on four; only the real-data benchmarks and the copula are scored on all 20.
 - The models generate single days and know no household.  Within a label,
   37 % of the variance of the hourly load lies between households on average
   (17 to 80 % depending on the label), so days drawn for one household would
